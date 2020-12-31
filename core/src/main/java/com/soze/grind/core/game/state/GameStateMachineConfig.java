@@ -32,6 +32,12 @@ public class GameStateMachineConfig
     transitions
         .withExternal()
         .source(GameStateEnum.LOADING_ASSETS)
+        .target(GameStateEnum.LOADING_LEVEL)
+        .event(GameEvent.START_LOADING_LEVEL);
+
+    transitions
+        .withExternal()
+        .source(GameStateEnum.LOADING_LEVEL)
         .target(GameStateEnum.PLAYING)
         .event(GameEvent.START_PLAYING);
   }

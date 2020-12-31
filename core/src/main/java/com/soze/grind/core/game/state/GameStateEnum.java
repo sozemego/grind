@@ -4,6 +4,7 @@ public enum GameStateEnum {
 
 	STARTING,
 	LOADING_ASSETS,
+	LOADING_LEVEL,
 	PLAYING
 	;
 
