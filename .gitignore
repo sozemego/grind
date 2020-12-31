@@ -1,3 +1,7 @@
 # Project exclude paths
 /core/target/
 /desktop/target/
+
+*.iml
+/logs
+.idea
