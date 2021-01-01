@@ -11,8 +11,8 @@ public class ResourceLayer extends Group {
 
   private final List<Resource> resources = new ArrayList<>();
 
-  public ResourceLayer(ResourceLoader resourceLoader) {
-    this.resources.addAll(resourceLoader.getResources());
+  public ResourceLayer(List<Resource> resources) {
+    this.resources.addAll(resources);
     this.resources.forEach(this::addActor);
   }
 

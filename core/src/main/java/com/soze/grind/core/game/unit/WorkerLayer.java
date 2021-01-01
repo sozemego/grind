@@ -11,9 +11,8 @@ public class WorkerLayer extends Group {
 
   private final List<Worker> workers = new ArrayList<>();
 
-  @Autowired
-  public WorkerLayer(WorkersLoader workersLoader) {
-    this.workers.addAll(workersLoader.getWorkers());
+  public WorkerLayer(List<Worker> workers) {
+    this.workers.addAll(workers);
     this.workers.forEach(this::addActor);
   }
 

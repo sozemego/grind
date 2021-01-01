@@ -14,9 +14,8 @@ public class TileLayer extends Group {
 
   private final List<WorldTile> worldTiles = new ArrayList<>();
 
-  @Autowired
-  public TileLayer(TilesLoader tilesLoader) {
-    this.worldTiles.addAll(tilesLoader.getTiles());
+  public TileLayer(List<WorldTile> worldTiles) {
+    this.worldTiles.addAll(worldTiles);
     this.worldTiles.forEach(this::addActor);
   }
 

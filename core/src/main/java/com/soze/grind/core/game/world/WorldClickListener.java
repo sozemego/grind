@@ -16,12 +16,8 @@ public class WorldClickListener extends ClickListener {
   @Autowired
   public WorldClickListener(World world, SelectedObjectContainer selectedObjectContainer) {
     this.world = world;
-    this.selectedObjectContainer = selectedObjectContainer;
-  }
-
-  @PostConstruct
-  public void setup() {
     this.world.addListener(this);
+    this.selectedObjectContainer = selectedObjectContainer;
   }
 
   @Override

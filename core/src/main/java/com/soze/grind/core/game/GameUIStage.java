@@ -6,7 +6,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.soze.grind.core.game.ui.SelectedObjectTableContainer;
 import com.soze.grind.core.game.world.World;
-import javax.annotation.PostConstruct;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +26,8 @@ public class GameUIStage extends Stage {
   public GameUIStage(
       World world,
       SelectedObjectContainer selectedObjectContainer,
-      SelectedObjectTableContainer selectedObjectTableContainer) {
+      SelectedObjectTableContainer selectedObjectTableContainer
+  ) {
     this.world = world;
     this.selectedObjectContainer = selectedObjectContainer;
     this.selectedObjectTableContainer = selectedObjectTableContainer;
@@ -35,13 +35,8 @@ public class GameUIStage extends Stage {
     OrthographicCamera camera = new OrthographicCamera();
     ScreenViewport viewport = new ScreenViewport(camera);
     setViewport(viewport);
-  }
 
-  @PostConstruct
-  public void setup() {
-    LOG.info("Setting up GameUIStage");
-
-    this.setupSelectedObjectTable();
+    this.setup();
   }
 
   @Override
@@ -59,5 +54,11 @@ public class GameUIStage extends Stage {
     this.addActor(rootTable);
 
     rootTable.add(this.selectedObjectTableContainer).width(360f).minHeight(500f);
+  }
+
+  private void setup() {
+    LOG.info("Setting up GameUIStage");
+
+    this.setupSelectedObjectTable();
   }
 }

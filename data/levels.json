@@ -1,0 +1,76 @@
+{
+  "basic1": {
+    "world": {
+      "width": 100,
+      "height": 100
+    },
+    "resources": [
+      {
+        "x": 25,
+        "y": 35,
+        "resource": "WOOD",
+        "resources": 50,
+        "maxResources": 50,
+        "texture": "medievalEnvironment_03.png"
+      },
+      {
+        "x": 43,
+        "y": 57,
+        "resource": "WOOD",
+        "resources": 70,
+        "maxResources": 70,
+        "texture": "medievalEnvironment_03.png"
+      },
+      {
+        "x": 45,
+        "y": 52,
+        "resource": "WOOD",
+        "resources": 25,
+        "maxResources": 25,
+        "texture": "medievalEnvironment_03.png"
+      },
+      {
+        "x": 52,
+        "y": 52,
+        "resource": "STONE",
+        "resources": 50,
+        "maxResources": 50,
+        "texture": "medievalEnvironment_09.png"
+      },
+      {
+        "x": 56,
+        "y": 50,
+        "resource": "STONE",
+        "resources": 50,
+        "maxResources": 50,
+        "texture": "medievalEnvironment_09.png"
+      },
+      {
+        "x": 51,
+        "y": 45,
+        "resource": "STONE",
+        "resources": 50,
+        "maxResources": 50,
+        "texture": "medievalEnvironment_09.png"
+      }
+    ],
+    "workers": [
+      {
+        "x": 48,
+        "y": 50,
+        "capacity": 1,
+        "name": "Worker",
+        "texture": "medievalUnit_12.png"
+      }
+    ],
+    "buildings": [
+      {
+        "type": "WAREHOUSE",
+        "x": 48,
+        "y": 50,
+        "texture": "medievalStructure_19.png",
+        "capacity": 500
+      }
+    ]
+  }
+}
