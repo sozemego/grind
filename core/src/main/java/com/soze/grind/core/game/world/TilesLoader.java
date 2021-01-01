@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /** A service which loads tiles from whatever place it needs to load them. */
-@Service
+//@Service
 public class TilesLoader {
 
   private static final Logger LOG = LogManager.getLogger(TilesLoader.class);

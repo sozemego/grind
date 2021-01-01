@@ -38,7 +38,7 @@ public class AssetService {
 
   /** Loads all assets to be used by the asset manager. */
   @PostConstruct
-  public void setup() {
+  public void loadAssets() {
     LOG.info("Loading all assets");
 
     List<String> allAssets = getAllAssets();

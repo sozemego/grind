@@ -14,6 +14,6 @@ public class GrindGameEntry extends Game {
 
     GameScreen gameScreen = context.getBean(GameScreen.class);
 
-    setScreen(gameScreen);
+    this.setScreen(gameScreen);
   }
 }

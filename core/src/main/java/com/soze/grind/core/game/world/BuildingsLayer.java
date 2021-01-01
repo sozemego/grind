@@ -5,7 +5,6 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.soze.grind.core.game.animation.AnimationUtils;
 import java.util.ArrayList;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,9 +12,8 @@ public class BuildingsLayer extends Group {
 
   private final List<Actor> buildings = new ArrayList<>();
 
-  @Autowired
-  public BuildingsLayer(BuildingsLoader buildingsLoader) {
-    this.buildings.addAll(buildingsLoader.getBuildings());
+  public BuildingsLayer(List<Actor> buildings) {
+    this.buildings.addAll(buildings);
     this.buildings.forEach(this::addActor);
   }
 

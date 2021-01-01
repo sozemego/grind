@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /** A service which loads heroes. */
-@Service
+//@Service
 public class WorkersLoader {
 
   private static final Logger LOG = LogManager.getLogger(WorkersLoader.class);

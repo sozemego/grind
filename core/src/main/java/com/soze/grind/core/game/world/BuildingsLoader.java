@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /** Loads buildings from whichever place it needs. */
-@Service
+//@Service
 public class BuildingsLoader {
 
   private static final Logger LOG = LogManager.getLogger(BuildingsLoader.class);

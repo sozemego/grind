@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
-import com.soze.grind.core.game.assets.AssetService;
 import com.soze.grind.core.game.ui.factory.UIElementFactory;
 import com.soze.grind.core.game.world.World;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,5 @@
 package com.soze.grind.core.game;
 
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -40,8 +39,10 @@ public class GameStage extends Stage {
   /** Does some functions needed at the start. */
   public void start() {
     this.world.animateEnterWorld(getCamera());
-    this.selectedObjectContainer.setSelectedObject(
-        this.world.getBuildingsLayer().getBuildings().get(0));
+    if (!this.world.getBuildingsLayer().getBuildings().isEmpty()) {
+      this.selectedObjectContainer.setSelectedObject(
+          this.world.getBuildingsLayer().getBuildings().get(0));
+    }
   }
 
   @Override
