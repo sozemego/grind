@@ -3,8 +3,12 @@ package com.soze.grind.core.game.loader;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.soze.grind.core.game.assets.AssetService;
 import com.soze.grind.core.game.resource.Resource;
+import com.soze.grind.core.game.resource.ResourceEnum;
+import com.soze.grind.core.game.storage.ResourceStorage;
+import com.soze.grind.core.game.storage.TotalCapacityResourceStorage;
 import com.soze.grind.core.game.unit.Worker;
 import com.soze.grind.core.game.util.JsonUtil;
 import com.soze.grind.core.game.world.WorldTile;
@@ -96,7 +100,34 @@ public class LevelLoader {
 	}
 
 	private void loadResources(JsonNode jsonNode) {
+		ArrayNode resourcesNode = jsonNode.withArray("resources");
 
+    for (JsonNode resourceNode : resourcesNode) {
+
+    	int x = resourceNode.get("x").asInt();
+    	int y = resourceNode.get("y").asInt();
+
+			ResourceEnum resourceEnum = ResourceEnum.valueOf(resourceNode.get("resource").asText());
+
+			int resources = resourceNode.get("resources").asInt();
+			int maxResources = resourceNode.get("maxResources").asInt(resources);
+
+			ResourceStorage resourceStorage = new TotalCapacityResourceStorage(maxResources);
+			resourceStorage.addResource(resourceEnum, resources);
+
+			String texture = resourceNode.get("texture").asText();
+
+			Resource resource = new Resource(
+					this.assetService.getTexture(texture), resourceEnum, resourceStorage
+			);
+
+			resource.setPosition(x * 64, y * 64);
+			resource.setSize(64, 64);
+
+			this.resources.add(resource);
+    }
+
+    LOG.info("Loaded [{}] resources", this.resources.size());
 	}
 
 	private void loadWorkers(JsonNode jsonNode) {

@@ -6,11 +6,52 @@
     },
     "resources": [
       {
-        "x": 45,
-        "y": 45,
+        "x": 25,
+        "y": 35,
         "resource": "WOOD",
         "resources": 50,
-        "maxResources": 50
+        "maxResources": 50,
+        "texture": "medievalEnvironment_03.png"
+      },
+      {
+        "x": 43,
+        "y": 57,
+        "resource": "WOOD",
+        "resources": 70,
+        "maxResources": 70,
+        "texture": "medievalEnvironment_03.png"
+      },
+      {
+        "x": 45,
+        "y": 52,
+        "resource": "WOOD",
+        "resources": 25,
+        "maxResources": 25,
+        "texture": "medievalEnvironment_03.png"
+      },
+      {
+        "x": 52,
+        "y": 52,
+        "resource": "STONE",
+        "resources": 50,
+        "maxResources": 50,
+        "texture": "medievalEnvironment_09.png"
+      },
+      {
+        "x": 56,
+        "y": 50,
+        "resource": "STONE",
+        "resources": 50,
+        "maxResources": 50,
+        "texture": "medievalEnvironment_09.png"
+      },
+      {
+        "x": 51,
+        "y": 45,
+        "resource": "STONE",
+        "resources": 50,
+        "maxResources": 50,
+        "texture": "medievalEnvironment_09.png"
       }
     ],
     "workers": [],
