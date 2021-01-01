@@ -12,6 +12,6 @@ public class GrindGameEntryDesktop {
 		config.width = 2400;
 		config.height = 1080;
 
-		new LwjglApplication(new GrindGameEntry(), config);
+		new LwjglApplication(new GrindGameEntry(args), config);
 	}
 }
