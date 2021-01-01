@@ -1,9 +1,12 @@
 package com.soze.grind.core.game.loader;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.soze.grind.core.game.assets.AssetService;
 import com.soze.grind.core.game.resource.Resource;
 import com.soze.grind.core.game.unit.Worker;
+import com.soze.grind.core.game.util.JsonUtil;
 import com.soze.grind.core.game.world.WorldTile;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,10 +57,65 @@ public class LevelLoader {
 		return resources;
 	}
 
+	/**
+	 * Loads the level data with given level name.
+	 *
+	 * @param levelName levelName
+	 */
 	public void loadLevel(String levelName) {
-		LOG.info("Loading level = " + levelName);
+		LOG.info("Loading level = [{}]", levelName);
+
+		JsonNode jsonNode = this.loadLevelData(levelName);
+
+		this.loadTiles(jsonNode);
+		this.loadResources(jsonNode);
+		this.loadWorkers(jsonNode);
+		this.loadBuildings(jsonNode);
+
+		LOG.info("Level [{}] loaded.", levelName);
 	}
 
+	private void loadTiles(JsonNode jsonNode) {
+		JsonNode world = jsonNode.get("world");
 
+		int width = world.get("width").asInt();
+		int height = world.get("height").asInt();
+
+		LOG.info("Creating world with size = [{}, {}]", width, height);
+
+		for (int i = 0; i < height; i++) {
+			for (int j = 0; j < width; j++) {
+				WorldTile worldTile = new WorldTile(this.assetService.getTexture("medievalTile_57.png"));
+				worldTile.setPosition(i * 64, j * 64);
+				worldTile.setSize(64, 64);
+				this.worldTiles.add(worldTile);
+			}
+		}
+
+		LOG.info("Created [{}] tiles", this.worldTiles.size());
+	}
+
+	private void loadResources(JsonNode jsonNode) {
+
+	}
+
+	private void loadWorkers(JsonNode jsonNode) {
+
+	}
+
+	private void loadBuildings(JsonNode jsonNode) {
+
+	}
+
+	/**
+	 * Loads level data from levels file.
+	 *
+	 * @param levelName name of the level to load
+	 * @return data only for the given level
+	 */
+	private JsonNode loadLevelData(String levelName) {
+		JsonNode levelsData = JsonUtil.loadJson("data/levels.json");
+		return levelsData.get(levelName);
+	}
 
 }
