@@ -54,7 +54,15 @@
         "texture": "medievalEnvironment_09.png"
       }
     ],
-    "workers": [],
+    "workers": [
+      {
+        "x": 48,
+        "y": 50,
+        "capacity": 1,
+        "name": "Worker",
+        "texture": "medievalUnit_12.png"
+      }
+    ],
     "buildings": []
   }
 }
