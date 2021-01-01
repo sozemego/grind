@@ -4,6 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.soze.grind.core.game.assets.AssetService;
+import com.soze.grind.core.game.building.Warehouse;
 import com.soze.grind.core.game.resource.Resource;
 import com.soze.grind.core.game.resource.ResourceEnum;
 import com.soze.grind.core.game.storage.ResourceStorage;
@@ -14,6 +15,7 @@ import com.soze.grind.core.game.util.JsonUtil;
 import com.soze.grind.core.game.world.WorldTile;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import javax.annotation.PostConstruct;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -161,7 +163,41 @@ public class LevelLoader {
     LOG.info("Loaded [{}] workers", this.workers.size());
   }
 
-  private void loadBuildings(JsonNode jsonNode) {}
+  private void loadBuildings(JsonNode jsonNode) {
+    ArrayNode buildignsNode = jsonNode.withArray("buildings");
+
+    for (JsonNode node : buildignsNode) {
+
+      int x = node.get("x").asInt();
+      int y = node.get("y").asInt();
+
+      String texture = node.get("texture").asText();
+
+      String type = node.get("type").asText();
+
+      Actor building = null;
+
+      if ("WAREHOUSE".equals(type)) {
+
+        int capacity = node.get("capacity").asInt();
+
+        ResourceStorage resourceStorage = new TotalCapacityResourceStorage(capacity);
+
+        Warehouse warehouse = new Warehouse(this.assetService.getTexture(texture), resourceStorage);
+
+        building = warehouse;
+      }
+
+      if (Objects.nonNull(building)) {
+        building.setPosition(x * 64, y * 64);
+        building.setSize(64, 64);
+        this.buildings.add(building);
+      }
+
+    }
+
+    LOG.info("Loaded [{}] buildings", this.buildings.size());
+  }
 
   /**
    * Loads level data from levels file.

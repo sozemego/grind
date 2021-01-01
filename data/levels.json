@@ -63,6 +63,14 @@
         "texture": "medievalUnit_12.png"
       }
     ],
-    "buildings": []
+    "buildings": [
+      {
+        "type": "WAREHOUSE",
+        "x": 48,
+        "y": 50,
+        "texture": "medievalStructure_19.png",
+        "capacity": 500
+      }
+    ]
   }
 }
