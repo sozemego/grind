@@ -41,7 +41,7 @@ public class AssetService {
   public void loadAssets() {
     LOG.info("Loading all assets");
 
-    List<String> allAssets = getAllAssets();
+    List<String> allAssets = getAllAssetPaths();
     loadAssets(allAssets);
 
     this.assetManager.finishLoading();
@@ -56,6 +56,8 @@ public class AssetService {
 
   /**
    * Gets a given font, at a default size.
+   *
+   * @param name name of the font
    */
   public BitmapFont getFont(String name) {
     return this.getFont(name, 20);
@@ -63,6 +65,9 @@ public class AssetService {
 
   /**
    * Gets a given front, at a given size.
+   *
+   * @param name name of the font
+   * @param size size of the font
    */
   public BitmapFont getFont(String name, int size) {
     name = getAssetName(name);
@@ -103,10 +108,13 @@ public class AssetService {
   }
 
   /** Gets file paths to every asset in /assets folder */
-  private List<String> getAllAssets() {
+  private List<String> getAllAssetPaths() {
     try (Stream<Path> paths = Files.walk(Paths.get("assets"))) {
 
-      return paths.filter(Files::isRegularFile).map(Path::toString).collect(Collectors.toList());
+      return paths
+          .filter(Files::isRegularFile)
+          .map(Path::toString)
+          .collect(Collectors.toList());
 
     } catch (IOException ex) {
       ex.printStackTrace();
@@ -116,6 +124,8 @@ public class AssetService {
 
   /**
    * Loads all assets from given list of paths.
+   *
+   * @param paths paths to every asset
    */
   private void loadAssets(List<String> paths) {
     LOG.info("Loading [{}] assets", paths.size());
@@ -124,6 +134,8 @@ public class AssetService {
 
   /**
    * Loads the asset from given path.
+   *
+   * @param path path to asset
    */
   private void loadAsset(String path) {
     LOG.info("Loading asset = [{}]", path);
