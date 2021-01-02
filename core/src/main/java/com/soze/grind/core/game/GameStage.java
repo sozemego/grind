@@ -1,9 +1,8 @@
 package com.soze.grind.core.game;
 
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.soze.grind.core.game.world.World;
 import java.util.HashSet;
 import java.util.Set;
@@ -23,14 +22,12 @@ public class GameStage extends Stage {
   public GameStage(
       World world,
       SelectedObjectContainer selectedObjectContainer,
-      GameSpeedService gameSpeedService
-  ) {
+      GameSpeedService gameSpeedService,
+      Viewport viewport) {
     this.world = world;
     this.selectedObjectContainer = selectedObjectContainer;
     this.gameSpeedService = gameSpeedService;
 
-    OrthographicCamera camera = new OrthographicCamera();
-    ScreenViewport viewport = new ScreenViewport(camera);
     setViewport(viewport);
 
     this.addActor(world);

@@ -1,11 +1,8 @@
 package com.soze.grind.core.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
-import com.soze.grind.core.game.ui.factory.UIElementFactory;
-import com.soze.grind.core.game.world.World;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,28 +16,19 @@ public class GameScreen extends ScreenAdapter {
   private final GameLogicService gameLogicService;
   private final GameSpeedService gameSpeedService;
 
-  private final InputMultiplexer inputMultiplexer = new InputMultiplexer();
-
   @Autowired
   public GameScreen(
       GameStage gameStage,
+      DebugStage debugStage,
       GameUIStage gameUIStage,
-      World world,
       GameLogicService gameLogicService,
-      UIElementFactory uiElementFactory,
       GameSpeedService gameSpeedService
   ) {
     this.gameStage = gameStage;
+    this.debugStage = debugStage;
     this.gameUIStage = gameUIStage;
     this.gameLogicService = gameLogicService;
     this.gameSpeedService = gameSpeedService;
-
-    this.debugStage = new DebugStage(gameStage.getViewport(), world, uiElementFactory, gameSpeedService);
-
-    this.inputMultiplexer.addProcessor(debugStage);
-    this.inputMultiplexer.addProcessor(gameStage);
-
-    Gdx.input.setInputProcessor(this.inputMultiplexer);
   }
 
   @Override
