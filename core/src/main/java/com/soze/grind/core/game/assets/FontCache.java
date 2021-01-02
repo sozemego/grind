@@ -14,40 +14,27 @@ import org.springframework.stereotype.Service;
 @Service
 public class FontCache {
 
-	private final Map<String, List<FontDescription>> fonts = new HashMap<>();
+	private final Map<String, BitmapFont> fonts = new HashMap<>();
 
-	public void addFont(String name, BitmapFont font, int size) {
-		FontDescription fontDescription = new FontDescription(name, font, size);
+	/**
+	 * Adds a given font to the cache.
+	 *
+	 * @param font font to add
+	 */
+	public void addFont(BitmapFont font) {
+		String name = font.getData().name;
 
-		List<FontDescription> descriptions = this.fonts.getOrDefault(name, new ArrayList<>());
-
-		descriptions.add(fontDescription);
-
-		fonts.put(name, descriptions);
+		fonts.put(name, font);
 	}
 
-	public Optional<BitmapFont> getFont(String name, int size) {
-		List<FontDescription> descriptions = this.fonts.getOrDefault(name, new ArrayList<>());
-
-    for (FontDescription description : descriptions) {
-    	if (description.name.equals(name) && description.size == size) {
-    		return Optional.of(description.font);
-			}
-    }
-
-    return Optional.empty();
-	}
-
-	public static class FontDescription {
-		public final String name;
-		public final BitmapFont font;
-		public final int size;
-
-		public FontDescription(String name, BitmapFont font, int size) {
-			this.name = name;
-			this.font = font;
-			this.size = size;
-		}
+	/**
+	 * Attempts to retrieve a font with given name.
+	 *
+	 * @param name name of the font
+	 * @return
+	 */
+	public Optional<BitmapFont> getFont(String name) {
+		return Optional.ofNullable(this.fonts.get(name));
 	}
 
 }

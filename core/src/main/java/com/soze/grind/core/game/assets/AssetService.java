@@ -47,39 +47,27 @@ public class AssetService {
     this.assetManager.finishLoading();
   }
 
-  /**
-   * Gets a given texture.
-   */
+  /** Gets a given texture. */
   public Texture getTexture(String name) {
     return assetManager.get(getAssetName(name));
   }
 
   /**
-   * Gets a given font, at a default size.
+   * Gets a given front.
    *
    * @param name name of the font
    */
   public BitmapFont getFont(String name) {
-    return this.getFont(name, 20);
-  }
+    int size = getSize(name);
 
-  /**
-   * Gets a given front, at a given size.
-   *
-   * @param name name of the font
-   * @param size size of the font
-   */
-  public BitmapFont getFont(String name, int size) {
-    name = getAssetName(name);
-
-    Optional<BitmapFont> optionalFont = this.fontCache.getFont(name, size);
+    Optional<BitmapFont> optionalFont = this.fontCache.getFont(name);
 
     if (optionalFont.isPresent()) {
       return optionalFont.get();
     }
 
     FreeTypeFontGenerator generator =
-        new FreeTypeFontGenerator(Gdx.files.internal(name));
+        new FreeTypeFontGenerator(Gdx.files.internal(getFontFileName(name)));
 
     FreeTypeFontParameter parameter = new FreeTypeFontParameter();
     parameter.size = size;
@@ -88,14 +76,14 @@ public class AssetService {
 
     generator.dispose();
 
-    this.fontCache.addFont(name, font, size);
+    this.fontCache.addFont(font);
 
-    return this.getFont(name, size);
+    return this.getFont(name);
   }
 
   /**
-   * Gets the asset name from a given name.
-   * Adds <code>assets/</code> to the beginning if not given already.
+   * Gets the asset name from a given name. Adds <code>assets/</code> to the beginning if not given
+   * already.
    *
    * @param name name of the asset
    * @return correct name of the asset
@@ -107,14 +95,24 @@ public class AssetService {
     return "assets/" + name;
   }
 
+  /**
+   * Gets the file name of the font from font name.
+   *
+   * @param name name of the font
+   */
+  private String getFontFileName(String name) {
+    // fonts have names like accp-22, but file names don't have numbers so the code needs to remove
+    // the number
+    String[] tokens = name.split("-");
+
+    return "assets/font/" + tokens[0] + ".ttf";
+  }
+
   /** Gets file paths to every asset in /assets folder */
   private List<String> getAllAssetPaths() {
     try (Stream<Path> paths = Files.walk(Paths.get("assets"))) {
 
-      return paths
-          .filter(Files::isRegularFile)
-          .map(Path::toString)
-          .collect(Collectors.toList());
+      return paths.filter(Files::isRegularFile).map(Path::toString).collect(Collectors.toList());
 
     } catch (IOException ex) {
       ex.printStackTrace();
@@ -147,5 +145,16 @@ public class AssetService {
     if ("png".equals(extension)) {
       assetManager.load(path, Texture.class);
     }
+  }
+
+  /**
+   * Returns the size of the font from the name.
+   *
+   * @param name name of the font
+   * @return size of the font
+   */
+  private int getSize(String name) {
+    String[] tokens = name.split("-");
+    return Integer.parseInt(tokens[tokens.length - 1]);
   }
 }

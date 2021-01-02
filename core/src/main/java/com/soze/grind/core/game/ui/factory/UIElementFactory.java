@@ -30,7 +30,7 @@ public class UIElementFactory {
 
   /** Creates a text label with the default font at a default size with a given color. */
   public Label createTextLabel(Color color) {
-    BitmapFont font = this.assetService.getFont("font/accp.ttf", 22);
+    BitmapFont font = this.assetService.getFont("accp-22");
 
     LabelStyle labelStyle = new LabelStyle();
     labelStyle.fontColor = color;
@@ -46,7 +46,7 @@ public class UIElementFactory {
 
   /** Creates a Label to be used as a header in UI elements. */
   public Label createHeaderLabel() {
-    BitmapFont font = this.assetService.getFont("font/accp.ttf", 24);
+    BitmapFont font = this.assetService.getFont("accp-24");
 
     LabelStyle labelStyle = new LabelStyle();
     labelStyle.fontColor = Color.BLACK;
