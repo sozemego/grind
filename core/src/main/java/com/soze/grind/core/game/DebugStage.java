@@ -9,10 +9,12 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.soze.grind.core.game.assets.AssetService;
 import com.soze.grind.core.game.ui.factory.UIElementFactory;
 import com.soze.grind.core.game.world.World;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class DebugStage extends Stage {
 
   private final World world;
@@ -23,6 +25,7 @@ public class DebugStage extends Stage {
 
   private final GameSpeedService gameSpeedService;
 
+  @Autowired
   public DebugStage(
       Viewport gameStageViewport,
       World world,
