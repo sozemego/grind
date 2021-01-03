@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class World extends Group {
+public class MyWorld extends Group {
 
   private final TileLayer tileLayer;
   private final BuildingsLayer buildings;
@@ -20,7 +20,7 @@ public class World extends Group {
   private final SelectedObjectContainer selectedObjectContainer;
 
   @Autowired
-  public World(
+  public MyWorld(
       TileLayer tileLayer,
       BuildingsLayer buildings,
       WorkerLayer workerLayer,

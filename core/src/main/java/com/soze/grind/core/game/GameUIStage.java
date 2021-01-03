@@ -5,7 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.soze.grind.core.game.ui.SelectedObjectTableContainer;
-import com.soze.grind.core.game.world.World;
+import com.soze.grind.core.game.world.MyWorld;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,18 +17,18 @@ public class GameUIStage extends Stage {
 
   private static final Logger LOG = LogManager.getLogger(GameUIStage.class);
 
-  private final World world;
+  private final MyWorld myWorld;
   private final SelectedObjectContainer selectedObjectContainer;
 
   private final SelectedObjectTableContainer selectedObjectTableContainer;
 
   @Autowired
   public GameUIStage(
-      World world,
+      MyWorld myWorld,
       SelectedObjectContainer selectedObjectContainer,
       SelectedObjectTableContainer selectedObjectTableContainer
   ) {
-    this.world = world;
+    this.myWorld = myWorld;
     this.selectedObjectContainer = selectedObjectContainer;
     this.selectedObjectTableContainer = selectedObjectTableContainer;
 

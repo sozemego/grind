@@ -10,9 +10,8 @@ import com.soze.grind.core.game.storage.ResourceStorage;
 import com.soze.grind.core.game.ui.ProgressBar;
 import com.soze.grind.core.game.ui.factory.UIElementFactory;
 import com.soze.grind.core.game.unit.WorkerAI.WorkerState;
-import com.soze.grind.core.game.world.World;
+import com.soze.grind.core.game.world.MyWorld;
 import java.util.Map;
-import java.util.Optional;
 
 public class Worker extends Actor implements ResourceStorage {
 
@@ -36,8 +35,8 @@ public class Worker extends Actor implements ResourceStorage {
   /**
    * Updates the worker.
    */
-  public void update(float delta, World world) {
-    this.workerAI.act(delta, world);
+  public void update(float delta, MyWorld myWorld) {
+    this.workerAI.act(delta, myWorld);
   }
 
   public WorkerAI getWorkerAI() {

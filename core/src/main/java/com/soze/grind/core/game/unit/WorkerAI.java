@@ -7,14 +7,13 @@ import com.soze.grind.core.game.building.Warehouse;
 import com.soze.grind.core.game.resource.Resource;
 import com.soze.grind.core.game.resource.ResourceEnum;
 import com.soze.grind.core.game.storage.ResourceStorage;
-import com.soze.grind.core.game.world.World;
+import com.soze.grind.core.game.world.MyWorld;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 import org.springframework.messaging.support.GenericMessage;
 import org.springframework.statemachine.StateMachine;
 import org.springframework.statemachine.action.Action;
@@ -58,7 +57,7 @@ public class WorkerAI {
   /**
    * Updates the Worker AI.
    */
-  public void act(float delta, World world) {
+  public void act(float delta, MyWorld myWorld) {
 
     WorkerState workerState = state.getState().getId();
 
@@ -67,13 +66,13 @@ public class WorkerAI {
         handleIdle(delta);
         break;
       case SEARCHING_FOR_RESOURCE:
-        handleSearchingForResource(delta, world);
+        handleSearchingForResource(delta, myWorld);
         break;
       case SEARCHING_FOR_PATH:
         handleSearchingForPath(delta);
         break;
       case SEARCHING_FOR_WAREHOUSE:
-        handleSearchingForWarehouse(delta, world);
+        handleSearchingForWarehouse(delta, myWorld);
         break;
       case TRAVELLING:
         handleTravelling(delta);
@@ -99,9 +98,9 @@ public class WorkerAI {
   /**
    * Handles searching for resources
    */
-  private void handleSearchingForResource(float delta, World world) {
+  private void handleSearchingForResource(float delta, MyWorld myWorld) {
 
-    List<Resource> resources = new ArrayList<>(world.getResourceLayer().getResources());
+    List<Resource> resources = new ArrayList<>(myWorld.getResourceLayer().getResources());
 
     resources.removeIf(resource -> resource.getAmountResource() == 0);
 
@@ -128,9 +127,9 @@ public class WorkerAI {
   /**
    * Finds the nearest warehouse to transfer goods to.
    */
-  private void handleSearchingForWarehouse(float delta, World world) {
+  private void handleSearchingForWarehouse(float delta, MyWorld myWorld) {
 
-    List<Actor> buildings = new ArrayList<>(world.getBuildingsLayer().getBuildings());
+    List<Actor> buildings = new ArrayList<>(myWorld.getBuildingsLayer().getBuildings());
 
     buildings.sort(
         (o1, o2) -> {
