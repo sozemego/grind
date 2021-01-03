@@ -14,7 +14,10 @@ public class MyWorld extends Group {
 
   @Autowired
   public MyWorld(
-      TileLayer tileLayer, SelectedObjectMarker selectedObjectMarker, GameStage gameStage) {
+      TileLayer tileLayer,
+      SelectedObjectMarker selectedObjectMarker,
+      GameStage gameStage
+  ) {
     this.tileLayer = tileLayer;
 
     this.addActor(tileLayer);
@@ -30,4 +33,5 @@ public class MyWorld extends Group {
   public TileLayer getTiles() {
     return tileLayer;
   }
+
 }

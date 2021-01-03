@@ -36,4 +36,5 @@ public class AnimationUtils {
 
     tile.addAction(sequence);
   }
+
 }

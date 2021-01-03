@@ -9,22 +9,21 @@ import org.springframework.stereotype.Service;
 /**
  * Configures at least some aspects of the input.
  *
- * <p>Adds CameraMouseListener, DebugStage and GameStage to the input multiplexer.
+ * Adds CameraMouseListener, DebugStage and GameStage to the input multiplexer.
  *
- * <p>These are not all of input listeners, they also exist on UI elements or Actors.
+ * These are not all of input listeners, they also exist on UI elements or Actors.
  */
 @Service
 public class InputConfig {
 
-  private final InputMultiplexer inputMultiplexer = new InputMultiplexer();
+	private final InputMultiplexer inputMultiplexer = new InputMultiplexer();
 
-  public InputConfig(
-      GameStage gameStage, DebugStage debugStage, CameraController cameraMouseListener) {
+	public InputConfig(GameStage gameStage, DebugStage debugStage, CameraController cameraMouseListener) {
 
-    this.inputMultiplexer.addProcessor(cameraMouseListener);
-    this.inputMultiplexer.addProcessor(debugStage);
-    this.inputMultiplexer.addProcessor(gameStage);
+		this.inputMultiplexer.addProcessor(cameraMouseListener);
+		this.inputMultiplexer.addProcessor(debugStage);
+		this.inputMultiplexer.addProcessor(gameStage);
 
-    Gdx.input.setInputProcessor(this.inputMultiplexer);
-  }
+		Gdx.input.setInputProcessor(this.inputMultiplexer);
+	}
 }

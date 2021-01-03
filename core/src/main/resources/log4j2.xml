@@ -3,13 +3,13 @@
   <Appenders>
     <Console name="Console" target="SYSTEM_OUT">
       <PatternLayout
-        disableAnsi="false"
-        pattern="%style{%d{ISO8601}}{black} %highlight{%-5level }[%style{%t}{bright,blue}] %style{%C{1.}}{bright,yellow}: %msg%n%throwable"/>
+        pattern="%style{%d{ISO8601}}{black} %highlight{%-5level }[%style{%t}{bright,blue}] %style{%C{1.}}{bright,yellow}: %msg%n%throwable"
+        disableAnsi="false"/>
     </Console>
 
-    <RollingFile fileName="./logs/grind.log"
-      filePattern="./logs/$${date:yyyy-MM}/grind-%d{-dd-MMMM-yyyy}-%i.log.gz"
-      name="RollingFile">
+    <RollingFile name="RollingFile"
+      fileName="./logs/grind.log"
+      filePattern="./logs/$${date:yyyy-MM}/grind-%d{-dd-MMMM-yyyy}-%i.log.gz">
       <PatternLayout>
         <pattern>%d %p %C{1.} [%t] %m%n</pattern>
       </PatternLayout>
@@ -21,16 +21,16 @@
     </RollingFile>
 
     <RollingFile
+      name="WorkerAiFile"
       fileName="./logs/workerAi.log"
-      filePattern="./logs/$${date:yyyy-MM}/workerAi-%d{-dd-MMMM-yyyy}-%i.log.gz"
-      name="WorkerAiFile">
+      filePattern="./logs/$${date:yyyy-MM}/workerAi-%d{-dd-MMMM-yyyy}-%i.log.gz">
       <PatternLayout>
         <pattern>%d %p %C{1.} [%t] %m%n</pattern>
       </PatternLayout>
       <Policies>
         <!-- rollover daily and when the file reaches 10 MegaBytes -->
         <SizeBasedTriggeringPolicy size="10 MB"/>
-        <TimeBasedTriggeringPolicy/>
+        <TimeBasedTriggeringPolicy />
       </Policies>
     </RollingFile>
 
@@ -38,14 +38,14 @@
 
   <Loggers>
     <!-- LOG everything at INFO level -->
-    <Logger additivity="false" level="trace" name="com.soze.grind.core.game.unit">
-      <AppenderRef ref="WorkerAiFile"/>
-    </Logger>
-
     <Root level="info">
       <AppenderRef ref="Console"/>
       <AppenderRef ref="RollingFile"/>
     </Root>
+
+    <Logger name="com.soze.grind.core.game.unit" level="trace" additivity="false">
+      <AppenderRef ref="WorkerAiFile"/>
+    </Logger>
 
   </Loggers>
 

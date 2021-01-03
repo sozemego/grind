@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.soze.grind.core.game.ecs.component.ActorComponent;
 import java.util.Objects;
+import org.springframework.stereotype.Service;
 
 /** Represents a marker that shows which object is selected. */
 public class SelectedObjectMarker extends Actor {
@@ -60,7 +61,9 @@ public class SelectedObjectMarker extends Actor {
       float y = actor.getY() - ((getHeight() - actor.getHeight()) / 2);
 
       batch.draw(texture, x, y, this.getWidth(), this.getHeight());
+
     }
+
   }
 
   private Actor getActor() {

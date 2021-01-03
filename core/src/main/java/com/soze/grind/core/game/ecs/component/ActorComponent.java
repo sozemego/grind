@@ -5,20 +5,22 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class ActorComponent extends Component {
 
-  private Actor actor;
+	private Actor actor;
 
-  public ActorComponent() {}
+	public ActorComponent() {
 
-  public ActorComponent(Actor actor) {
-    this.actor = actor;
-  }
+	}
 
-  public Actor getActor() {
-    return actor;
-  }
+	public ActorComponent(Actor actor) {
+		this.actor = actor;
+	}
 
-  public void setActor(Actor actor) {
-    this.actor = actor;
-    this.actor.setSize(64, 64);
-  }
+	public Actor getActor() {
+		return actor;
+	}
+
+	public void setActor(Actor actor) {
+		this.actor = actor;
+		this.actor.setSize(64, 64);
+	}
 }

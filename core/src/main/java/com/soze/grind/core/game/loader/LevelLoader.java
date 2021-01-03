@@ -38,7 +38,8 @@ public class LevelLoader {
       World world,
       ComponentFactory componentFactory,
       AssetService assetService,
-      @Value("${currentLevelName}") String currentLevelName) {
+      @Value("${currentLevelName}") String currentLevelName
+  ) {
     this.world = world;
     this.componentFactory = componentFactory;
     this.assetService = assetService;
@@ -113,8 +114,7 @@ public class LevelLoader {
       int resources = node.get("resources").asInt();
       int maxResources = node.get("maxResources").asInt(resources);
 
-      ResourceStorageComponent resourceStorageComponent =
-          componentFactory.createResourceStorageComponent(entityId, maxResources);
+      ResourceStorageComponent resourceStorageComponent = componentFactory.createResourceStorageComponent(entityId, maxResources);
 
       ResourceStorage resourceStorage = resourceStorageComponent.getResourceStorage();
       resourceStorage.addResource(resourceEnum, resources);
@@ -145,6 +145,7 @@ public class LevelLoader {
       componentFactory.createNameComponent(entityId, name);
       componentFactory.createWorkerComponent(entityId);
       componentFactory.createWorkerAiComponent(entityId);
+
     }
 
     LOG.info("Loaded [{}] workers", workersNode.size());
@@ -179,6 +180,7 @@ public class LevelLoader {
 
         nameComponent.setName("Warehouse");
       }
+
     }
 
     LOG.info("Loaded [{}] buildings", buildingsNode.size());
@@ -194,4 +196,5 @@ public class LevelLoader {
     JsonNode levelsData = JsonUtil.loadJson("data/levels.json");
     return levelsData.get(levelName);
   }
+
 }
