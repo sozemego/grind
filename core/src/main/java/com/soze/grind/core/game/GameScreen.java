@@ -23,8 +23,7 @@ public class GameScreen extends ScreenAdapter {
       GameStage gameStage,
       DebugStage debugStage,
       GameUIStage gameUIStage,
-      GameSpeedService gameSpeedService
-  ) {
+      GameSpeedService gameSpeedService) {
     this.world = world;
     this.gameStage = gameStage;
     this.debugStage = debugStage;
@@ -44,7 +43,9 @@ public class GameScreen extends ScreenAdapter {
     Gdx.gl.glEnable(GL20.GL_BLEND);
     Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
-    for (int i = 0; i < this.gameSpeedService.getGameSpeed() && !this.gameSpeedService.isPaused(); i++) {
+    for (int i = 0;
+        i < this.gameSpeedService.getGameSpeed() && !this.gameSpeedService.isPaused();
+        i++) {
 
       this.world.setDelta(delta);
       this.world.process();
@@ -57,7 +58,6 @@ public class GameScreen extends ScreenAdapter {
     this.gameStage.draw();
     this.gameUIStage.draw();
     this.debugStage.draw();
-
   }
 
   @Override

@@ -1,6 +1,6 @@
 package com.soze.grind.core.game.storage;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.soze.grind.core.game.resource.ResourceEnum;
 import org.junit.jupiter.api.DisplayName;
@@ -114,5 +114,4 @@ class TotalCapacityResourceStorageTest {
     assertEquals(38, storage.capacity(ResourceEnum.STONE));
     assertEquals(38, storage.capacity(ResourceEnum.WOOD));
   }
-
 }

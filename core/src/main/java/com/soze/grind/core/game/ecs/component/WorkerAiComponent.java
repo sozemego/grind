@@ -6,13 +6,13 @@ import com.soze.grind.core.game.unit.WorkerAI;
 
 public class WorkerAiComponent extends Component {
 
-	private WorkerAI workerAI;
+  private WorkerAI workerAI;
 
-	public void setEntity(Entity entity) {
-		this.workerAI = new WorkerAI(entity);
-	}
+  public void setEntity(Entity entity) {
+    this.workerAI = new WorkerAI(entity);
+  }
 
-	public WorkerAI getWorkerAI() {
-		return workerAI;
-	}
+  public WorkerAI getWorkerAI() {
+    return workerAI;
+  }
 }

@@ -30,36 +30,37 @@ public class ActorPositionSystem extends BaseEntitySystem {
     this.selectedObjectContainer = selectedObjectContainer;
   }
 
-	@Override
-	protected void inserted(int entityId) {
-		super.inserted(entityId);
+  @Override
+  protected void inserted(int entityId) {
+    super.inserted(entityId);
 
-		ActorComponent actorComponent = actorMapper.get(entityId);
+    ActorComponent actorComponent = actorMapper.get(entityId);
 
-		Actor actor = actorComponent.getActor();
+    Actor actor = actorComponent.getActor();
 
-		actor.addListener(new ClickListener() {
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				selectedObjectContainer.setSelectedObject(world.getEntity(entityId));
-			}
-		});
+    actor.addListener(
+        new ClickListener() {
+          @Override
+          public void clicked(InputEvent event, float x, float y) {
+            selectedObjectContainer.setSelectedObject(world.getEntity(entityId));
+          }
+        });
 
-		this.gameStage.addActor(actorComponent.getActor());
-	}
+    this.gameStage.addActor(actorComponent.getActor());
+  }
 
-	@Override
-	protected void removed(int entityId) {
-		super.removed(entityId);
+  @Override
+  protected void removed(int entityId) {
+    super.removed(entityId);
 
-		ActorComponent actorComponent = actorMapper.get(entityId);
+    ActorComponent actorComponent = actorMapper.get(entityId);
 
-		Actor actor = actorComponent.getActor();
+    Actor actor = actorComponent.getActor();
 
-		actor.remove();
-	}
+    actor.remove();
+  }
 
-	@Override
+  @Override
   protected void processSystem() {
 
     IntBag activeEntities = getSubscription().getEntities();

@@ -21,12 +21,16 @@ public class WorkerStateListener
   @Override
   public void stateMachineStarted(StateMachine<WorkerState, WorkerEvent> stateMachine) {
     this.uuid = stateMachine.getUuid().toString();
-    LOG.trace(WORKER_AI_MARKER, "Machine with id = [{}] started in state [{}]", this.uuid, stateMachine.getState().getIds());
+    LOG.trace(
+        WORKER_AI_MARKER,
+        "Machine with id = [{}] started in state [{}]",
+        this.uuid,
+        stateMachine.getState().getIds());
   }
 
   @Override
   public void stateEntered(State<WorkerState, WorkerEvent> state) {
-    LOG.trace(WORKER_AI_MARKER, "Machine with id = [{}] entered state = [{}]", this.uuid, state.getId());
+    LOG.trace(
+        WORKER_AI_MARKER, "Machine with id = [{}] entered state = [{}]", this.uuid, state.getId());
   }
-
 }

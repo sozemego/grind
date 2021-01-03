@@ -61,7 +61,8 @@ public class SelectedResourceTable extends Table {
   public void act(float delta) {
     super.act(delta);
 
-    ResourceStorage resourceStorage = entity.getComponent(ResourceStorageComponent.class).getResourceStorage();
+    ResourceStorage resourceStorage =
+        entity.getComponent(ResourceStorageComponent.class).getResourceStorage();
     ResourceEnum resourceEnum = entity.getComponent(ResourceComponent.class).getResourceEnum();
 
     int amount = resourceStorage.count(resourceEnum);

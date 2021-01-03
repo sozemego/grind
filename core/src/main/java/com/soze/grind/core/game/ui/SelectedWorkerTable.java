@@ -37,23 +37,26 @@ public class SelectedWorkerTable extends Table {
 
     this.add(this.uiElementFactory.createDivider()).row();
 
-    ResourceStorageComponent resourceStorageComponent = entity.getComponent(ResourceStorageComponent.class);
+    ResourceStorageComponent resourceStorageComponent =
+        entity.getComponent(ResourceStorageComponent.class);
 
-    this.add(this.uiElementFactory.createResourceStorageTable(resourceStorageComponent.getResourceStorage())).row();
+    this.add(
+            this.uiElementFactory.createResourceStorageTable(
+                resourceStorageComponent.getResourceStorage()))
+        .row();
 
     this.workerStateLabel = this.uiElementFactory.createTextLabel();
 
     this.add(this.workerStateLabel).row();
 
-    this.progressBar = this.uiElementFactory.createUIProgressBar(() -> {
-      WorkerAiComponent workerAiComponent = entity.getComponent(WorkerAiComponent.class);
-      return workerAiComponent.getWorkerAI().getWorkingProgress();
-    });
+    this.progressBar =
+        this.uiElementFactory.createUIProgressBar(
+            () -> {
+              WorkerAiComponent workerAiComponent = entity.getComponent(WorkerAiComponent.class);
+              return workerAiComponent.getWorkerAI().getWorkingProgress();
+            });
 
-    this.add(progressBar)
-        .width(Value.percentWidth(0.8f, this))
-        .height(16f)
-        .row();
+    this.add(progressBar).width(Value.percentWidth(0.8f, this)).height(16f).row();
   }
 
   @Override

@@ -26,8 +26,7 @@ public class GameUIStage extends Stage {
   public GameUIStage(
       MyWorld myWorld,
       SelectedObjectContainer selectedObjectContainer,
-      SelectedObjectTableContainer selectedObjectTableContainer
-  ) {
+      SelectedObjectTableContainer selectedObjectTableContainer) {
     this.myWorld = myWorld;
     this.selectedObjectContainer = selectedObjectContainer;
     this.selectedObjectTableContainer = selectedObjectTableContainer;

@@ -49,8 +49,6 @@ public interface ResourceStorage {
    */
   int maxCapacity(ResourceEnum resource);
 
-  /**
-   * Gets all stored resources.
-   */
+  /** Gets all stored resources. */
   Map<ResourceEnum, Integer> getResources();
 }

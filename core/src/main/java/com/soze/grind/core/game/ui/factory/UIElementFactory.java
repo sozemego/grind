@@ -64,29 +64,21 @@ public class UIElementFactory {
     return new Image(this.assetService.getTexture(textureName));
   }
 
-  /**
-   * Creates a progress bar for given progress supplier.
-   * To be placed in the UI elements.
-   */
+  /** Creates a progress bar for given progress supplier. To be placed in the UI elements. */
   public ProgressBar createUIProgressBar(Supplier<Float> progressSupplier) {
     return new ProgressBar(
         this.assetService.getTexture("glassPanel.png"),
         this.assetService.getTexture("black_button00_hollow.png"),
         this.assetService.getTexture("red_button13.png"),
-        progressSupplier
-		);
+        progressSupplier);
   }
 
-  /**
-   * Creates a progress bar for given progress supplier.
-   * To be placed in the game world.
-   */
+  /** Creates a progress bar for given progress supplier. To be placed in the game world. */
   public ProgressBar createGameWorldProgressBar(Supplier<Float> progressSupplier) {
     return new ProgressBar(
         this.assetService.getTexture("glassPanel.png"),
         this.assetService.getTexture("black_button00_hollow.png"),
         this.assetService.getTexture("red_button13.png"),
-        progressSupplier
-    );
+        progressSupplier);
   }
 }

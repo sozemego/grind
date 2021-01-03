@@ -1,106 +1,106 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-				 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>com.soze</groupId>
-		<artifactId>grind</artifactId>
-		<version>1.0-SNAPSHOT</version>
-	</parent>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <artifactId>grind-core</artifactId>
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-source-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>jar-no-fork</goal>
+            </goals>
+            <id>attach-sources</id>
+            <phase>generate-resources</phase>
+          </execution>
+        </executions>
+        <groupId>org.apache.maven.plugins</groupId>
+      </plugin>
+    </plugins>
+  </build>
 
-	<artifactId>grind-core</artifactId>
-	<packaging>jar</packaging>
-	<name>GrindGameEntry Core</name>
+  <dependencies>
+    <dependency>
+      <artifactId>gdx</artifactId>
+      <groupId>com.badlogicgames.gdx</groupId>
+    </dependency>
 
-	<dependencies>
-		<dependency>
-			<groupId>com.badlogicgames.gdx</groupId>
-			<artifactId>gdx</artifactId>
-		</dependency>
+    <!-- https://mvnrepository.com/artifact/com.badlogicgames.gdx/gdx-freetype -->
+    <dependency>
+      <artifactId>gdx-freetype</artifactId>
+      <groupId>com.badlogicgames.gdx</groupId>
+      <version>1.9.12</version>
+    </dependency>
 
-		<!-- https://mvnrepository.com/artifact/com.badlogicgames.gdx/gdx-freetype -->
-		<dependency>
-			<groupId>com.badlogicgames.gdx</groupId>
-			<artifactId>gdx-freetype</artifactId>
-			<version>1.9.12</version>
-		</dependency>
+    <!-- https://mvnrepository.com/artifact/org.springframework/spring-context -->
+    <dependency>
+      <artifactId>spring-context</artifactId>
+      <exclusions>
+        <exclusion>
+          <artifactId>spring-boot-starter-logging</artifactId>
+          <groupId>org.springframework.boot</groupId>
+        </exclusion>
+      </exclusions>
+      <groupId>org.springframework</groupId>
+      <version>5.3.1</version>
+    </dependency>
 
-		<!-- https://mvnrepository.com/artifact/org.springframework/spring-context -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-context</artifactId>
-			<version>5.3.1</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.springframework.boot</groupId>
-					<artifactId>spring-boot-starter-logging</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
+    <!-- https://mvnrepository.com/artifact/org.springframework.statemachine/spring-statemachine-core -->
+    <dependency>
+      <artifactId>spring-statemachine-core</artifactId>
+      <exclusions>
+        <exclusion>
+          <artifactId>spring-boot-starter-logging</artifactId>
+          <groupId>org.springframework.boot</groupId>
+        </exclusion>
+      </exclusions>
+      <groupId>org.springframework.statemachine</groupId>
+      <version>2.2.1.RELEASE</version>
+    </dependency>
 
-		<!-- https://mvnrepository.com/artifact/org.springframework.statemachine/spring-statemachine-core -->
-		<dependency>
-			<groupId>org.springframework.statemachine</groupId>
-			<artifactId>spring-statemachine-core</artifactId>
-			<version>2.2.1.RELEASE</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.springframework.boot</groupId>
-					<artifactId>spring-boot-starter-logging</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
+    <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-log4j2 -->
+    <dependency>
+      <artifactId>spring-boot-starter-log4j2</artifactId>
+      <groupId>org.springframework.boot</groupId>
+      <version>2.4.1</version>
+    </dependency>
 
-		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-log4j2 -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-log4j2</artifactId>
-			<version>2.4.1</version>
-		</dependency>
+    <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+    <dependency>
+      <artifactId>jackson-databind</artifactId>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <version>2.12.0</version>
+    </dependency>
 
-		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-databind</artifactId>
-			<version>2.12.0</version>
-		</dependency>
+    <dependency>
+      <artifactId>artemis-odb</artifactId>
+      <groupId>net.onedaybeard.artemis</groupId>
+      <version>2.3.0</version>
+    </dependency>
 
-		<dependency>
-			<groupId>net.onedaybeard.artemis</groupId>
-			<artifactId>artemis-odb</artifactId>
-			<version>2.3.0</version>
-		</dependency>
+    <dependency>
+      <artifactId>guava</artifactId>
+      <groupId>com.google.guava</groupId>
+      <version>30.1-jre</version>
+    </dependency>
 
-		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
-			<version>30.1-jre</version>
-		</dependency>
+    <dependency>
+      <artifactId>junit-jupiter</artifactId>
+      <groupId>org.junit.jupiter</groupId>
+      <scope>test</scope>
+      <version>5.7.0</version>
+    </dependency>
 
-		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter</artifactId>
-			<version>5.7.0</version>
-			<scope>test</scope>
-		</dependency>
+  </dependencies>
+  <modelVersion>4.0.0</modelVersion>
+  <name>GrindGameEntry Core</name>
 
-	</dependencies>
+  <packaging>jar</packaging>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-source-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>attach-sources</id>
-						<phase>generate-resources</phase>
-						<goals>
-							<goal>jar-no-fork</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
+  <parent>
+    <artifactId>grind</artifactId>
+    <groupId>com.soze</groupId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
 </project>

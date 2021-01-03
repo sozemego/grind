@@ -32,8 +32,7 @@ public class SelectedObjectTableContainer extends Table {
   public SelectedObjectTableContainer(
       SelectedObjectContainer selectedObjectContainer,
       AssetService assetService,
-      UIElementFactory uiElementFactory
-  ) {
+      UIElementFactory uiElementFactory) {
     this.selectedObjectContainer = selectedObjectContainer;
     this.assetService = assetService;
     this.uiElementFactory = uiElementFactory;
@@ -41,7 +40,8 @@ public class SelectedObjectTableContainer extends Table {
     this.top();
 
     NinePatchDrawable ninePatchDrawable =
-        new NinePatchDrawable(new NinePatch(this.assetService.getTexture("grey_panel.png"), 8, 8, 8, 8));
+        new NinePatchDrawable(
+            new NinePatch(this.assetService.getTexture("grey_panel.png"), 8, 8, 8, 8));
 
     this.setBackground(ninePatchDrawable);
   }
@@ -105,7 +105,6 @@ public class SelectedObjectTableContainer extends Table {
       if (Objects.nonNull(entity.getComponent(ResourceComponent.class))) {
         currentSelectedUI = new SelectedResourceTable(uiElementFactory, entity);
       }
-
     }
 
     if (Objects.nonNull(currentSelectedUI)) {

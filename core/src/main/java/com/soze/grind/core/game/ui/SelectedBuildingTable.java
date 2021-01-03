@@ -29,10 +29,14 @@ public class SelectedBuildingTable extends Table {
 
     this.add(this.uiElementFactory.createDivider()).row();
 
-    ResourceStorageComponent resourceStorageComponent = entity.getComponent(ResourceStorageComponent.class);
+    ResourceStorageComponent resourceStorageComponent =
+        entity.getComponent(ResourceStorageComponent.class);
 
     if (resourceStorageComponent != null) {
-      this.add(this.uiElementFactory.createResourceStorageTable(resourceStorageComponent.getResourceStorage())).row();
+      this.add(
+              this.uiElementFactory.createResourceStorageTable(
+                  resourceStorageComponent.getResourceStorage()))
+          .row();
     }
   }
 }

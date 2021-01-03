@@ -20,8 +20,7 @@ public class GameStage extends Stage {
   public GameStage(
       SelectedObjectContainer selectedObjectContainer,
       GameSpeedService gameSpeedService,
-      Viewport viewport
-  ) {
+      Viewport viewport) {
     this.selectedObjectContainer = selectedObjectContainer;
     this.gameSpeedService = gameSpeedService;
 
