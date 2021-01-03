@@ -129,7 +129,7 @@ public class WorkerAI {
    */
   private void handleSearchingForWarehouse(float delta, MyWorld myWorld) {
 
-    List<Actor> buildings = new ArrayList<>(myWorld.getBuildingsLayer().getBuildings());
+    List<Actor> buildings = new ArrayList<>();
 
     buildings.sort(
         (o1, o2) -> {

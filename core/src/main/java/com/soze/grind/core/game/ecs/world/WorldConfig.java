@@ -11,10 +11,10 @@ import org.springframework.context.annotation.Configuration;
 public class WorldConfig {
 
   @Bean
-  public World world() {
+  public World world(ActorPositionSystem actorPositionSystem) {
 
     WorldConfiguration worldConfiguration =
-        new WorldConfigurationBuilder().with(new ActorPositionSystem()).build();
+        new WorldConfigurationBuilder().with(actorPositionSystem).build();
 
     World world = new World(worldConfiguration);
 

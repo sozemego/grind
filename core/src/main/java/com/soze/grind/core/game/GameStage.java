@@ -3,7 +3,6 @@ package com.soze.grind.core.game;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.soze.grind.core.game.world.MyWorld;
 import java.util.HashSet;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class GameStage extends Stage {
 
-  private final MyWorld myWorld;
   private final SelectedObjectContainer selectedObjectContainer;
   private final GameSpeedService gameSpeedService;
 
@@ -20,26 +18,14 @@ public class GameStage extends Stage {
 
   @Autowired
   public GameStage(
-      MyWorld myWorld,
       SelectedObjectContainer selectedObjectContainer,
       GameSpeedService gameSpeedService,
-      Viewport viewport) {
-    this.myWorld = myWorld;
+      Viewport viewport
+  ) {
     this.selectedObjectContainer = selectedObjectContainer;
     this.gameSpeedService = gameSpeedService;
 
     setViewport(viewport);
-
-    this.addActor(myWorld);
-  }
-
-  /** Does some functions needed at the start. */
-  public void start() {
-    this.myWorld.animateEnterWorld(getCamera());
-    if (!this.myWorld.getBuildingsLayer().getBuildings().isEmpty()) {
-      this.selectedObjectContainer.setSelectedObject(
-          this.myWorld.getBuildingsLayer().getBuildings().get(0));
-    }
   }
 
   @Override

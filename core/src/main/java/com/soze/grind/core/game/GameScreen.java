@@ -38,8 +38,6 @@ public class GameScreen extends ScreenAdapter {
   @Override
   public void show() {
     this.gameStage.getCamera().position.set(3200, 3200, 0);
-
-    this.gameStage.start();
   }
 
   @Override

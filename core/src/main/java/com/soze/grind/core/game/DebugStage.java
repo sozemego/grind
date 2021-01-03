@@ -68,7 +68,7 @@ public class DebugStage extends Stage {
     Camera camera = this.gameStageViewport.getCamera();
 
     sb.append(String.format("Game stage x, y: %s %s \n", camera.position.x, camera.position.y));
-    sb.append(String.format("Buildings: %s \n", myWorld.getBuildingsLayer().getBuildings().size()));
+//    sb.append(String.format("Buildings: %s \n", myWorld.getBuildingsLayer().getBuildings().size()));
 
     sb.append(String.format("Paused: %s \n", this.gameSpeedService.isPaused()));
     sb.append(String.format("Game speed: %s \n", this.gameSpeedService.getGameSpeed()));

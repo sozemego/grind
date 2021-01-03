@@ -2,6 +2,7 @@ package com.soze.grind.core.game.world;
 
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.soze.grind.core.game.GameStage;
 import com.soze.grind.core.game.SelectedObjectContainer;
 import com.soze.grind.core.game.SelectedObjectMarker;
 import com.soze.grind.core.game.resource.ResourceLayer;
@@ -13,7 +14,6 @@ import org.springframework.stereotype.Service;
 public class MyWorld extends Group {
 
   private final TileLayer tileLayer;
-  private final BuildingsLayer buildings;
   private final WorkerLayer workerLayer;
   private final ResourceLayer resourceLayer;
   private final SelectedObjectMarker selectedObjectMarker;
@@ -22,13 +22,13 @@ public class MyWorld extends Group {
   @Autowired
   public MyWorld(
       TileLayer tileLayer,
-      BuildingsLayer buildings,
       WorkerLayer workerLayer,
       ResourceLayer resourceLayer,
       SelectedObjectMarker selectedObjectMarker,
-      SelectedObjectContainer selectedObjectContainer) {
+      SelectedObjectContainer selectedObjectContainer,
+      GameStage gameStage
+  ) {
     this.tileLayer = tileLayer;
-    this.buildings = buildings;
     this.workerLayer = workerLayer;
     this.resourceLayer = resourceLayer;
     this.selectedObjectMarker = selectedObjectMarker;
@@ -36,23 +36,19 @@ public class MyWorld extends Group {
 
     this.addActor(tileLayer);
     this.addActor(selectedObjectMarker);
-    this.addActor(buildings);
     this.addActor(resourceLayer);
     this.addActor(workerLayer);
+
+    gameStage.addActor(this);
   }
 
   public void animateEnterWorld(Camera camera) {
     this.tileLayer.animateEnterWorld(camera);
-    this.buildings.animateEnterWorld(1f);
 //    this.resourceLayer.animateEnterWorld(2f);
   }
 
   public TileLayer getTiles() {
     return tileLayer;
-  }
-
-  public BuildingsLayer getBuildingsLayer() {
-    return buildings;
   }
 
   public WorkerLayer getWorkerLayer() {

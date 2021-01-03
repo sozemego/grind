@@ -1,10 +1,20 @@
 package com.soze.grind.core.game.loader;
 
+import com.artemis.Component;
+import com.artemis.ComponentMapper;
+import com.artemis.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.soze.grind.core.game.assets.AssetService;
 import com.soze.grind.core.game.building.Warehouse;
+import com.soze.grind.core.game.ecs.component.ActorComponent;
+import com.soze.grind.core.game.ecs.component.BuildingComponent;
+import com.soze.grind.core.game.ecs.component.NameComponent;
+import com.soze.grind.core.game.ecs.component.PositionComponent;
+import com.soze.grind.core.game.ecs.component.ResourceStorageComponent;
+import com.soze.grind.core.game.ecs.component.WarehouseComponent;
 import com.soze.grind.core.game.resource.Resource;
 import com.soze.grind.core.game.resource.ResourceEnum;
 import com.soze.grind.core.game.storage.ResourceStorage;
@@ -28,6 +38,8 @@ public class LevelLoader {
 
   private static final Logger LOG = LogManager.getLogger(LevelLoader.class);
 
+  private final World world;
+
   private final AssetService assetService;
   private final UIElementFactory uiElementFactory;
   private final String currentLevelName;
@@ -39,9 +51,12 @@ public class LevelLoader {
 
   @Autowired
   public LevelLoader(
+      World world,
       AssetService assetService,
       UIElementFactory uiElementFactory,
-      @Value("${currentLevelName}") String currentLevelName) {
+      @Value("${currentLevelName}") String currentLevelName
+  ) {
+    this.world = world;
     this.assetService = assetService;
     this.uiElementFactory = uiElementFactory;
     this.currentLevelName = currentLevelName;
@@ -164,39 +179,49 @@ public class LevelLoader {
   }
 
   private void loadBuildings(JsonNode jsonNode) {
-    ArrayNode buildignsNode = jsonNode.withArray("buildings");
+    ArrayNode buildingsNode = jsonNode.withArray("buildings");
 
-    for (JsonNode node : buildignsNode) {
+    for (JsonNode node : buildingsNode) {
 
       int x = node.get("x").asInt();
       int y = node.get("y").asInt();
 
-      String texture = node.get("texture").asText();
-
       String type = node.get("type").asText();
 
-      Actor building = null;
+      String texture = node.get("texture").asText();
+
+      int entityId = this.world.create();
+
+      ActorComponent actorComponent = getMapper(ActorComponent.class).create(entityId);
+      actorComponent.setActor(new Image(this.assetService.getTexture(texture)));
+
+      PositionComponent positionComponent = getMapper(PositionComponent.class).create(entityId);
+
+      positionComponent.setPosition(x * 64, y * 64);
+      positionComponent.setSize(64, 64);
+
+      NameComponent nameComponent = getMapper(NameComponent.class).create(entityId);
+      nameComponent.setName("Building");
 
       if ("WAREHOUSE".equals(type)) {
+
+        getMapper(WarehouseComponent.class).create(entityId);
+        getMapper(BuildingComponent.class).create(entityId);
+
+        ResourceStorageComponent resourceStorageComponent = getMapper(ResourceStorageComponent.class).create(entityId);
 
         int capacity = node.get("capacity").asInt();
 
         ResourceStorage resourceStorage = new TotalCapacityResourceStorage(capacity);
 
-        Warehouse warehouse = new Warehouse(this.assetService.getTexture(texture), resourceStorage);
+        resourceStorageComponent.setResourceStorage(resourceStorage);
 
-        building = warehouse;
-      }
-
-      if (Objects.nonNull(building)) {
-        building.setPosition(x * 64, y * 64);
-        building.setSize(64, 64);
-        this.buildings.add(building);
+        nameComponent.setName("Warehouse");
       }
 
     }
 
-    LOG.info("Loaded [{}] buildings", this.buildings.size());
+    LOG.info("Loaded [{}] buildings", buildingsNode.size());
   }
 
   /**
@@ -208,5 +233,14 @@ public class LevelLoader {
   private JsonNode loadLevelData(String levelName) {
     JsonNode levelsData = JsonUtil.loadJson("data/levels.json");
     return levelsData.get(levelName);
+  }
+
+  /**
+   * Gets a ComponentMapper for a given class.
+   *
+   * @param clazz class of the mapper
+   */
+  private <T extends Component> ComponentMapper<T> getMapper(Class<T> clazz) {
+    return this.world.getMapper(clazz);
   }
 }
