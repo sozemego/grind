@@ -5,6 +5,7 @@ import com.artemis.ComponentMapper;
 import com.artemis.World;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.soze.grind.core.game.assets.AssetService;
+import com.soze.grind.core.game.resource.ResourceEnum;
 import com.soze.grind.core.game.storage.ResourceStorage;
 import com.soze.grind.core.game.storage.TotalCapacityResourceStorage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -112,6 +113,20 @@ public class ComponentFactory {
 	 */
 	public WorkerComponent createWorkerComponent(int entityId) {
 		return getMapper(WorkerComponent.class).create(entityId);
+	}
+
+	/**
+	 * Creates a ResourceComponent.
+	 *
+	 * @param entityId id of the entity
+	 * @param resourceEnum resourceEnum
+	 * @return ResourceComponent
+	 */
+	public ResourceComponent createResourceComponent(int entityId, ResourceEnum resourceEnum) {
+		ResourceComponent resourceComponent = getMapper(ResourceComponent.class).create(entityId);
+		resourceComponent.setResourceEnum(resourceEnum);
+
+		return resourceComponent;
 	}
 
 	/**

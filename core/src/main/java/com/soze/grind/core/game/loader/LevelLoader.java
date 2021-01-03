@@ -42,7 +42,6 @@ public class LevelLoader {
   private final ComponentFactory componentFactory;
 
   private final AssetService assetService;
-  private final UIElementFactory uiElementFactory;
   private final String currentLevelName;
 
   private final List<WorldTile> worldTiles = new ArrayList<>();
@@ -53,13 +52,11 @@ public class LevelLoader {
       World world,
       ComponentFactory componentFactory,
       AssetService assetService,
-      UIElementFactory uiElementFactory,
       @Value("${currentLevelName}") String currentLevelName
   ) {
     this.world = world;
     this.componentFactory = componentFactory;
     this.assetService = assetService;
-    this.uiElementFactory = uiElementFactory;
     this.currentLevelName = currentLevelName;
   }
 
@@ -121,27 +118,29 @@ public class LevelLoader {
 
       int x = node.get("x").asInt();
       int y = node.get("y").asInt();
+      String texture = node.get("texture").asText();
+
+      int entityId = world.create();
+
+      componentFactory.createPositionComponent(entityId, x * 64, y * 64, 64, 64);
+      componentFactory.createImageActorComponent(entityId, texture);
 
       ResourceEnum resourceEnum = ResourceEnum.valueOf(node.get("resource").asText());
+
+      componentFactory.createResourceComponent(entityId, resourceEnum);
 
       int resources = node.get("resources").asInt();
       int maxResources = node.get("maxResources").asInt(resources);
 
-      ResourceStorage resourceStorage = new TotalCapacityResourceStorage(maxResources);
+      ResourceStorageComponent resourceStorageComponent = componentFactory.createResourceStorageComponent(entityId, maxResources);
+
+      ResourceStorage resourceStorage = resourceStorageComponent.getResourceStorage();
       resourceStorage.addResource(resourceEnum, resources);
 
-      String texture = node.get("texture").asText();
-
-      Resource resource =
-          new Resource(this.assetService.getTexture(texture), resourceEnum, resourceStorage);
-
-      resource.setPosition(x * 64, y * 64);
-      resource.setSize(64, 64);
-
-      this.resources.add(resource);
+      componentFactory.createNameComponent(entityId, resourceEnum.getName());
     }
 
-    LOG.info("Loaded [{}] resources", this.resources.size());
+    LOG.info("Loaded [{}] resources", resourcesNode.size());
   }
 
   private void loadWorkers(JsonNode jsonNode) {
