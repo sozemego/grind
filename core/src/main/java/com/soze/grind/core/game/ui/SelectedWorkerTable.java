@@ -3,9 +3,12 @@ package com.soze.grind.core.game.ui;
 import com.artemis.Entity;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.soze.grind.core.game.ecs.component.NameComponent;
 import com.soze.grind.core.game.ecs.component.ResourceStorageComponent;
+import com.soze.grind.core.game.ecs.component.WorkerAiComponent;
 import com.soze.grind.core.game.ui.factory.UIElementFactory;
+import com.soze.grind.core.game.unit.WorkerAI.WorkerState;
 
 /** Contains UI for the selected Worker. */
 public class SelectedWorkerTable extends Table {
@@ -16,7 +19,7 @@ public class SelectedWorkerTable extends Table {
 
   private final Label selectedObjectNameLabel;
 
-//  private final ProgressBar progressBar;
+  private final ProgressBar progressBar;
 
   private final Label workerStateLabel;
 
@@ -42,23 +45,25 @@ public class SelectedWorkerTable extends Table {
 
     this.add(this.workerStateLabel).row();
 
-//    this.progressBar = this.uiElementFactory.createUIProgressBar(this.worker.getWorkerAI()::getWorkingProgress);
+    this.progressBar = this.uiElementFactory.createUIProgressBar(() -> {
+      WorkerAiComponent workerAiComponent = entity.getComponent(WorkerAiComponent.class);
+      return workerAiComponent.getWorkerAI().getWorkingProgress();
+    });
 
-//    this.add(progressBar)
-//        .width(Value.percentWidth(0.8f, this))
-//        .height(16f)
-//        .row();
+    this.add(progressBar)
+        .width(Value.percentWidth(0.8f, this))
+        .height(16f)
+        .row();
   }
 
   @Override
   public void act(float delta) {
     super.act(delta);
 
-//    WorkerState workerState = this.worker.getState();
+    WorkerState workerState = entity.getComponent(WorkerAiComponent.class).getWorkerAI().getState();
 
-//    this.workerStateLabel.setText(this.worker.getStateText());
-    this.workerStateLabel.setText("IDLE");
+    this.workerStateLabel.setText(workerState.name());
 
-//    this.progressBar.setVisible(false);
+    this.progressBar.setVisible(workerState == WorkerState.WORKING);
   }
 }

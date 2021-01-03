@@ -1,27 +1,14 @@
 package com.soze.grind.core.game.loader;
 
-import com.artemis.Component;
-import com.artemis.ComponentMapper;
 import com.artemis.World;
-import com.badlogic.gdx.ApplicationListener;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.soze.grind.core.game.assets.AssetService;
-import com.soze.grind.core.game.ecs.component.ActorComponent;
-import com.soze.grind.core.game.ecs.component.BuildingComponent;
 import com.soze.grind.core.game.ecs.component.ComponentFactory;
 import com.soze.grind.core.game.ecs.component.NameComponent;
-import com.soze.grind.core.game.ecs.component.PositionComponent;
 import com.soze.grind.core.game.ecs.component.ResourceStorageComponent;
-import com.soze.grind.core.game.ecs.component.WarehouseComponent;
-import com.soze.grind.core.game.resource.Resource;
 import com.soze.grind.core.game.resource.ResourceEnum;
 import com.soze.grind.core.game.storage.ResourceStorage;
-import com.soze.grind.core.game.storage.TotalCapacityResourceStorage;
-import com.soze.grind.core.game.ui.factory.UIElementFactory;
-import com.soze.grind.core.game.unit.Worker;
 import com.soze.grind.core.game.util.JsonUtil;
 import com.soze.grind.core.game.world.WorldTile;
 import java.util.ArrayList;
@@ -45,7 +32,6 @@ public class LevelLoader {
   private final String currentLevelName;
 
   private final List<WorldTile> worldTiles = new ArrayList<>();
-  private final List<Resource> resources = new ArrayList<>();
 
   @Autowired
   public LevelLoader(
@@ -67,10 +53,6 @@ public class LevelLoader {
 
   public List<WorldTile> getWorldTiles() {
     return worldTiles;
-  }
-
-  public List<Resource> getResources() {
-    return resources;
   }
 
   /**
@@ -162,6 +144,7 @@ public class LevelLoader {
       componentFactory.createResourceStorageComponent(entityId, capacity);
       componentFactory.createNameComponent(entityId, name);
       componentFactory.createWorkerComponent(entityId);
+      componentFactory.createWorkerAiComponent(entityId);
 
     }
 

@@ -2,6 +2,7 @@ package com.soze.grind.core.game.ecs.component;
 
 import com.artemis.Component;
 import com.artemis.ComponentMapper;
+import com.artemis.Entity;
 import com.artemis.World;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.soze.grind.core.game.assets.AssetService;
@@ -127,6 +128,22 @@ public class ComponentFactory {
 		resourceComponent.setResourceEnum(resourceEnum);
 
 		return resourceComponent;
+	}
+
+	/**
+	 * Creates a WorkerAiComponent.
+	 *
+	 * @param entityId id of the entity
+	 * @return WorkerAiComponent
+	 */
+	public WorkerAiComponent createWorkerAiComponent(int entityId) {
+		WorkerAiComponent workerAiComponent = getMapper(WorkerAiComponent.class).create(entityId);
+
+		Entity entity = world.getEntity(entityId);
+
+		workerAiComponent.setEntity(entity);
+
+		return workerAiComponent;
 	}
 
 	/**

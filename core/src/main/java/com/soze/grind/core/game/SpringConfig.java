@@ -8,7 +8,6 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.google.common.eventbus.EventBus;
 import com.soze.grind.core.game.assets.AssetService;
 import com.soze.grind.core.game.loader.LevelLoader;
-import com.soze.grind.core.game.resource.ResourceLayer;
 import com.soze.grind.core.game.world.TileLayer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -28,11 +27,6 @@ public class SpringConfig {
   @Bean
   public TileLayer tileLayer(LevelLoader loader) {
     return new TileLayer(loader.getWorldTiles());
-  }
-
-  @Bean
-  public ResourceLayer resourceLayer(LevelLoader loader) {
-    return new ResourceLayer(loader.getResources());
   }
 
   @Bean

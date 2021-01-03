@@ -1,12 +1,19 @@
 package com.soze.grind.core.game.unit;
 
+import com.artemis.Aspect;
+import com.artemis.ComponentMapper;
+import com.artemis.Entity;
+import com.artemis.EntitySubscription;
+import com.artemis.World;
+import com.artemis.utils.IntBag;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.soze.grind.core.game.resource.Resource;
+import com.soze.grind.core.game.ecs.component.PositionComponent;
+import com.soze.grind.core.game.ecs.component.ResourceComponent;
+import com.soze.grind.core.game.ecs.component.ResourceStorageComponent;
+import com.soze.grind.core.game.ecs.component.WarehouseComponent;
 import com.soze.grind.core.game.resource.ResourceEnum;
 import com.soze.grind.core.game.storage.ResourceStorage;
-import com.soze.grind.core.game.world.MyWorld;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -22,17 +29,15 @@ import org.springframework.statemachine.config.StateMachineBuilder.Builder;
 /** Represents the AI of a worker. */
 public class WorkerAI {
 
-  private final Worker worker;
+  private final Entity worker;
   private final StateMachine<WorkerState, WorkerEvent> state;
 
-  public WorkerAI(Worker worker) {
+  public WorkerAI(Entity worker) {
     this.worker = worker;
     this.state = initialState();
   }
 
-  /**
-   * Gets the progress of the current 'WORKING' state (or 0 if in different state).
-   */
+  /** Gets the progress of the current 'WORKING' state (or 0 if in different state). */
   public float getWorkingProgress() {
     Map<Object, Object> variables = this.state.getExtendedState().getVariables();
 
@@ -46,17 +51,13 @@ public class WorkerAI {
     return workingTime / maxWorkingTime;
   }
 
-  /**
-   * Gets the current worker state.
-   */
+  /** Gets the current worker state. */
   public WorkerState getState() {
     return this.state.getState().getId();
   }
 
-  /**
-   * Updates the Worker AI.
-   */
-  public void act(float delta, MyWorld myWorld) {
+  /** Updates the Worker AI. */
+  public void act(float delta, World world) {
 
     WorkerState workerState = state.getState().getId();
 
@@ -65,123 +66,159 @@ public class WorkerAI {
         handleIdle(delta);
         break;
       case SEARCHING_FOR_RESOURCE:
-        handleSearchingForResource(delta, myWorld);
+        handleSearchingForResource(delta, world);
         break;
       case SEARCHING_FOR_PATH:
         handleSearchingForPath(delta);
         break;
       case SEARCHING_FOR_WAREHOUSE:
-        handleSearchingForWarehouse(delta, myWorld);
+        handleSearchingForWarehouse(delta, world);
         break;
       case TRAVELLING:
-        handleTravelling(delta);
+        handleTravelling(delta, world);
         break;
       case WORKING:
-        handleWorking(delta);
+        handleWorking(delta, world);
         break;
     }
   }
 
-  /**
-   * Handles the IDLE state.
-   */
+  /** Handles the IDLE state. */
   private void handleIdle(float delta) {
 
-    if (this.worker.capacity(ResourceEnum.WOOD) == 0) {
+    ResourceStorage resourceStorage =
+        worker.getComponent(ResourceStorageComponent.class).getResourceStorage();
+
+    if (resourceStorage.capacity(ResourceEnum.WOOD) == 0) {
       this.state.sendEvent(WorkerEvent.START_SEARCHING_WAREHOUSE);
     } else {
       this.state.sendEvent(WorkerEvent.START_SEARCHING_RESOURCE);
     }
   }
 
-  /**
-   * Handles searching for resources
-   */
-  private void handleSearchingForResource(float delta, MyWorld myWorld) {
+  /** Handles searching for resources */
+  private void handleSearchingForResource(float delta, World world) {
 
-    List<Resource> resources = new ArrayList<>(myWorld.getResourceLayer().getResources());
+    EntitySubscription entitySubscription =
+        world.getAspectSubscriptionManager().get(Aspect.all(ResourceComponent.class));
 
-    resources.removeIf(resource -> resource.getAmountResource() == 0);
+    IntBag entityIds = entitySubscription.getEntities();
+    int[] ids = entityIds.getData();
+
+    List<Integer> resources = new ArrayList<>();
+
+    ComponentMapper<ResourceStorageComponent> resourceStorageMapper =
+        world.getMapper(ResourceStorageComponent.class);
+
+    ComponentMapper<ResourceComponent> resourceComponentMapper =
+        world.getMapper(ResourceComponent.class);
+
+    for (int i = 0; i < entityIds.size(); i++) {
+      int id = ids[i];
+
+      ResourceStorageComponent resourceStorageComponent = resourceStorageMapper.get(id);
+      ResourceComponent resourceComponent = resourceComponentMapper.get(id);
+
+      ResourceStorage resourceStorage = resourceStorageComponent.getResourceStorage();
+
+      if (resourceStorage.count(resourceComponent.getResourceEnum()) > 0) {
+        resources.add(id);
+      }
+    }
 
     resources.sort(
         (o1, o2) -> {
-          float distance1 = distance(o1);
-          float distance2 = distance(o2);
+          float distance1 = distance(world.getEntity(o1));
+          float distance2 = distance(world.getEntity(o2));
 
           return Float.compare(distance1, distance2);
         });
 
     if (!resources.isEmpty()) {
 
-      Resource resource = resources.get(0);
+      int targetEntityId = resources.get(0);
 
       Map<String, Object> headers = new HashMap<>();
 
-      headers.put("target", resource);
+      headers.put("target", targetEntityId);
 
       this.state.sendEvent(new GenericMessage<>(WorkerEvent.START_SEARCHING_PATH, headers));
     }
   }
 
-  /**
-   * Finds the nearest warehouse to transfer goods to.
-   */
-  private void handleSearchingForWarehouse(float delta, MyWorld myWorld) {
+  /** Finds the nearest warehouse to transfer goods to. */
+  private void handleSearchingForWarehouse(float delta, World world) {
 
-    List<Actor> buildings = new ArrayList<>();
+    EntitySubscription entitySubscription =
+        world.getAspectSubscriptionManager().get(Aspect.all(WarehouseComponent.class));
+
+    IntBag entityIds = entitySubscription.getEntities();
+    int[] ids = entityIds.getData();
+
+    List<Integer> buildings = new ArrayList<>();
+
+    for (int i = 0; i < entityIds.size(); i++) {
+      int id = ids[i];
+
+      buildings.add(id);
+    }
 
     buildings.sort(
         (o1, o2) -> {
-          float distance1 = distance(o1);
-          float distance2 = distance(o2);
+          float distance1 = distance(world.getEntity(o1));
+          float distance2 = distance(world.getEntity(o2));
 
           return Float.compare(distance1, distance2);
         });
 
     if (!buildings.isEmpty()) {
 
-      Actor building = buildings.get(0);
+      int targetEntityId = buildings.get(0);
 
       Map<String, Object> headers = new HashMap<>();
 
-      headers.put("target", building);
+      headers.put("target", targetEntityId);
 
       this.state.sendEvent(new GenericMessage<>(WorkerEvent.START_SEARCHING_PATH, headers));
     }
   }
 
-  /**
-   * Handles searching for path for the target.
-   */
+  /** Handles searching for path for the target. */
   private void handleSearchingForPath(float delta) {
     this.state.sendEvent(WorkerEvent.START_TRAVELLING);
   }
 
-  /**
-   * Handles travelling to the target.
-   */
-  private void handleTravelling(float delta) {
+  /** Handles travelling to the target. */
+  private void handleTravelling(float delta, World world) {
 
-    Actor target = getTarget(Actor.class);
+    Integer targetEntityId = getTarget();
+
+    if (Objects.isNull(targetEntityId)) {
+      return;
+    }
+
+    Entity target = world.getEntity(targetEntityId);
 
     float distance = distance(target);
 
     if (distance < 12f) {
       // arrived
 
-      if (target instanceof Resource) {
+      if (Objects.nonNull(target.getComponent(ResourceComponent.class))) {
         this.state.sendEvent(WorkerEvent.START_WORKING);
+      } else if (Objects.nonNull(target.getComponent(WarehouseComponent.class))) {
+        transferAllResources(target);
+        this.state.sendEvent(WorkerEvent.STOP);
       }
-//      else if (target instanceof Warehouse) {
-//        transferAllResources(target);
-//        this.state.sendEvent(WorkerEvent.STOP);
-//      }
 
     } else {
 
+      PositionComponent targetPositionComponent = target.getComponent(PositionComponent.class);
+      PositionComponent workerPositionComponent = worker.getComponent(PositionComponent.class);
+
       float angle =
-          new Vector2(target.getX(), target.getY())
-              .sub(new Vector2(worker.getX(), worker.getY()))
+          new Vector2(targetPositionComponent.getX(), targetPositionComponent.getY())
+              .sub(new Vector2(workerPositionComponent.getX(), workerPositionComponent.getY()))
               .nor()
               .angleRad();
 
@@ -190,11 +227,13 @@ public class WorkerAI {
 
       float speed = 2.5f;
 
-      this.worker.moveBy(cos * speed, sin * speed);
+      workerPositionComponent.setPosition(
+          workerPositionComponent.getX() + cos * speed,
+          workerPositionComponent.getY() + sin * speed);
     }
   }
 
-  private void handleWorking(float delta) {
+  private void handleWorking(float delta, World world) {
     Map<Object, Object> variables = this.state.getExtendedState().getVariables();
 
     float workingTime = (float) variables.get("workingTime");
@@ -204,11 +243,20 @@ public class WorkerAI {
 
     if (workingTime >= maxWorkingTime) {
       // FINISHED WORKING
-      Resource resource = getTarget(Resource.class);
+      Integer targetEntityId = getTarget();
 
-      int amountRemoved = resource.removeResource(1);
+      Entity targetEntity = world.getEntity(targetEntityId);
 
-      this.worker.addResource(resource.getResourceEnum(), amountRemoved);
+      ResourceComponent resourceComponent = targetEntity.getComponent(ResourceComponent.class);
+      ResourceStorage targetStorage =
+          targetEntity.getComponent(ResourceStorageComponent.class).getResourceStorage();
+
+      int amountRemoved = targetStorage.removeResource(resourceComponent.getResourceEnum(), 1);
+
+      ResourceStorage workerStorage =
+          worker.getComponent(ResourceStorageComponent.class).getResourceStorage();
+
+      workerStorage.addResource(resourceComponent.getResourceEnum(), amountRemoved);
 
       this.state.sendEvent(WorkerEvent.STOP);
 
@@ -226,7 +274,7 @@ public class WorkerAI {
           .configureConfiguration()
           .withConfiguration()
           .autoStartup(true)
-          .listener(new WorkerStateListener(this.worker));
+          .listener(new WorkerStateListener());
 
       builder
           .configureTransitions()
@@ -329,42 +377,45 @@ public class WorkerAI {
     };
   }
 
-  /**
-   * Gets the target from extended state.
-   */
-  private <T> T getTarget(Class<T> clazz) {
-    return this.state.getExtendedState().get("target", clazz);
+  /** Gets the target from extended state. */
+  private Integer getTarget() {
+    return this.state.getExtendedState().get("target", Integer.class);
   }
 
-  /**
-   * Returns the worker distance to the target.
-   */
-  private float distance(Actor target) {
-    return new Vector2(target.getX(), target.getY()).dst(new Vector2(worker.getX(), worker.getY()));
+  /** Returns the worker distance to the target. */
+  private float distance(Entity targetEntity) {
+
+    PositionComponent positionComponent = targetEntity.getComponent(PositionComponent.class);
+    PositionComponent workerPositionComponent = worker.getComponent(PositionComponent.class);
+
+    return new Vector2(positionComponent.getX(), positionComponent.getY())
+        .dst(new Vector2(workerPositionComponent.getX(), workerPositionComponent.getY()));
   }
 
   /** Attempts to transfer all resources to given target. */
-  private void transferAllResources(Actor target) {
+  private void transferAllResources(Entity target) {
 
-    ResourceStorage targetStorage = null;
+    ResourceStorageComponent resourceStorageComponent =
+        target.getComponent(ResourceStorageComponent.class);
 
-//    if (target instanceof Warehouse) {
-//      Warehouse warehouse = (Warehouse) target;
-//
-//      if (warehouse.getResourceStorage().isPresent()) {
-//        targetStorage = warehouse.getResourceStorage().get();
-//      }
-//    }
+    if (Objects.isNull(resourceStorageComponent)) {
+      return;
+    }
+
+    ResourceStorage targetStorage = resourceStorageComponent.getResourceStorage();
 
     if (Objects.nonNull(targetStorage)) {
 
-      Map<ResourceEnum, Integer> workerResources = this.worker.getResources();
+      ResourceStorage workerStorage =
+          worker.getComponent(ResourceStorageComponent.class).getResourceStorage();
+
+      Map<ResourceEnum, Integer> workerResources = workerStorage.getResources();
 
       for (ResourceEnum resourceEnum : workerResources.keySet()) {
         int count = workerResources.get(resourceEnum);
 
         int amountAdded = targetStorage.addResource(resourceEnum, count);
-        this.worker.removeResource(resourceEnum, amountAdded);
+        workerStorage.removeResource(resourceEnum, amountAdded);
       }
     }
   }
@@ -378,13 +429,6 @@ public class WorkerAI {
    */
   private <T> T getExtended(Object key, Class<T> clazz) {
     return this.state.getExtendedState().get(key, clazz);
-  }
-
-  /**
-   * If the worker is travelling or working on something, retrieves the current target.
-   */
-  public Object getTarget() {
-    return getExtended("target", Object.class);
   }
 
   public enum WorkerState {
