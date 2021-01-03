@@ -16,12 +16,7 @@ public class WorkerStateListener
   private static final Logger LOG = LogManager.getLogger(WorkerStateListener.class);
   private static final Marker WORKER_AI_MARKER = MarkerManager.getMarker("WORKER_AI");
 
-  private final Worker worker;
   private String uuid;
-
-  public WorkerStateListener(Worker worker) {
-    this.worker = worker;
-  }
 
   @Override
   public void stateMachineStarted(StateMachine<WorkerState, WorkerEvent> stateMachine) {

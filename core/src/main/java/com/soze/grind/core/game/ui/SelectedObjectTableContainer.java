@@ -1,5 +1,6 @@
 package com.soze.grind.core.game.ui;
 
+import com.artemis.Entity;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -7,11 +8,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.google.common.eventbus.Subscribe;
 import com.soze.grind.core.game.SelectedObjectContainer;
 import com.soze.grind.core.game.assets.AssetService;
-import com.soze.grind.core.game.building.Building;
+import com.soze.grind.core.game.ecs.component.BuildingComponent;
+import com.soze.grind.core.game.ecs.component.ResourceComponent;
+import com.soze.grind.core.game.ecs.component.WorkerComponent;
 import com.soze.grind.core.game.event.ObjectSelectedEvent;
-import com.soze.grind.core.game.resource.Resource;
 import com.soze.grind.core.game.ui.factory.UIElementFactory;
-import com.soze.grind.core.game.unit.Worker;
 import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -89,16 +90,22 @@ public class SelectedObjectTableContainer extends Table {
 
     this.selectedObject = nextSelectedObject;
 
-    if (selectedObject instanceof Building) {
-      currentSelectedUI = new SelectedBuildingTable(uiElementFactory, (Building) selectedObject);
-    }
+    if (selectedObject instanceof Entity) {
 
-    if (selectedObject instanceof Worker) {
-      currentSelectedUI = new SelectedWorkerTable(uiElementFactory, (Worker) selectedObject);
-    }
+      Entity entity = (Entity) selectedObject;
 
-    if (selectedObject instanceof Resource) {
-      currentSelectedUI = new SelectedResourceTable(uiElementFactory, (Resource) selectedObject);
+      if (Objects.nonNull(entity.getComponent(BuildingComponent.class))) {
+        currentSelectedUI = new SelectedBuildingTable(uiElementFactory, entity);
+      }
+
+      if (Objects.nonNull(entity.getComponent(WorkerComponent.class))) {
+        currentSelectedUI = new SelectedWorkerTable(uiElementFactory, entity);
+      }
+
+      if (Objects.nonNull(entity.getComponent(ResourceComponent.class))) {
+        currentSelectedUI = new SelectedResourceTable(uiElementFactory, entity);
+      }
+
     }
 
     if (Objects.nonNull(currentSelectedUI)) {

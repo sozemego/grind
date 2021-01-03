@@ -8,9 +8,6 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.google.common.eventbus.EventBus;
 import com.soze.grind.core.game.assets.AssetService;
 import com.soze.grind.core.game.loader.LevelLoader;
-import com.soze.grind.core.game.resource.ResourceLayer;
-import com.soze.grind.core.game.unit.WorkerLayer;
-import com.soze.grind.core.game.world.BuildingsLayer;
 import com.soze.grind.core.game.world.TileLayer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -28,23 +25,8 @@ public class SpringConfig {
   }
 
   @Bean
-  public BuildingsLayer buildingsLayer(LevelLoader loader) {
-    return new BuildingsLayer(loader.getBuildings());
-  }
-
-  @Bean
-  public WorkerLayer workerLayer(LevelLoader loader) {
-    return new WorkerLayer(loader.getWorkers());
-  }
-
-  @Bean
   public TileLayer tileLayer(LevelLoader loader) {
     return new TileLayer(loader.getWorldTiles());
-  }
-
-  @Bean
-  public ResourceLayer resourceLayer(LevelLoader loader) {
-    return new ResourceLayer(loader.getResources());
   }
 
   @Bean

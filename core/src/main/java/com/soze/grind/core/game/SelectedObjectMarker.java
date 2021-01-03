@@ -1,16 +1,17 @@
 package com.soze.grind.core.game;
 
+import com.artemis.Entity;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.soze.grind.core.game.ecs.component.ActorComponent;
 import java.util.Objects;
 import org.springframework.stereotype.Service;
 
 /** Represents a marker that shows which object is selected. */
-@Service
 public class SelectedObjectMarker extends Actor {
 
   private final Texture texture;
@@ -24,19 +25,19 @@ public class SelectedObjectMarker extends Actor {
 
   @Override
   public void draw(Batch batch, float parentAlpha) {
-    Actor selectedObject = this.selectedObjectContainer.getSelectedObject();
+    Actor actor = getActor();
 
-    if (Objects.isNull(selectedObject)) {
+    if (Objects.isNull(actor)) {
       this.justSelectedObject = false;
     }
 
-    if (Objects.nonNull(selectedObject)) {
+    if (Objects.nonNull(actor)) {
 
       if (!this.justSelectedObject) {
         this.justSelectedObject = true;
 
-        this.setWidth(selectedObject.getWidth());
-        this.setHeight(selectedObject.getHeight());
+        this.setWidth(actor.getWidth());
+        this.setHeight(actor.getHeight());
 
         float xLower = this.getWidth() * 0.95f;
         float xHigher = this.getWidth() * 1.05f;
@@ -54,13 +55,37 @@ public class SelectedObjectMarker extends Actor {
       }
 
       Color color = getColor();
-      batch.setColor(
-          color.r, color.g, color.b, color.a * parentAlpha * selectedObject.getColor().a);
+      batch.setColor(color.r, color.g, color.b, color.a * parentAlpha * actor.getColor().a);
 
-      float x = selectedObject.getX() - ((getWidth() - selectedObject.getWidth()) / 2);
-      float y = selectedObject.getY() - ((getHeight() - selectedObject.getHeight()) / 2);
+      float x = actor.getX() - ((getWidth() - actor.getWidth()) / 2);
+      float y = actor.getY() - ((getHeight() - actor.getHeight()) / 2);
 
       batch.draw(texture, x, y, this.getWidth(), this.getHeight());
+
     }
+
+  }
+
+  private Actor getActor() {
+    Object selectedObject = this.selectedObjectContainer.getSelectedObject();
+
+    if (Objects.isNull(selectedObject)) {
+      return null;
+    }
+
+    if (selectedObject instanceof Actor) {
+      return (Actor) selectedObject;
+    }
+
+    if (selectedObject instanceof Entity) {
+
+      Entity entity = (Entity) selectedObject;
+
+      ActorComponent actorComponent = entity.getComponent(ActorComponent.class);
+
+      return actorComponent.getActor();
+    }
+
+    return null;
   }
 }

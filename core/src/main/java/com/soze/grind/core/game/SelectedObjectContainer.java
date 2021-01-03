@@ -1,6 +1,5 @@
 package com.soze.grind.core.game;
 
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.google.common.eventbus.EventBus;
 import com.soze.grind.core.game.event.ObjectSelectedEvent;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,18 +11,18 @@ public class SelectedObjectContainer {
 
   private final EventBus eventBus;
 
-  private Actor selectedObject;
+  private Object selectedObject;
 
   @Autowired
   public SelectedObjectContainer(EventBus eventBus) {
     this.eventBus = eventBus;
   }
 
-  public Actor getSelectedObject() {
+  public Object getSelectedObject() {
     return selectedObject;
   }
 
-  public void setSelectedObject(Actor selectedObject) {
+  public void setSelectedObject(Object selectedObject) {
     this.selectedObject = selectedObject;
     this.eventBus.post(new ObjectSelectedEvent(selectedObject));
   }

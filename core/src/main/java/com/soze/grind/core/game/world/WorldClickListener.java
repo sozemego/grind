@@ -13,13 +13,13 @@ public class WorldClickListener extends ClickListener {
 
   private static final Logger LOG = LogManager.getLogger(WorldClickListener.class);
 
-  private final World world;
+  private final MyWorld myWorld;
   private final SelectedObjectContainer selectedObjectContainer;
 
   @Autowired
-  public WorldClickListener(World world, SelectedObjectContainer selectedObjectContainer) {
-    this.world = world;
-    this.world.addListener(this);
+  public WorldClickListener(MyWorld myWorld, SelectedObjectContainer selectedObjectContainer) {
+    this.myWorld = myWorld;
+    this.myWorld.addListener(this);
     this.selectedObjectContainer = selectedObjectContainer;
   }
 

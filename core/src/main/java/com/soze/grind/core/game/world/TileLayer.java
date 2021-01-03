@@ -6,10 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.soze.grind.core.game.animation.AnimationUtils;
 import java.util.ArrayList;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
-@Service
 public class TileLayer extends Group {
 
   private final List<WorldTile> worldTiles = new ArrayList<>();

@@ -1,25 +1,30 @@
 package com.soze.grind.core.game.ui;
 
+import com.artemis.Entity;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
-import com.soze.grind.core.game.resource.Resource;
+import com.soze.grind.core.game.ecs.component.NameComponent;
+import com.soze.grind.core.game.ecs.component.ResourceComponent;
+import com.soze.grind.core.game.ecs.component.ResourceStorageComponent;
+import com.soze.grind.core.game.resource.ResourceEnum;
+import com.soze.grind.core.game.storage.ResourceStorage;
 import com.soze.grind.core.game.ui.factory.UIElementFactory;
 
 public class SelectedResourceTable extends Table {
 
   private final UIElementFactory uiElementFactory;
 
-  private final Resource resource;
+  private final Entity entity;
 
   private final Label selectedObjectNameLabel;
 
   private final Label resourceAmountLabel;
 
-  public SelectedResourceTable(UIElementFactory uiElementFactory, Resource resource) {
+  public SelectedResourceTable(UIElementFactory uiElementFactory, Entity entity) {
     this.uiElementFactory = uiElementFactory;
-    this.resource = resource;
+    this.entity = entity;
 
     Table headerTable = new Table();
 
@@ -31,11 +36,15 @@ public class SelectedResourceTable extends Table {
     headerTable.add(middleTable);
     headerTable.add(rightTable).expandX();
 
-    Image resourceIcon = uiElementFactory.createImage(this.resource.getResourceEnum().getTextureName());
+    ResourceComponent resourceComponent = entity.getComponent(ResourceComponent.class);
+    ResourceEnum resourceEnum = resourceComponent.getResourceEnum();
+
+    Image resourceIcon = uiElementFactory.createImage(resourceEnum.getTextureName());
     leftTable.add(resourceIcon).width(32f).height(32f).right();
 
+    NameComponent nameComponent = entity.getComponent(NameComponent.class);
     this.selectedObjectNameLabel = this.uiElementFactory.createHeaderLabel();
-    this.selectedObjectNameLabel.setText(this.resource.getResourceEnum().getName());
+    this.selectedObjectNameLabel.setText(nameComponent.getName());
 
     middleTable.add(this.selectedObjectNameLabel).expandX();
 
@@ -52,8 +61,11 @@ public class SelectedResourceTable extends Table {
   public void act(float delta) {
     super.act(delta);
 
-    int amount = this.resource.getAmountResource();
-    int maxAmount = this.resource.getCapacity();
+    ResourceStorage resourceStorage = entity.getComponent(ResourceStorageComponent.class).getResourceStorage();
+    ResourceEnum resourceEnum = entity.getComponent(ResourceComponent.class).getResourceEnum();
+
+    int amount = resourceStorage.count(resourceEnum);
+    int maxAmount = resourceStorage.maxCapacity(resourceEnum);
 
     String resourceAmount = amount + "/" + maxAmount;
     this.resourceAmountLabel.setText("Amount: " + resourceAmount);
