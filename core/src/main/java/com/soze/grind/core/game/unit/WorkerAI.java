@@ -3,7 +3,6 @@ package com.soze.grind.core.game.unit;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.soze.grind.core.game.building.Warehouse;
 import com.soze.grind.core.game.resource.Resource;
 import com.soze.grind.core.game.resource.ResourceEnum;
 import com.soze.grind.core.game.storage.ResourceStorage;
@@ -172,10 +171,11 @@ public class WorkerAI {
 
       if (target instanceof Resource) {
         this.state.sendEvent(WorkerEvent.START_WORKING);
-      } else if (target instanceof Warehouse) {
-        transferAllResources(target);
-        this.state.sendEvent(WorkerEvent.STOP);
       }
+//      else if (target instanceof Warehouse) {
+//        transferAllResources(target);
+//        this.state.sendEvent(WorkerEvent.STOP);
+//      }
 
     } else {
 
@@ -348,13 +348,13 @@ public class WorkerAI {
 
     ResourceStorage targetStorage = null;
 
-    if (target instanceof Warehouse) {
-      Warehouse warehouse = (Warehouse) target;
-
-      if (warehouse.getResourceStorage().isPresent()) {
-        targetStorage = warehouse.getResourceStorage().get();
-      }
-    }
+//    if (target instanceof Warehouse) {
+//      Warehouse warehouse = (Warehouse) target;
+//
+//      if (warehouse.getResourceStorage().isPresent()) {
+//        targetStorage = warehouse.getResourceStorage().get();
+//      }
+//    }
 
     if (Objects.nonNull(targetStorage)) {
 

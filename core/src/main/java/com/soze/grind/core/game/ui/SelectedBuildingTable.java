@@ -3,7 +3,6 @@ package com.soze.grind.core.game.ui;
 import com.artemis.Entity;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.soze.grind.core.game.building.Building;
 import com.soze.grind.core.game.ecs.component.NameComponent;
 import com.soze.grind.core.game.ecs.component.ResourceStorageComponent;
 import com.soze.grind.core.game.ui.factory.UIElementFactory;
