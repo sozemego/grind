@@ -3,6 +3,7 @@ package com.soze.grind.core.game.loader;
 import com.artemis.Component;
 import com.artemis.ComponentMapper;
 import com.artemis.World;
+import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -10,6 +11,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.soze.grind.core.game.assets.AssetService;
 import com.soze.grind.core.game.ecs.component.ActorComponent;
 import com.soze.grind.core.game.ecs.component.BuildingComponent;
+import com.soze.grind.core.game.ecs.component.ComponentFactory;
 import com.soze.grind.core.game.ecs.component.NameComponent;
 import com.soze.grind.core.game.ecs.component.PositionComponent;
 import com.soze.grind.core.game.ecs.component.ResourceStorageComponent;
@@ -37,24 +39,25 @@ public class LevelLoader {
   private static final Logger LOG = LogManager.getLogger(LevelLoader.class);
 
   private final World world;
+  private final ComponentFactory componentFactory;
 
   private final AssetService assetService;
   private final UIElementFactory uiElementFactory;
   private final String currentLevelName;
 
   private final List<WorldTile> worldTiles = new ArrayList<>();
-  private final List<Actor> buildings = new ArrayList<>();
-  private final List<Worker> workers = new ArrayList<>();
   private final List<Resource> resources = new ArrayList<>();
 
   @Autowired
   public LevelLoader(
       World world,
+      ComponentFactory componentFactory,
       AssetService assetService,
       UIElementFactory uiElementFactory,
       @Value("${currentLevelName}") String currentLevelName
   ) {
     this.world = world;
+    this.componentFactory = componentFactory;
     this.assetService = assetService;
     this.uiElementFactory = uiElementFactory;
     this.currentLevelName = currentLevelName;
@@ -67,14 +70,6 @@ public class LevelLoader {
 
   public List<WorldTile> getWorldTiles() {
     return worldTiles;
-  }
-
-  public List<Actor> getBuildings() {
-    return buildings;
-  }
-
-  public List<Worker> getWorkers() {
-    return workers;
   }
 
   public List<Resource> getResources() {
@@ -161,19 +156,16 @@ public class LevelLoader {
       String name = node.get("name").asText();
       String texture = node.get("texture").asText();
 
-      ResourceStorage resourceStorage = new TotalCapacityResourceStorage(capacity);
+      int entityId = world.create();
 
-      Worker worker =
-          new Worker(
-              name, this.assetService.getTexture(texture), resourceStorage, this.uiElementFactory);
+      componentFactory.createImageActorComponent(entityId, texture);
+      componentFactory.createPositionComponent(entityId, x * 64, y * 64, 64, 64);
+      componentFactory.createResourceStorageComponent(entityId, capacity);
+      componentFactory.createNameComponent(entityId, name);
 
-      worker.setPosition(x * 64, y * 64);
-      worker.setSize(64, 64);
-
-      this.workers.add(worker);
     }
 
-    LOG.info("Loaded [{}] workers", this.workers.size());
+    LOG.info("Loaded [{}] workers", workersNode.size());
   }
 
   private void loadBuildings(JsonNode jsonNode) {
@@ -190,29 +182,18 @@ public class LevelLoader {
 
       int entityId = this.world.create();
 
-      ActorComponent actorComponent = getMapper(ActorComponent.class).create(entityId);
-      actorComponent.setActor(new Image(this.assetService.getTexture(texture)));
+      componentFactory.createImageActorComponent(entityId, texture);
+      componentFactory.createPositionComponent(entityId, x * 64, y * 64, 64, 64);
 
-      PositionComponent positionComponent = getMapper(PositionComponent.class).create(entityId);
-
-      positionComponent.setPosition(x * 64, y * 64);
-      positionComponent.setSize(64, 64);
-
-      NameComponent nameComponent = getMapper(NameComponent.class).create(entityId);
-      nameComponent.setName("Building");
+      NameComponent nameComponent = componentFactory.createNameComponent(entityId, "Building");
 
       if ("WAREHOUSE".equals(type)) {
 
-        getMapper(WarehouseComponent.class).create(entityId);
-        getMapper(BuildingComponent.class).create(entityId);
-
-        ResourceStorageComponent resourceStorageComponent = getMapper(ResourceStorageComponent.class).create(entityId);
+        componentFactory.createWarehouseComponent(entityId);
+        componentFactory.createBuildingComponent(entityId);
 
         int capacity = node.get("capacity").asInt();
-
-        ResourceStorage resourceStorage = new TotalCapacityResourceStorage(capacity);
-
-        resourceStorageComponent.setResourceStorage(resourceStorage);
+        componentFactory.createResourceStorageComponent(entityId, capacity);
 
         nameComponent.setName("Warehouse");
       }
@@ -233,12 +214,4 @@ public class LevelLoader {
     return levelsData.get(levelName);
   }
 
-  /**
-   * Gets a ComponentMapper for a given class.
-   *
-   * @param clazz class of the mapper
-   */
-  private <T extends Component> ComponentMapper<T> getMapper(Class<T> clazz) {
-    return this.world.getMapper(clazz);
-  }
 }

@@ -15,7 +15,6 @@ public class GameScreen extends ScreenAdapter {
   private final GameUIStage gameUIStage;
   private final DebugStage debugStage;
 
-  private final GameLogicService gameLogicService;
   private final GameSpeedService gameSpeedService;
 
   @Autowired
@@ -24,14 +23,12 @@ public class GameScreen extends ScreenAdapter {
       GameStage gameStage,
       DebugStage debugStage,
       GameUIStage gameUIStage,
-      GameLogicService gameLogicService,
       GameSpeedService gameSpeedService
   ) {
     this.world = world;
     this.gameStage = gameStage;
     this.debugStage = debugStage;
     this.gameUIStage = gameUIStage;
-    this.gameLogicService = gameLogicService;
     this.gameSpeedService = gameSpeedService;
   }
 
@@ -48,8 +45,6 @@ public class GameScreen extends ScreenAdapter {
     Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
     for (int i = 0; i < this.gameSpeedService.getGameSpeed() && !this.gameSpeedService.isPaused(); i++) {
-
-//      this.gameLogicService.update(delta);
 
       this.world.setDelta(delta);
       this.world.process();
