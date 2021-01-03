@@ -9,10 +9,10 @@ import com.google.common.eventbus.Subscribe;
 import com.soze.grind.core.game.SelectedObjectContainer;
 import com.soze.grind.core.game.assets.AssetService;
 import com.soze.grind.core.game.ecs.component.BuildingComponent;
+import com.soze.grind.core.game.ecs.component.WorkerComponent;
 import com.soze.grind.core.game.event.ObjectSelectedEvent;
 import com.soze.grind.core.game.resource.Resource;
 import com.soze.grind.core.game.ui.factory.UIElementFactory;
-import com.soze.grind.core.game.unit.Worker;
 import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -98,10 +98,10 @@ public class SelectedObjectTableContainer extends Table {
         currentSelectedUI = new SelectedBuildingTable(uiElementFactory, entity);
       }
 
-    }
+      if (Objects.nonNull(entity.getComponent(WorkerComponent.class))) {
+        currentSelectedUI = new SelectedWorkerTable(uiElementFactory, entity);
+      }
 
-    if (selectedObject instanceof Worker) {
-      currentSelectedUI = new SelectedWorkerTable(uiElementFactory, (Worker) selectedObject);
     }
 
     if (selectedObject instanceof Resource) {

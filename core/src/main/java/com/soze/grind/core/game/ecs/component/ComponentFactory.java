@@ -8,7 +8,6 @@ import com.soze.grind.core.game.assets.AssetService;
 import com.soze.grind.core.game.storage.ResourceStorage;
 import com.soze.grind.core.game.storage.TotalCapacityResourceStorage;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.support.ResourcePropertySource;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -103,6 +102,16 @@ public class ComponentFactory {
 		resourceStorageComponent.setResourceStorage(resourceStorage);
 
 		return resourceStorageComponent;
+	}
+
+	/**
+	 * Creates a WorkerComponent.
+	 *
+	 * @param entityId id of the entity
+	 * @return WorkerComponent
+	 */
+	public WorkerComponent createWorkerComponent(int entityId) {
+		return getMapper(WorkerComponent.class).create(entityId);
 	}
 
 	/**

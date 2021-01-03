@@ -162,6 +162,7 @@ public class LevelLoader {
       componentFactory.createPositionComponent(entityId, x * 64, y * 64, 64, 64);
       componentFactory.createResourceStorageComponent(entityId, capacity);
       componentFactory.createNameComponent(entityId, name);
+      componentFactory.createWorkerComponent(entityId);
 
     }
 
