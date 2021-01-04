@@ -145,6 +145,7 @@ public class LevelLoader {
       componentFactory.createNameComponent(entityId, name);
       componentFactory.createWorkerComponent(entityId);
       componentFactory.createWorkerAiComponent(entityId);
+      componentFactory.createWorkerProgressBarComponent(entityId);
 
     }
 

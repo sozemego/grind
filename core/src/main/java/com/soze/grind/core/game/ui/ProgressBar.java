@@ -13,22 +13,28 @@ public class ProgressBar extends Actor {
 	private final Texture bar;
 	private final Texture filling;
 
-	private final Supplier<Float> progressSupplier;
+	private float progress;
+
+//	private final Supplier<Float> progressSupplier;
 
 	public ProgressBar(
 			Texture background,
 			Texture bar,
-			Texture filling,
-			Supplier<Float> progressSupplier
+			Texture filling
+//			Supplier<Float> progressSupplier
 	) {
 		this.background = background;
 		this.bar = bar;
 		this.filling = filling;
-		this.progressSupplier = progressSupplier;
+//		this.progressSupplier = progressSupplier;
+	}
+
+	public void setProgress(float progress) {
+		this.progress = progress;
 	}
 
 	public float getProgress() {
-		return this.progressSupplier.get();
+		return this.progress;
 	}
 
 	@Override

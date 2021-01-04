@@ -45,10 +45,7 @@ public class SelectedWorkerTable extends Table {
 
     this.add(this.workerStateLabel).row();
 
-    this.progressBar = this.uiElementFactory.createUIProgressBar(() -> {
-      WorkerAiComponent workerAiComponent = entity.getComponent(WorkerAiComponent.class);
-      return workerAiComponent.getWorkingProgress();
-    });
+    this.progressBar = this.uiElementFactory.createUIProgressBar();
 
     this.add(progressBar)
         .width(Value.percentWidth(0.8f, this))
@@ -60,10 +57,13 @@ public class SelectedWorkerTable extends Table {
   public void act(float delta) {
     super.act(delta);
 
-    WorkerState workerState = entity.getComponent(WorkerAiComponent.class).getState();
+    WorkerAiComponent workerAiComponent = entity.getComponent(WorkerAiComponent.class);
+    WorkerState workerState = workerAiComponent.getState();
 
     this.workerStateLabel.setText(workerState.name());
 
     this.progressBar.setVisible(workerState == WorkerState.WORKING);
+
+    this.progressBar.setProgress(workerAiComponent.getWorkingProgress());
   }
 }

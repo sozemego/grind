@@ -9,6 +9,8 @@ import com.soze.grind.core.game.assets.AssetService;
 import com.soze.grind.core.game.resource.ResourceEnum;
 import com.soze.grind.core.game.storage.ResourceStorage;
 import com.soze.grind.core.game.storage.TotalCapacityResourceStorage;
+import com.soze.grind.core.game.ui.ProgressBar;
+import com.soze.grind.core.game.ui.factory.UIElementFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,11 +19,17 @@ public class ComponentFactory {
 
 	private final World world;
 	private final AssetService assetService;
+	private final UIElementFactory uiElementFactory;
 
 	@Autowired
-	public ComponentFactory(World world, AssetService assetService) {
+	public ComponentFactory(
+			World world,
+			AssetService assetService,
+			UIElementFactory uiElementFactory
+	) {
 		this.world = world;
 		this.assetService = assetService;
+		this.uiElementFactory = uiElementFactory;
 	}
 
 	/**
@@ -144,6 +152,24 @@ public class ComponentFactory {
 		workerAiComponent.setWorker(entity);
 
 		return workerAiComponent;
+	}
+
+	/**
+	 * Creates a WorkerProgressBarComponent.
+	 *
+	 * @param entityId id of the entity
+	 * @return
+	 */
+	public WorkerProgressBarComponent createWorkerProgressBarComponent(int entityId) {
+		WorkerProgressBarComponent workerProgressBarComponent = getMapper(WorkerProgressBarComponent.class).create(entityId);
+
+		ProgressBar progressBar = this.uiElementFactory.createGameWorldProgressBar();
+
+    workerProgressBarComponent.setProgressBar(progressBar);
+
+    progressBar.setSize(64, 12);
+
+    return workerProgressBarComponent;
 	}
 
 	/**
