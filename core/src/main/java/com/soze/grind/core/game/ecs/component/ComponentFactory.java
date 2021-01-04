@@ -147,10 +147,6 @@ public class ComponentFactory {
 	public WorkerAiComponent createWorkerAiComponent(int entityId) {
 		WorkerAiComponent workerAiComponent = getMapper(WorkerAiComponent.class).create(entityId);
 
-		Entity entity = world.getEntity(entityId);
-
-		workerAiComponent.setWorker(entity);
-
 		return workerAiComponent;
 	}
 
