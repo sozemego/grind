@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import java.util.function.Supplier;
 
 public class ProgressBar extends Actor {
 
@@ -15,18 +14,14 @@ public class ProgressBar extends Actor {
 
 	private float progress;
 
-//	private final Supplier<Float> progressSupplier;
-
 	public ProgressBar(
 			Texture background,
 			Texture bar,
 			Texture filling
-//			Supplier<Float> progressSupplier
 	) {
 		this.background = background;
 		this.bar = bar;
 		this.filling = filling;
-//		this.progressSupplier = progressSupplier;
 	}
 
 	public void setProgress(float progress) {
