@@ -67,8 +67,8 @@ public class LevelLoader {
 
     this.loadTiles(jsonNode);
     this.loadResources(jsonNode);
-    this.loadWorkers(jsonNode);
     this.loadBuildings(jsonNode);
+    this.loadWorkers(jsonNode);
 
     LOG.info("Level [{}] loaded.", levelName);
   }

@@ -25,7 +25,8 @@ public class WorkerAiSystem extends BaseEntitySystem {
 
       WorkerAiComponent workerAiComponent = workerAiMapper.get(id);
 
-      workerAiComponent.getWorkerAI().act(world.getDelta(), world);
+      workerAiComponent.act(world.getDelta(), world);
+
     }
   }
 }

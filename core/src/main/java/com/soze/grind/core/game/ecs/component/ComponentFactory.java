@@ -141,7 +141,7 @@ public class ComponentFactory {
 
 		Entity entity = world.getEntity(entityId);
 
-		workerAiComponent.setEntity(entity);
+		workerAiComponent.setWorker(entity);
 
 		return workerAiComponent;
 	}

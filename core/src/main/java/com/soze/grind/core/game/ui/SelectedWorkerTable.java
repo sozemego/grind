@@ -7,8 +7,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.soze.grind.core.game.ecs.component.NameComponent;
 import com.soze.grind.core.game.ecs.component.ResourceStorageComponent;
 import com.soze.grind.core.game.ecs.component.WorkerAiComponent;
+import com.soze.grind.core.game.ecs.component.WorkerAiComponent.WorkerState;
 import com.soze.grind.core.game.ui.factory.UIElementFactory;
-import com.soze.grind.core.game.unit.WorkerAI.WorkerState;
 
 /** Contains UI for the selected Worker. */
 public class SelectedWorkerTable extends Table {
@@ -47,7 +47,7 @@ public class SelectedWorkerTable extends Table {
 
     this.progressBar = this.uiElementFactory.createUIProgressBar(() -> {
       WorkerAiComponent workerAiComponent = entity.getComponent(WorkerAiComponent.class);
-      return workerAiComponent.getWorkerAI().getWorkingProgress();
+      return workerAiComponent.getWorkingProgress();
     });
 
     this.add(progressBar)
@@ -60,7 +60,7 @@ public class SelectedWorkerTable extends Table {
   public void act(float delta) {
     super.act(delta);
 
-    WorkerState workerState = entity.getComponent(WorkerAiComponent.class).getWorkerAI().getState();
+    WorkerState workerState = entity.getComponent(WorkerAiComponent.class).getState();
 
     this.workerStateLabel.setText(workerState.name());
 
