@@ -9,6 +9,7 @@ import com.google.common.eventbus.Subscribe;
 import com.soze.grind.core.game.SelectedObjectContainer;
 import com.soze.grind.core.game.assets.AssetService;
 import com.soze.grind.core.game.ecs.component.BuildingComponent;
+import com.soze.grind.core.game.ecs.component.HeroComponent;
 import com.soze.grind.core.game.ecs.component.ResourceComponent;
 import com.soze.grind.core.game.ecs.component.WorkerComponent;
 import com.soze.grind.core.game.event.ObjectSelectedEvent;
@@ -104,6 +105,10 @@ public class SelectedObjectTableContainer extends Table {
 
       if (Objects.nonNull(entity.getComponent(ResourceComponent.class))) {
         currentSelectedUI = new SelectedResourceTable(uiElementFactory, entity);
+      }
+
+      if (Objects.nonNull(entity.getComponent(HeroComponent.class))) {
+        currentSelectedUI = new SelectedHeroTable(uiElementFactory, entity);
       }
 
     }
