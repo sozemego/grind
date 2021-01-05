@@ -3,7 +3,6 @@ package com.soze.grind.core.game.storage;
 import com.soze.grind.core.game.resource.ResourceEnum;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.BinaryOperator;
 
 /**
  * A resource storage that has one total capacity.
