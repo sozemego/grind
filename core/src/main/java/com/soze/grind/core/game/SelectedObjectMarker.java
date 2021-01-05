@@ -9,7 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.soze.grind.core.game.ecs.component.ActorComponent;
 import java.util.Objects;
-import org.springframework.stereotype.Service;
 
 /** Represents a marker that shows which object is selected. */
 public class SelectedObjectMarker extends Actor {
