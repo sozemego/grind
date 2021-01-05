@@ -8,6 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.soze.grind.core.game.assets.AssetService;
 import com.soze.grind.core.game.ecs.component.ActorComponent;
 import com.soze.grind.core.game.ecs.component.BuildingComponent;
+import com.soze.grind.core.game.ecs.component.HealthComponent;
+import com.soze.grind.core.game.ecs.component.HeroComponent;
 import com.soze.grind.core.game.ecs.component.NameComponent;
 import com.soze.grind.core.game.ecs.component.PositionComponent;
 import com.soze.grind.core.game.ecs.component.ResourceComponent;
@@ -164,7 +166,6 @@ public class ComponentFactory {
 	 * Creates a WorkerProgressBarComponent.
 	 *
 	 * @param entityId id of the entity
-	 * @return
 	 */
 	public WorkerProgressBarComponent createWorkerProgressBarComponent(int entityId) {
 		WorkerProgressBarComponent workerProgressBarComponent = getMapper(WorkerProgressBarComponent.class).create(entityId);
@@ -176,6 +177,30 @@ public class ComponentFactory {
     progressBar.setSize(64, 12);
 
     return workerProgressBarComponent;
+	}
+
+	/**
+	 * Creates a HealthComponent.
+	 *
+	 * @param entityId id of the entity
+	 * @param health health
+	 * @param maxHealth max health
+	 */
+	public HealthComponent createHealthComponent(int entityId, int health, int maxHealth) {
+		HealthComponent healthComponent = getMapper(HealthComponent.class).create(entityId);
+		healthComponent.setHealth(health);
+		healthComponent.setMaxHealth(maxHealth);
+
+		return healthComponent;
+	}
+
+	/**
+	 * Creates a HeroComponent.
+	 * @param entityId id of the entity
+	 */
+	public HeroComponent createHeroComponent(int entityId) {
+		HeroComponent heroComponent = getMapper(HeroComponent.class).create(entityId);
+		return heroComponent;
 	}
 
 	/**

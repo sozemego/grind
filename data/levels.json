@@ -136,6 +136,21 @@
         "building": true,
         "warehouse": true,
         "name": "Warehouse"
+      },
+      {
+        "position": {
+          "x": 60,
+          "y": 60
+        },
+        "actor": {
+          "texture": "medievalUnit_03.png"
+        },
+        "health": {
+          "health": 15,
+          "maxHealth": 15
+        },
+        "name": "Magus Bagus",
+        "hero": true
       }
     ]
   }

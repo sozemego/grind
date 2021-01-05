@@ -36,6 +36,8 @@ public class EntityLoader {
     callIfExists(node.get("warehouse"), this::loadWarehouseComponent);
     callIfExists(node.get("workerAi"), this::loadWorkerAiComponent);
     callIfExists(node.get("worker"), this::loadWorkerComponent);
+    callIfExists(node.get("health"), this::loadHealthComponent);
+    callIfExists(node.get("hero"), this::loadHeroComponent);
 
   }
 
@@ -136,6 +138,23 @@ public class EntityLoader {
   }
 
   /**
+   * Loads the HealthComponent.
+   */
+  private void loadHealthComponent(JsonNode healthNode) {
+    int health = getInt(healthNode, "health", 0);
+    int maxHealth = getInt(healthNode, "maxHealth", health);
+
+    componentFactory.createHealthComponent(entityId, health, maxHealth);
+  }
+
+  /**
+   * Loads the HeroComponent.
+   */
+  private void loadHeroComponent(JsonNode heroNode) {
+    componentFactory.createHeroComponent(entityId);
+  }
+
+  /**
    * Gets a float from a property or defaultValue if it does not exist.
    *
    * @param node node to get the float from
@@ -151,5 +170,23 @@ public class EntityLoader {
     }
 
     return (float) floatNode.asDouble();
+  }
+
+  /**
+   * Gets an int from a property or defaultValue if it does not exist.
+   *
+   * @param node node to get the float from
+   * @param propertyName name of the property
+   * @param defaultValue default value
+   * @return float
+   */
+  private int getInt(JsonNode node, String propertyName, int defaultValue) {
+    JsonNode intNode = node.get(propertyName);
+
+    if (Objects.isNull(intNode) || intNode.getNodeType() == JsonNodeType.NULL) {
+      return defaultValue;
+    }
+
+    return intNode.asInt();
   }
 }
