@@ -4,72 +4,138 @@
       "width": 100,
       "height": 100
     },
-    "resources": [
+    "entities": [
       {
-        "x": 25,
-        "y": 35,
+        "position": {
+          "x": 45,
+          "y": 45
+        },
+        "actor": {
+          "texture": "medievalEnvironment_03.png"
+        },
+        "name": "Tree",
         "resource": "WOOD",
-        "resources": 50,
-        "maxResources": 50,
-        "texture": "medievalEnvironment_03.png"
+        "resourceStorage": {
+          "capacity": 50,
+          "resources": {
+            "WOOD": 50
+          }
+        }
       },
       {
-        "x": 43,
-        "y": 57,
+        "position": {
+          "x": 43,
+          "y": 57
+        },
+        "actor": {
+          "texture": "medievalEnvironment_03.png"
+        },
+        "name": "Tree",
         "resource": "WOOD",
-        "resources": 70,
-        "maxResources": 70,
-        "texture": "medievalEnvironment_03.png"
+        "resourceStorage": {
+          "capacity": 70,
+          "resources": {
+            "WOOD": 70
+          }
+        }
       },
       {
-        "x": 45,
-        "y": 52,
+        "position": {
+          "x": 45,
+          "y": 52
+        },
+        "actor": {
+          "texture": "medievalEnvironment_03.png"
+        },
+        "name": "Tree",
         "resource": "WOOD",
-        "resources": 25,
-        "maxResources": 25,
-        "texture": "medievalEnvironment_03.png"
+        "resourceStorage": {
+          "capacity": 25,
+          "resources": {
+            "WOOD": 25
+          }
+        }
       },
       {
-        "x": 52,
-        "y": 52,
+        "position": {
+          "x": 52,
+          "y": 52
+        },
+        "actor": {
+          "texture": "medievalEnvironment_09.png"
+        },
+        "name": "Small rock",
         "resource": "STONE",
-        "resources": 50,
-        "maxResources": 50,
-        "texture": "medievalEnvironment_09.png"
+        "resourceStorage": {
+          "capacity": 25,
+          "resources": {
+            "STONE": 25
+          }
+        }
       },
       {
-        "x": 56,
-        "y": 50,
+        "position": {
+          "x": 56,
+          "y": 50
+        },
+        "actor": {
+          "texture": "medievalEnvironment_09.png"
+        },
+        "name": "Small rock",
         "resource": "STONE",
-        "resources": 50,
-        "maxResources": 50,
-        "texture": "medievalEnvironment_09.png"
+        "resourceStorage": {
+          "capacity": 50,
+          "resources": {
+            "STONE": 50
+          }
+        }
       },
       {
-        "x": 51,
-        "y": 45,
+        "position": {
+          "x": 51,
+          "y": 45
+        },
+        "actor": {
+          "texture": "medievalEnvironment_09.png"
+        },
+        "name": "Small rock",
         "resource": "STONE",
-        "resources": 50,
-        "maxResources": 50,
-        "texture": "medievalEnvironment_09.png"
-      }
-    ],
-    "workers": [
+        "resourceStorage": {
+          "capacity": 50,
+          "resources": {
+            "STONE": 50
+          }
+        }
+      },
       {
-        "x": 45,
-        "y": 50,
-        "capacity": 1,
-        "name": "Worker",
-        "texture": "medievalUnit_12.png"
-      }
-    ],
-    "buildings": [
+        "position": {
+          "x": 45,
+          "y": 50
+        },
+        "resourceStorage": {
+          "capacity": 1
+        },
+        "actor": {
+          "texture": "medievalUnit_12.png"
+        },
+        "worker": true,
+        "workerAi": true,
+        "name": "Worker"
+      },
       {
-        "type": "WAREHOUSE",
-        "x": 48,
-        "y": 50,
-        "texture": "medievalStructure_19.png",
-        "capacity": 500
+        "position": {
+          "x": 48,
+          "y": 50
+        },
+        "actor": {
+          "texture": "medievalStructure_19.png"
+        },
+        "resourceStorage": {
+          "capacity": 500
+        },
+        "building": true,
+        "warehouse": true,
+        "name": "Warehouse"
       }
     ]
   }

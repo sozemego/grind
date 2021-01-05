@@ -1,4 +1,4 @@
-package com.soze.grind.core.game.ecs.component;
+package com.soze.grind.core.game.ecs.component.factory;
 
 import com.artemis.Component;
 import com.artemis.ComponentMapper;
@@ -6,6 +6,16 @@ import com.artemis.Entity;
 import com.artemis.World;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.soze.grind.core.game.assets.AssetService;
+import com.soze.grind.core.game.ecs.component.ActorComponent;
+import com.soze.grind.core.game.ecs.component.BuildingComponent;
+import com.soze.grind.core.game.ecs.component.NameComponent;
+import com.soze.grind.core.game.ecs.component.PositionComponent;
+import com.soze.grind.core.game.ecs.component.ResourceComponent;
+import com.soze.grind.core.game.ecs.component.ResourceStorageComponent;
+import com.soze.grind.core.game.ecs.component.WarehouseComponent;
+import com.soze.grind.core.game.ecs.component.WorkerAiComponent;
+import com.soze.grind.core.game.ecs.component.WorkerComponent;
+import com.soze.grind.core.game.ecs.component.WorkerProgressBarComponent;
 import com.soze.grind.core.game.resource.ResourceEnum;
 import com.soze.grind.core.game.storage.ResourceStorage;
 import com.soze.grind.core.game.storage.TotalCapacityResourceStorage;

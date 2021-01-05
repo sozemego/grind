@@ -4,11 +4,7 @@ import com.artemis.World;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.soze.grind.core.game.assets.AssetService;
-import com.soze.grind.core.game.ecs.component.ComponentFactory;
-import com.soze.grind.core.game.ecs.component.NameComponent;
-import com.soze.grind.core.game.ecs.component.ResourceStorageComponent;
-import com.soze.grind.core.game.resource.ResourceEnum;
-import com.soze.grind.core.game.storage.ResourceStorage;
+import com.soze.grind.core.game.ecs.component.factory.ComponentFactory;
 import com.soze.grind.core.game.util.JsonUtil;
 import com.soze.grind.core.game.world.WorldTile;
 import java.util.ArrayList;
@@ -48,7 +44,7 @@ public class LevelLoader {
 
   @PostConstruct
   public void setup() {
-    this.loadLevel(this.currentLevelName);
+    loadLevel(currentLevelName);
   }
 
   public List<WorldTile> getWorldTiles() {
@@ -63,12 +59,10 @@ public class LevelLoader {
   public void loadLevel(String levelName) {
     LOG.info("Loading level = [{}]", levelName);
 
-    JsonNode jsonNode = this.loadLevelData(levelName);
+    JsonNode jsonNode = loadLevelData(levelName);
 
-    this.loadTiles(jsonNode);
-    this.loadResources(jsonNode);
-    this.loadBuildings(jsonNode);
-    this.loadWorkers(jsonNode);
+    loadTiles(jsonNode);
+    loadEntities(jsonNode);
 
     LOG.info("Level [{}] loaded.", levelName);
   }
@@ -83,108 +77,33 @@ public class LevelLoader {
 
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
-        WorldTile worldTile = new WorldTile(this.assetService.getTexture("medievalTile_57.png"));
+        WorldTile worldTile = new WorldTile(assetService.getTexture("medievalTile_57.png"));
         worldTile.setPosition(i * 64, j * 64);
         worldTile.setSize(64, 64);
-        this.worldTiles.add(worldTile);
+        worldTiles.add(worldTile);
       }
     }
 
-    LOG.info("Created [{}] tiles", this.worldTiles.size());
+    LOG.info("Created [{}] tiles", worldTiles.size());
   }
 
-  private void loadResources(JsonNode jsonNode) {
-    ArrayNode resourcesNode = jsonNode.withArray("resources");
+  /**
+   * Loads all game entities.
+   *
+   * @param jsonNode jsonNode
+   */
+  private void loadEntities(JsonNode jsonNode) {
 
-    for (JsonNode node : resourcesNode) {
+    ArrayNode entitiesNode = jsonNode.withArray("entities");
 
-      int x = node.get("x").asInt();
-      int y = node.get("y").asInt();
-      String texture = node.get("texture").asText();
+    for (JsonNode node : entitiesNode) {
 
-      int entityId = world.create();
-
-      componentFactory.createPositionComponent(entityId, x * 64, y * 64, 64, 64);
-      componentFactory.createImageActorComponent(entityId, texture);
-
-      ResourceEnum resourceEnum = ResourceEnum.valueOf(node.get("resource").asText());
-
-      componentFactory.createResourceComponent(entityId, resourceEnum);
-
-      int resources = node.get("resources").asInt();
-      int maxResources = node.get("maxResources").asInt(resources);
-
-      ResourceStorageComponent resourceStorageComponent = componentFactory.createResourceStorageComponent(entityId, maxResources);
-
-      ResourceStorage resourceStorage = resourceStorageComponent.getResourceStorage();
-      resourceStorage.addResource(resourceEnum, resources);
-
-      componentFactory.createNameComponent(entityId, resourceEnum.getName());
-    }
-
-    LOG.info("Loaded [{}] resources", resourcesNode.size());
-  }
-
-  private void loadWorkers(JsonNode jsonNode) {
-    ArrayNode workersNode = jsonNode.withArray("workers");
-
-    for (JsonNode node : workersNode) {
-
-      int x = node.get("x").asInt();
-      int y = node.get("y").asInt();
-
-      int capacity = node.get("capacity").asInt();
-      String name = node.get("name").asText();
-      String texture = node.get("texture").asText();
-
-      int entityId = world.create();
-
-      componentFactory.createImageActorComponent(entityId, texture);
-      componentFactory.createPositionComponent(entityId, x * 64, y * 64, 64, 64);
-      componentFactory.createResourceStorageComponent(entityId, capacity);
-      componentFactory.createNameComponent(entityId, name);
-      componentFactory.createWorkerComponent(entityId);
-      componentFactory.createWorkerAiComponent(entityId);
-      componentFactory.createWorkerProgressBarComponent(entityId);
+      EntityLoader entityLoader = new EntityLoader(world, node, componentFactory);
+      entityLoader.loadEntity();
 
     }
 
-    LOG.info("Loaded [{}] workers", workersNode.size());
-  }
-
-  private void loadBuildings(JsonNode jsonNode) {
-    ArrayNode buildingsNode = jsonNode.withArray("buildings");
-
-    for (JsonNode node : buildingsNode) {
-
-      int x = node.get("x").asInt();
-      int y = node.get("y").asInt();
-
-      String type = node.get("type").asText();
-
-      String texture = node.get("texture").asText();
-
-      int entityId = this.world.create();
-
-      componentFactory.createImageActorComponent(entityId, texture);
-      componentFactory.createPositionComponent(entityId, x * 64, y * 64, 64, 64);
-
-      NameComponent nameComponent = componentFactory.createNameComponent(entityId, "Building");
-
-      if ("WAREHOUSE".equals(type)) {
-
-        componentFactory.createWarehouseComponent(entityId);
-        componentFactory.createBuildingComponent(entityId);
-
-        int capacity = node.get("capacity").asInt();
-        componentFactory.createResourceStorageComponent(entityId, capacity);
-
-        nameComponent.setName("Warehouse");
-      }
-
-    }
-
-    LOG.info("Loaded [{}] buildings", buildingsNode.size());
+    LOG.info("Loaded [{}] entities", entitiesNode.size());
   }
 
   /**
