@@ -36,6 +36,11 @@ public interface ResourceStorage {
   int count(ResourceEnum resource);
 
   /**
+   * Returns all capacity that was taken by all resources.
+   */
+  int capacityFilled();
+
+  /**
    * Returns the remaining capacity for given resource.
    *
    * @param resource

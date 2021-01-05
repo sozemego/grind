@@ -3,6 +3,7 @@ package com.soze.grind.core.game.storage;
 import com.soze.grind.core.game.resource.ResourceEnum;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.BinaryOperator;
 
 /**
  * A resource storage that has one total capacity.
@@ -49,6 +50,11 @@ public class TotalCapacityResourceStorage implements ResourceStorage {
 	@Override
 	public int count(ResourceEnum resource) {
 		return resources.getOrDefault(resource, 0);
+	}
+
+	@Override
+	public int capacityFilled() {
+		return resources.values().stream().reduce(0, Integer::sum);
 	}
 
 	@Override

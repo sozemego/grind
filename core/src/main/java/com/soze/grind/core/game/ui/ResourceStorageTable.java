@@ -39,7 +39,7 @@ public class ResourceStorageTable extends Table {
 		this.clearChildren();
 
 		Label titleLabel = this.uiElementFactory.createTextLabel();
-		titleLabel.setText("Storage");
+		titleLabel.setText("Storage (" + storage.capacityFilled() + "/" + storage.maxCapacity(ResourceEnum.WOOD) + ")");
 
 		this.add(titleLabel).row();
 

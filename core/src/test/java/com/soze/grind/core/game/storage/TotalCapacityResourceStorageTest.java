@@ -115,4 +115,15 @@ class TotalCapacityResourceStorageTest {
     assertEquals(38, storage.capacity(ResourceEnum.WOOD));
   }
 
+  @ParameterizedTest
+  @DisplayName("capacityFilled: should return valid values after being filled")
+  @ValueSource(ints = {10, 25, 50, 100, 125})
+  void capacityFilled(int amount) {
+    TotalCapacityResourceStorage storage = new TotalCapacityResourceStorage(5000);
+
+    storage.addResource(ResourceEnum.STONE, amount);
+
+    assertEquals(amount, storage.capacityFilled());
+  }
+
 }
