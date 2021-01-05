@@ -14,12 +14,12 @@ public class WorkerAiComponent extends Component {
   private StateMachine<WorkerState, WorkerEvent> state = initialState();
 
   public StateMachine<WorkerState, WorkerEvent> getStateMachine() {
-    return this.state;
+    return state;
   }
 
   /** Gets the progress of the current 'WORKING' state (or 0 if in different state). */
   public float getWorkingProgress() {
-    Map<Object, Object> variables = this.state.getExtendedState().getVariables();
+    Map<Object, Object> variables = state.getExtendedState().getVariables();
 
     float workingTime = (float) variables.getOrDefault("workingTime", 0f);
     float maxWorkingTime = (float) variables.getOrDefault("maxWorkingTime", 0f);
@@ -33,7 +33,7 @@ public class WorkerAiComponent extends Component {
 
   /** Gets the current worker state. */
   public WorkerState getState() {
-    return this.state.getState().getId();
+    return state.getState().getId();
   }
 
   /**

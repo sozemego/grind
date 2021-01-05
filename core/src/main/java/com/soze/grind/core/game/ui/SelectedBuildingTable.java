@@ -22,17 +22,17 @@ public class SelectedBuildingTable extends Table {
 
     NameComponent nameComponent = entity.getComponent(NameComponent.class);
 
-    this.selectedObjectNameLabel = this.uiElementFactory.createHeaderLabel();
-    this.selectedObjectNameLabel.setText(nameComponent.getName());
+    selectedObjectNameLabel = uiElementFactory.createHeaderLabel();
+    selectedObjectNameLabel.setText(nameComponent.getName());
 
-    this.add(this.selectedObjectNameLabel).row();
+    add(selectedObjectNameLabel).row();
 
-    this.add(this.uiElementFactory.createDivider()).row();
+    add(uiElementFactory.createDivider()).row();
 
     ResourceStorageComponent resourceStorageComponent = entity.getComponent(ResourceStorageComponent.class);
 
     if (resourceStorageComponent != null) {
-      this.add(this.uiElementFactory.createResourceStorageTable(resourceStorageComponent.getResourceStorage())).row();
+      add(uiElementFactory.createResourceStorageTable(resourceStorageComponent.getResourceStorage())).row();
     }
   }
 }

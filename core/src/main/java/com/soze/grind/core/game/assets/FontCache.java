@@ -34,7 +34,7 @@ public class FontCache {
 	 * @return
 	 */
 	public Optional<BitmapFont> getFont(String name) {
-		return Optional.ofNullable(this.fonts.get(name));
+		return Optional.ofNullable(fonts.get(name));
 	}
 
 }

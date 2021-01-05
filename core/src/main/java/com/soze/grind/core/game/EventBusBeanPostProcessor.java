@@ -21,7 +21,7 @@ public class EventBusBeanPostProcessor implements BeanPostProcessor {
 
 	@Override
 	public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-		this.eventBus.register(bean);
+		eventBus.register(bean);
 		return bean;
 	}
 }

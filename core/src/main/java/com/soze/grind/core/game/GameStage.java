@@ -39,25 +39,25 @@ public class GameStage extends Stage {
 
   @Override
   public boolean keyDown(int keyCode) {
-    this.pressedKeys.add(keyCode);
+    pressedKeys.add(keyCode);
     return true;
   }
 
   @Override
   public boolean keyUp(int keyCode) {
     if (keyCode == Keys.P) {
-      this.gameSpeedService.togglePause();
+      gameSpeedService.togglePause();
     }
 
     if (keyCode == Keys.PLUS) {
-      this.gameSpeedService.incrementGameSpeed();
+      gameSpeedService.incrementGameSpeed();
     }
 
     if (keyCode == Keys.MINUS) {
-      this.gameSpeedService.decrementGameSpeed();
+      gameSpeedService.decrementGameSpeed();
     }
 
-    this.pressedKeys.remove(keyCode);
+    pressedKeys.remove(keyCode);
     return true;
   }
 
@@ -83,19 +83,19 @@ public class GameStage extends Stage {
 
   private void moveCamera() {
     if (pressedKeys.contains(Keys.A)) {
-      this.getCamera().position.x -= 5;
+      getCamera().position.x -= 5;
     }
 
     if (pressedKeys.contains(Keys.D)) {
-      this.getCamera().position.x += 5;
+      getCamera().position.x += 5;
     }
 
     if (pressedKeys.contains(Keys.W)) {
-      this.getCamera().position.y += 5;
+      getCamera().position.y += 5;
     }
 
     if (pressedKeys.contains(Keys.S)) {
-      this.getCamera().position.y -= 5;
+      getCamera().position.y -= 5;
     }
   }
 }

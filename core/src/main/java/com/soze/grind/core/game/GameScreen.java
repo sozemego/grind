@@ -34,7 +34,7 @@ public class GameScreen extends ScreenAdapter {
 
   @Override
   public void show() {
-    this.gameStage.getCamera().position.set(3200, 3200, 0);
+    gameStage.getCamera().position.set(3200, 3200, 0);
   }
 
   @Override
@@ -44,7 +44,7 @@ public class GameScreen extends ScreenAdapter {
     Gdx.gl.glEnable(GL20.GL_BLEND);
     Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
-    for (int i = 0; i < this.gameSpeedService.getGameSpeed() && !this.gameSpeedService.isPaused(); i++) {
+    for (int i = 0; i < gameSpeedService.getGameSpeed() && !this.gameSpeedService.isPaused(); i++) {
 
       this.world.setDelta(delta);
       this.world.process();

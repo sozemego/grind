@@ -29,7 +29,7 @@ public class ProgressBar extends Actor {
 	}
 
 	public float getProgress() {
-		return this.progress;
+		return progress;
 	}
 
 	@Override
@@ -38,8 +38,8 @@ public class ProgressBar extends Actor {
 
 		batch.setColor(color.r, color.g, color.b, color.a * parentAlpha);
 
-		batch.draw(background, this.getX(), this.getY(), this.getWidth(), this.getHeight());
-		batch.draw(filling, this.getX(), this.getY(), MathUtils.round(this.getWidth() * this.getProgress()), this.getHeight());
-		batch.draw(bar, this.getX(), this.getY(), this.getWidth(), this.getHeight());
+		batch.draw(background, getX(), getY(), getWidth(), getHeight());
+		batch.draw(filling, getX(), getY(), MathUtils.round(getWidth() * getProgress()), getHeight());
+		batch.draw(bar, getX(), getY(), getWidth(), getHeight());
 	}
 }

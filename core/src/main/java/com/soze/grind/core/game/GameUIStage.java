@@ -36,7 +36,7 @@ public class GameUIStage extends Stage {
     ScreenViewport viewport = new ScreenViewport(camera);
     setViewport(viewport);
 
-    this.setup();
+    setup();
   }
 
   @Override
@@ -51,14 +51,14 @@ public class GameUIStage extends Stage {
 
     rootTable.top().right();
 
-    this.addActor(rootTable);
+    addActor(rootTable);
 
-    rootTable.add(this.selectedObjectTableContainer).width(360f).minHeight(500f);
+    rootTable.add(selectedObjectTableContainer).width(360f).minHeight(500f);
   }
 
   private void setup() {
     LOG.info("Setting up GameUIStage");
 
-    this.setupSelectedObjectTable();
+    setupSelectedObjectTable();
   }
 }

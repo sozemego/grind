@@ -30,7 +30,7 @@ public class CameraControllerGestureListener extends GestureAdapter {
 		 * This controller is the first input processor, so returning true from this method stops the propagation
 		 * of touchUp event to other input processors, and so the touchFocus is never cleared if this is not called.
 		 */
-		this.gameStage.cancelTouchFocus();
+		gameStage.cancelTouchFocus();
 
 		return true;
 	}

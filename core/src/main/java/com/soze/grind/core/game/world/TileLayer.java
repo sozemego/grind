@@ -24,7 +24,7 @@ public class TileLayer extends Group {
 
     float maxDelay = 2.5f;
 
-    List<WorldTile> tiles = this.getSortedTiles(camera);
+    List<WorldTile> tiles = getSortedTiles(camera);
 
     for (int i = 0; i < tiles.size(); i++) {
       WorldTile tile = tiles.get(i);
@@ -39,7 +39,7 @@ public class TileLayer extends Group {
   }
 
   private List<WorldTile> getSortedTiles(Camera camera) {
-    List<WorldTile> tiles = new ArrayList<>(this.worldTiles);
+    List<WorldTile> tiles = new ArrayList<>(worldTiles);
 
     float x = camera.position.x;
     float y = camera.position.y;

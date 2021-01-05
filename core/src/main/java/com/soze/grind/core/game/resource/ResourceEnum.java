@@ -17,6 +17,6 @@ public enum ResourceEnum {
   }
 
   public String getTextureName() {
-    return "resource/" + this.getName().toLowerCase() + ".png";
+    return "resource/" + getName().toLowerCase() + ".png";
   }
 }

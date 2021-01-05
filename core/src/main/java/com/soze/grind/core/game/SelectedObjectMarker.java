@@ -27,26 +27,26 @@ public class SelectedObjectMarker extends Actor {
     Actor actor = getActor();
 
     if (Objects.isNull(actor)) {
-      this.justSelectedObject = false;
+      justSelectedObject = false;
     }
 
     if (Objects.nonNull(actor)) {
 
-      if (!this.justSelectedObject) {
-        this.justSelectedObject = true;
+      if (!justSelectedObject) {
+        justSelectedObject = true;
 
-        this.setWidth(actor.getWidth());
-        this.setHeight(actor.getHeight());
+        setWidth(actor.getWidth());
+        setHeight(actor.getHeight());
 
-        float xLower = this.getWidth() * 0.95f;
-        float xHigher = this.getWidth() * 1.05f;
+        float xLower = getWidth() * 0.95f;
+        float xHigher = getWidth() * 1.05f;
 
-        float yLower = this.getHeight() * 0.95f;
-        float yHigher = this.getHeight() * 1.05f;
+        float yLower = getHeight() * 0.95f;
+        float yHigher = getHeight() * 1.05f;
 
-        this.clearActions();
+        clearActions();
 
-        this.addAction(
+        addAction(
             Actions.forever(
                 Actions.sequence(
                     Actions.sizeTo(xLower, yLower, 0.35f, Interpolation.bounce),
@@ -59,14 +59,14 @@ public class SelectedObjectMarker extends Actor {
       float x = actor.getX() - ((getWidth() - actor.getWidth()) / 2);
       float y = actor.getY() - ((getHeight() - actor.getHeight()) / 2);
 
-      batch.draw(texture, x, y, this.getWidth(), this.getHeight());
+      batch.draw(texture, x, y, getWidth(), getHeight());
 
     }
 
   }
 
   private Actor getActor() {
-    Object selectedObject = this.selectedObjectContainer.getSelectedObject();
+    Object selectedObject = selectedObjectContainer.getSelectedObject();
 
     if (Objects.isNull(selectedObject)) {
       return null;

@@ -53,7 +53,7 @@ public class ComponentFactory {
 	 */
 	public ActorComponent createImageActorComponent(int entityId, String texture) {
 		ActorComponent actorComponent = getMapper(ActorComponent.class).create(entityId);
-		actorComponent.setActor(new Image(this.assetService.getTexture(texture)));
+		actorComponent.setActor(new Image(assetService.getTexture(texture)));
 
 		return actorComponent;
 	}
@@ -170,7 +170,7 @@ public class ComponentFactory {
 	public WorkerProgressBarComponent createWorkerProgressBarComponent(int entityId) {
 		WorkerProgressBarComponent workerProgressBarComponent = getMapper(WorkerProgressBarComponent.class).create(entityId);
 
-		ProgressBar progressBar = this.uiElementFactory.createGameWorldProgressBar();
+		ProgressBar progressBar = uiElementFactory.createGameWorldProgressBar();
 
     workerProgressBarComponent.setProgressBar(progressBar);
 
@@ -209,7 +209,7 @@ public class ComponentFactory {
 	 * @param clazz class of the mapper
 	 */
 	private <T extends Component> ComponentMapper<T> getMapper(Class<T> clazz) {
-		return this.world.getMapper(clazz);
+		return world.getMapper(clazz);
 	}
 
 }

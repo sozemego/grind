@@ -20,10 +20,10 @@ public class InputConfig {
 
 	public InputConfig(GameStage gameStage, DebugStage debugStage, CameraController cameraMouseListener) {
 
-		this.inputMultiplexer.addProcessor(cameraMouseListener);
-		this.inputMultiplexer.addProcessor(debugStage);
-		this.inputMultiplexer.addProcessor(gameStage);
+		inputMultiplexer.addProcessor(cameraMouseListener);
+		inputMultiplexer.addProcessor(debugStage);
+		inputMultiplexer.addProcessor(gameStage);
 
-		Gdx.input.setInputProcessor(this.inputMultiplexer);
+		Gdx.input.setInputProcessor(inputMultiplexer);
 	}
 }

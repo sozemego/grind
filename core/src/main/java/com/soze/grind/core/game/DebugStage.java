@@ -65,13 +65,13 @@ public class DebugStage extends Stage {
     sb.append(String.format("FPS: %s \n", Gdx.graphics.getFramesPerSecond()));
     sb.append(String.format("Frame time: %.4f \n", Gdx.graphics.getDeltaTime()));
 
-    Camera camera = this.gameStageViewport.getCamera();
+    Camera camera = gameStageViewport.getCamera();
 
     sb.append(String.format("Game stage x, y: %s %s \n", camera.position.x, camera.position.y));
 //    sb.append(String.format("Buildings: %s \n", myWorld.getBuildingsLayer().getBuildings().size()));
 
-    sb.append(String.format("Paused: %s \n", this.gameSpeedService.isPaused()));
-    sb.append(String.format("Game speed: %s \n", this.gameSpeedService.getGameSpeed()));
+    sb.append(String.format("Paused: %s \n", gameSpeedService.isPaused()));
+    sb.append(String.format("Game speed: %s \n", gameSpeedService.getGameSpeed()));
 
     return sb.toString();
   }
@@ -79,7 +79,7 @@ public class DebugStage extends Stage {
   @Override
   public boolean keyUp(int keyCode) {
     if (keyCode == Keys.L) {
-      this.myWorld.animateEnterWorld(this.gameStageViewport.getCamera());
+      myWorld.animateEnterWorld(gameStageViewport.getCamera());
     }
 
     return super.keyUp(keyCode);

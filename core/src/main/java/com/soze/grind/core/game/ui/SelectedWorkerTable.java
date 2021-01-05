@@ -27,27 +27,27 @@ public class SelectedWorkerTable extends Table {
     this.uiElementFactory = uiElementFactory;
     this.entity = entity;
 
-    this.selectedObjectNameLabel = this.uiElementFactory.createHeaderLabel();
+    selectedObjectNameLabel = uiElementFactory.createHeaderLabel();
 
     NameComponent nameComponent = entity.getComponent(NameComponent.class);
 
-    this.selectedObjectNameLabel.setText(nameComponent.getName());
+    selectedObjectNameLabel.setText(nameComponent.getName());
 
-    this.add(this.selectedObjectNameLabel).row();
+    add(selectedObjectNameLabel).row();
 
-    this.add(this.uiElementFactory.createDivider()).row();
+    add(uiElementFactory.createDivider()).row();
 
     ResourceStorageComponent resourceStorageComponent = entity.getComponent(ResourceStorageComponent.class);
 
-    this.add(this.uiElementFactory.createResourceStorageTable(resourceStorageComponent.getResourceStorage())).row();
+    add(uiElementFactory.createResourceStorageTable(resourceStorageComponent.getResourceStorage())).row();
 
-    this.workerStateLabel = this.uiElementFactory.createTextLabel();
+    workerStateLabel = uiElementFactory.createTextLabel();
 
-    this.add(this.workerStateLabel).row();
+    add(workerStateLabel).row();
 
-    this.progressBar = this.uiElementFactory.createUIProgressBar();
+    progressBar = uiElementFactory.createUIProgressBar();
 
-    this.add(progressBar)
+    add(progressBar)
         .width(Value.percentWidth(0.8f, this))
         .height(16f)
         .row();
@@ -60,10 +60,10 @@ public class SelectedWorkerTable extends Table {
     WorkerAiComponent workerAiComponent = entity.getComponent(WorkerAiComponent.class);
     WorkerState workerState = workerAiComponent.getState();
 
-    this.workerStateLabel.setText(workerState.name());
+    workerStateLabel.setText(workerState.name());
 
-    this.progressBar.setVisible(workerState == WorkerState.WORKING);
+    progressBar.setVisible(workerState == WorkerState.WORKING);
 
-    this.progressBar.setProgress(workerAiComponent.getWorkingProgress());
+    progressBar.setProgress(workerAiComponent.getWorkingProgress());
   }
 }

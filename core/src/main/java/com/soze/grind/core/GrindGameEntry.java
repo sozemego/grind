@@ -18,7 +18,7 @@ public class GrindGameEntry extends Game {
   @Override
   public void create() {
     CommandLinePropertySource<?> commandLinePropertySource =
-        new SimpleCommandLinePropertySource(this.args);
+        new SimpleCommandLinePropertySource(args);
 
     AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
     context.getEnvironment().getPropertySources().addFirst(commandLinePropertySource);
@@ -28,6 +28,6 @@ public class GrindGameEntry extends Game {
 
     GameScreen gameScreen = context.getBean(GameScreen.class);
 
-    this.setScreen(gameScreen);
+    setScreen(gameScreen);
   }
 }

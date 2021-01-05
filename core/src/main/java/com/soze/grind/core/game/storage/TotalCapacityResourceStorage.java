@@ -18,9 +18,9 @@ public class TotalCapacityResourceStorage implements ResourceStorage {
 
 	@Override
 	public int addResource(ResourceEnum resource, int amount) {
-		int actualAmount = Math.min(this.maxCapacity(resource), amount);
+		int actualAmount = Math.min(maxCapacity(resource), amount);
 
-		this.resources.compute(resource, (res, count) -> {
+		resources.compute(resource, (res, count) -> {
 			if (count == null) {
 				return actualAmount;
 			}
@@ -33,9 +33,9 @@ public class TotalCapacityResourceStorage implements ResourceStorage {
 
 	@Override
 	public int removeResource(ResourceEnum resource, int amount) {
-		int actualAmount = Math.min(this.count(resource), amount);
+		int actualAmount = Math.min(count(resource), amount);
 
-		this.resources.compute(resource, (res, count) -> {
+		resources.compute(resource, (res, count) -> {
 			if (count == null) {
 				return 0;
 			}
@@ -58,7 +58,7 @@ public class TotalCapacityResourceStorage implements ResourceStorage {
 
 	@Override
 	public int capacity(ResourceEnum resource) {
-		return this.capacity - this.getTakenCapacity();
+		return capacity - getTakenCapacity();
 	}
 
 	@Override

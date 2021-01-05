@@ -45,7 +45,7 @@ public class ActorPositionSystem extends BaseEntitySystem {
 			}
 		});
 
-		this.gameStage.addActor(actorComponent.getActor());
+		gameStage.addActor(actorComponent.getActor());
 	}
 
 	@Override

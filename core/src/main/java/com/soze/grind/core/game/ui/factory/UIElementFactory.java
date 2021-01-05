@@ -30,7 +30,7 @@ public class UIElementFactory {
 
   /** Creates a text label with the default font at a default size with a given color. */
   public Label createTextLabel(Color color) {
-    BitmapFont font = this.assetService.getFont("accp-22");
+    BitmapFont font = assetService.getFont("accp-22");
 
     LabelStyle labelStyle = new LabelStyle();
     labelStyle.fontColor = color;
@@ -46,7 +46,7 @@ public class UIElementFactory {
 
   /** Creates a Label to be used as a header in UI elements. */
   public Label createHeaderLabel() {
-    BitmapFont font = this.assetService.getFont("accp-24");
+    BitmapFont font = assetService.getFont("accp-24");
 
     LabelStyle labelStyle = new LabelStyle();
     labelStyle.fontColor = Color.BLACK;
@@ -56,12 +56,12 @@ public class UIElementFactory {
   }
 
   public Image createDivider() {
-    return new Image(this.assetService.getTexture("grey_sliderHorizontal.png"));
+    return new Image(assetService.getTexture("grey_sliderHorizontal.png"));
   }
 
   /** Creates an Image with given texture. */
   public Image createImage(String textureName) {
-    return new Image(this.assetService.getTexture(textureName));
+    return new Image(assetService.getTexture(textureName));
   }
 
   /**
@@ -70,9 +70,9 @@ public class UIElementFactory {
    */
   public ProgressBar createUIProgressBar() {
     return new ProgressBar(
-        this.assetService.getTexture("glassPanel.png"),
-        this.assetService.getTexture("black_button00_hollow.png"),
-        this.assetService.getTexture("red_button13.png")
+        assetService.getTexture("glassPanel.png"),
+        assetService.getTexture("black_button00_hollow.png"),
+        assetService.getTexture("red_button13.png")
 		);
   }
 
@@ -82,9 +82,9 @@ public class UIElementFactory {
    */
   public ProgressBar createGameWorldProgressBar() {
     return new ProgressBar(
-        this.assetService.getTexture("glassPanel.png"),
-        this.assetService.getTexture("black_button00_hollow.png"),
-        this.assetService.getTexture("red_button13.png")
+        assetService.getTexture("glassPanel.png"),
+        assetService.getTexture("black_button00_hollow.png"),
+        assetService.getTexture("red_button13.png")
     );
   }
 }

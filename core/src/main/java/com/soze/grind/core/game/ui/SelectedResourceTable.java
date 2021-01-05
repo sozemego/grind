@@ -43,18 +43,18 @@ public class SelectedResourceTable extends Table {
     leftTable.add(resourceIcon).width(32f).height(32f).right();
 
     NameComponent nameComponent = entity.getComponent(NameComponent.class);
-    this.selectedObjectNameLabel = this.uiElementFactory.createHeaderLabel();
-    this.selectedObjectNameLabel.setText(nameComponent.getName());
+    selectedObjectNameLabel = uiElementFactory.createHeaderLabel();
+    selectedObjectNameLabel.setText(nameComponent.getName());
 
-    middleTable.add(this.selectedObjectNameLabel).expandX();
+    middleTable.add(selectedObjectNameLabel).expandX();
 
-    this.add(headerTable).width(Value.percentWidth(1f, this)).row();
+    add(headerTable).width(Value.percentWidth(1f, this)).row();
 
-    this.add(this.uiElementFactory.createDivider()).row();
+    add(uiElementFactory.createDivider()).row();
 
-    this.resourceAmountLabel = this.uiElementFactory.createTextLabel();
+    resourceAmountLabel = uiElementFactory.createTextLabel();
 
-    this.add(this.resourceAmountLabel).row();
+    add(resourceAmountLabel).row();
   }
 
   @Override
@@ -68,6 +68,6 @@ public class SelectedResourceTable extends Table {
     int maxAmount = resourceStorage.maxCapacity(resourceEnum);
 
     String resourceAmount = amount + "/" + maxAmount;
-    this.resourceAmountLabel.setText("Amount: " + resourceAmount);
+    resourceAmountLabel.setText("Amount: " + resourceAmount);
   }
 }

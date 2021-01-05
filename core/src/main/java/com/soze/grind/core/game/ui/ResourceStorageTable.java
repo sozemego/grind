@@ -29,26 +29,26 @@ public class ResourceStorageTable extends Table {
 	public void act(float delta) {
 		super.act(delta);
 
-		this.update();
+		update();
 	}
 
 	/**
 	 * Creates the UI element.
 	 */
 	private void update() {
-		this.clearChildren();
+		clearChildren();
 
-		Label titleLabel = this.uiElementFactory.createTextLabel();
+		Label titleLabel = uiElementFactory.createTextLabel();
 		titleLabel.setText("Storage (" + storage.capacityFilled() + "/" + storage.maxCapacity(ResourceEnum.WOOD) + ")");
 
-		this.add(titleLabel).row();
+		add(titleLabel).row();
 
 		Table resourcesTable = new Table();
 
 		int resourceTables = 0;
 
 		for (ResourceEnum value : ResourceEnum.values()) {
-			int count = this.storage.count(value);
+			int count = storage.count(value);
 			if (count > 0) {
 				Cell cell = resourcesTable.add(createResourceTable(value, count)).width(120f);
 
@@ -60,17 +60,17 @@ public class ResourceStorageTable extends Table {
 
 		resourcesTable.left().top();
 
-		this.add(resourcesTable).width(360f).minHeight(240f).row();
+		add(resourcesTable).width(360f).minHeight(240f).row();
 	}
 
 	private Table createResourceTable(ResourceEnum resource, int amount) {
 		Table rootTable = new Table();
 
-		Image image = this.uiElementFactory.createImage("resource/" + resource.getName().toLowerCase() + ".png");
+		Image image = uiElementFactory.createImage("resource/" + resource.getName().toLowerCase() + ".png");
 
 		rootTable.add(image).width(60f).height(60f);
 
-		Label label = this.uiElementFactory.createTextLabel();
+		Label label = uiElementFactory.createTextLabel();
 		label.setText("" + amount);
 
 		rootTable.add(label);

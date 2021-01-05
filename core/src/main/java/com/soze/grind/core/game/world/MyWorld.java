@@ -20,14 +20,14 @@ public class MyWorld extends Group {
   ) {
     this.tileLayer = tileLayer;
 
-    this.addActor(tileLayer);
-    this.addActor(selectedObjectMarker);
+    addActor(tileLayer);
+    addActor(selectedObjectMarker);
 
     gameStage.addActor(this);
   }
 
   public void animateEnterWorld(Camera camera) {
-    this.tileLayer.animateEnterWorld(camera);
+    tileLayer.animateEnterWorld(camera);
   }
 
   public TileLayer getTiles() {

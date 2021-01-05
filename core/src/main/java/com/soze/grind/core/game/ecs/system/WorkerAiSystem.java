@@ -48,7 +48,7 @@ public class WorkerAiSystem extends BaseEntitySystem {
 
       int id = ids[i];
 
-      this.workerId = id;
+      workerId = id;
 
       WorkerAiComponent workerAiComponent = workerAiMapper.get(id);
 
@@ -274,7 +274,7 @@ public class WorkerAiSystem extends BaseEntitySystem {
    * @param workerEvent event to send
    */
   private void sendEvent(WorkerEvent workerEvent) {
-    this.getStateMachine().sendEvent(workerEvent);
+    getStateMachine().sendEvent(workerEvent);
   }
 
   /**
@@ -283,7 +283,7 @@ public class WorkerAiSystem extends BaseEntitySystem {
    * @param workerEvent event to send
    */
   private void sendEvent(GenericMessage<WorkerEvent> workerEvent) {
-    this.getStateMachine().sendEvent(workerEvent);
+    getStateMachine().sendEvent(workerEvent);
   }
 
   /** Returns the worker distance to the target. */
@@ -298,7 +298,7 @@ public class WorkerAiSystem extends BaseEntitySystem {
 
   /** Gets the target from extended state. */
   private Integer getTarget() {
-    return this.getStateMachine().getExtendedState().get("target", Integer.class);
+    return getStateMachine().getExtendedState().get("target", Integer.class);
   }
 
   /** Attempts to transfer all resources to given target. */

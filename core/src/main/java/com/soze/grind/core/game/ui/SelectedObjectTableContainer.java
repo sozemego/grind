@@ -39,17 +39,17 @@ public class SelectedObjectTableContainer extends Table {
     this.assetService = assetService;
     this.uiElementFactory = uiElementFactory;
 
-    this.top();
+    top();
 
     NinePatchDrawable ninePatchDrawable =
-        new NinePatchDrawable(new NinePatch(this.assetService.getTexture("grey_panel.png"), 8, 8, 8, 8));
+        new NinePatchDrawable(new NinePatch(assetService.getTexture("grey_panel.png"), 8, 8, 8, 8));
 
-    this.setBackground(ninePatchDrawable);
+    setBackground(ninePatchDrawable);
   }
 
   @Subscribe
   public void onObjectSelected(ObjectSelectedEvent event) {
-    this.setCurrentSelectedUI(event.selectedObject);
+    setCurrentSelectedUI(event.selectedObject);
   }
 
   @Override
@@ -62,34 +62,34 @@ public class SelectedObjectTableContainer extends Table {
     // 4 options
 
     // 1 nothing selected previously, nothing selected now
-    if (Objects.isNull(this.selectedObject) && Objects.isNull(nextSelectedObject)) {
-      this.clearCurrentTable();
+    if (Objects.isNull(selectedObject) && Objects.isNull(nextSelectedObject)) {
+      clearCurrentTable();
     }
 
     // 2 something selected previously, nothing selected now
-    if (Objects.nonNull(this.selectedObject) && Objects.isNull(nextSelectedObject)) {
-      this.clearCurrentTable();
+    if (Objects.nonNull(selectedObject) && Objects.isNull(nextSelectedObject)) {
+      clearCurrentTable();
     }
 
     // 3 nothing selected previously, now something is selected
-    if (Objects.isNull(this.selectedObject) && Objects.nonNull(nextSelectedObject)) {
-      this.createSelectedTable(nextSelectedObject);
+    if (Objects.isNull(selectedObject) && Objects.nonNull(nextSelectedObject)) {
+      createSelectedTable(nextSelectedObject);
     }
 
     // 4 something selected previously, now something is selected
-    if (Objects.nonNull(this.selectedObject) && Objects.nonNull(nextSelectedObject)) {
+    if (Objects.nonNull(selectedObject) && Objects.nonNull(nextSelectedObject)) {
 
-      if (this.selectedObject != nextSelectedObject) {
-        this.clearCurrentTable();
-        this.createSelectedTable(nextSelectedObject);
+      if (selectedObject != nextSelectedObject) {
+        clearCurrentTable();
+        createSelectedTable(nextSelectedObject);
       }
     }
   }
 
   private void createSelectedTable(Object nextSelectedObject) {
-    this.setVisible(true);
+    setVisible(true);
 
-    this.selectedObject = nextSelectedObject;
+    selectedObject = nextSelectedObject;
 
     if (selectedObject instanceof Entity) {
 
@@ -119,17 +119,17 @@ public class SelectedObjectTableContainer extends Table {
       currentSelectedUI.top();
     }
 
-    this.getColor().a = 0;
+    getColor().a = 0;
 
-    this.addAction(Actions.fadeIn(0.25f));
+    addAction(Actions.fadeIn(0.25f));
   }
 
   /** Clears the current table. */
   private void clearCurrentTable() {
-    this.clearActions();
-    this.selectedObject = null;
+    clearActions();
+    selectedObject = null;
 
-    this.setVisible(false);
+    setVisible(false);
 
     if (Objects.nonNull(currentSelectedUI)) {
       removeActor(currentSelectedUI);

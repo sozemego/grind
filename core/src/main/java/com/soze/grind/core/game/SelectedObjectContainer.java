@@ -24,6 +24,6 @@ public class SelectedObjectContainer {
 
   public void setSelectedObject(Object selectedObject) {
     this.selectedObject = selectedObject;
-    this.eventBus.post(new ObjectSelectedEvent(selectedObject));
+    eventBus.post(new ObjectSelectedEvent(selectedObject));
   }
 }

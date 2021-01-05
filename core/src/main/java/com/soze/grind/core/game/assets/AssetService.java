@@ -44,7 +44,7 @@ public class AssetService {
     List<String> allAssets = getAllAssetPaths();
     loadAssets(allAssets);
 
-    this.assetManager.finishLoading();
+    assetManager.finishLoading();
   }
 
   /** Gets a given texture. */
@@ -60,7 +60,7 @@ public class AssetService {
   public BitmapFont getFont(String name) {
     int size = getSize(name);
 
-    Optional<BitmapFont> optionalFont = this.fontCache.getFont(name);
+    Optional<BitmapFont> optionalFont = fontCache.getFont(name);
 
     if (optionalFont.isPresent()) {
       return optionalFont.get();
@@ -76,9 +76,9 @@ public class AssetService {
 
     generator.dispose();
 
-    this.fontCache.addFont(font);
+    fontCache.addFont(font);
 
-    return this.getFont(name);
+    return getFont(name);
   }
 
   /**

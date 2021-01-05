@@ -17,11 +17,11 @@ public class GameSpeedService {
 	}
 
 	public void incrementGameSpeed() {
-		this.gameSpeed++;
+		gameSpeed++;
 	}
 
 	public void decrementGameSpeed() {
-		this.gameSpeed = MathUtils.clamp(--this.gameSpeed, 1, 500);
+		gameSpeed = MathUtils.clamp(--gameSpeed, 1, 500);
 	}
 
 	public boolean isPaused() {
@@ -29,7 +29,7 @@ public class GameSpeedService {
 	}
 
 	public void togglePause() {
-		this.paused = !this.paused;
+		paused = !paused;
 	}
 
 }

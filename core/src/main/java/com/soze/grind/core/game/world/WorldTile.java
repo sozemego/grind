@@ -17,6 +17,6 @@ public class WorldTile extends Actor {
   public void draw(Batch batch, float parentAlpha) {
     Color color = getColor();
     batch.setColor(color.r, color.g, color.b, color.a * parentAlpha);
-    batch.draw(texture, this.getX(), this.getY(), this.getWidth(), this.getHeight());
+    batch.draw(texture, getX(), getY(), getWidth(), getHeight());
   }
 }
