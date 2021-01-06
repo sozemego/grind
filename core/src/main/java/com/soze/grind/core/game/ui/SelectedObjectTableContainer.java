@@ -12,6 +12,7 @@ import com.soze.grind.core.game.ecs.component.BuildingComponent;
 import com.soze.grind.core.game.ecs.component.HeroComponent;
 import com.soze.grind.core.game.ecs.component.ResourceComponent;
 import com.soze.grind.core.game.ecs.component.WorkerComponent;
+import com.soze.grind.core.game.ecs.domain.Hero;
 import com.soze.grind.core.game.event.ObjectSelectedEvent;
 import com.soze.grind.core.game.ui.factory.UIElementFactory;
 import java.util.Objects;
@@ -108,7 +109,7 @@ public class SelectedObjectTableContainer extends Table {
       }
 
       if (Objects.nonNull(entity.getComponent(HeroComponent.class))) {
-        currentSelectedUI = new SelectedHeroTable(uiElementFactory, entity);
+        currentSelectedUI = new SelectedHeroTable(uiElementFactory, new Hero(entity));
       }
 
     }

@@ -13,21 +13,21 @@ public class SelectedHeroTable extends Table {
 
 	private final UIElementFactory uiElementFactory;
 
-	private final Entity entity;
+	private final Hero hero;
 
-	public SelectedHeroTable(UIElementFactory uiElementFactory, Entity entity) {
+	public SelectedHeroTable(UIElementFactory uiElementFactory, Hero hero) {
 		this.uiElementFactory = uiElementFactory;
-		this.entity = entity;
+		this.hero = hero;
 
 		Label nameLabel = uiElementFactory.createHeaderLabel();
-		nameLabel.setText(Hero.getName(entity));
+		nameLabel.setText(hero.getName());
 
 		add(nameLabel).row();
 
 		add(uiElementFactory.createDivider()).row();
 
 		Label healthLabel = uiElementFactory.createTextLabel();
-		healthLabel.setText("Health: " + Hero.getHealth(entity) + "/" + Hero.getMaxHealth(entity));
+		healthLabel.setText("Health: " + hero.getHealth() + "/" + hero.getMaxHealth());
 
 		add(healthLabel).row();
 
