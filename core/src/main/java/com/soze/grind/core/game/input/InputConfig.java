@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.soze.grind.core.game.DebugStage;
 import com.soze.grind.core.game.GameStage;
+import com.soze.grind.core.game.GameUIStage;
 import org.springframework.stereotype.Service;
 
 /**
@@ -18,10 +19,11 @@ public class InputConfig {
 
 	private final InputMultiplexer inputMultiplexer = new InputMultiplexer();
 
-	public InputConfig(GameStage gameStage, DebugStage debugStage, CameraController cameraMouseListener) {
+	public InputConfig(GameStage gameStage, GameUIStage gameUIStage, DebugStage debugStage, CameraController cameraMouseListener) {
 
 		inputMultiplexer.addProcessor(cameraMouseListener);
 		inputMultiplexer.addProcessor(debugStage);
+		inputMultiplexer.addProcessor(gameUIStage);
 		inputMultiplexer.addProcessor(gameStage);
 
 		Gdx.input.setInputProcessor(inputMultiplexer);

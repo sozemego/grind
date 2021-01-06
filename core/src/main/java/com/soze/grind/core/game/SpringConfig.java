@@ -8,6 +8,8 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.google.common.eventbus.EventBus;
 import com.soze.grind.core.game.assets.AssetService;
 import com.soze.grind.core.game.loader.LevelLoader;
+import com.soze.grind.core.game.ui.DungeonSelectionTable;
+import com.soze.grind.core.game.ui.factory.UIElementFactory;
 import com.soze.grind.core.game.world.TileLayer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -27,6 +29,11 @@ public class SpringConfig {
   @Bean
   public TileLayer tileLayer(LevelLoader loader) {
     return new TileLayer(loader.getWorldTiles());
+  }
+
+  @Bean
+  public DungeonSelectionTable dungeonSelectionTable(AssetService assetService, UIElementFactory uiElementFactory, LevelLoader loader) {
+    return new DungeonSelectionTable(assetService, uiElementFactory, loader.getDungeons());
   }
 
   @Bean

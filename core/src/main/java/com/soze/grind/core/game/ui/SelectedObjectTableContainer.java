@@ -42,10 +42,7 @@ public class SelectedObjectTableContainer extends Table {
 
     top();
 
-    NinePatchDrawable ninePatchDrawable =
-        new NinePatchDrawable(new NinePatch(assetService.getTexture("grey_panel.png"), 8, 8, 8, 8));
-
-    setBackground(ninePatchDrawable);
+    setBackground(assetService.getNinePatchDrawable("grey_panel.png"));
   }
 
   @Subscribe

@@ -4,8 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
+import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -50,6 +52,16 @@ public class AssetService {
   /** Gets a given texture. */
   public Texture getTexture(String name) {
     return assetManager.get(getAssetName(name));
+  }
+
+  /**
+   * Gets a NinePatchDrawable with given texture name as background.
+   *
+   * @param textureName texture name
+   * @return
+   */
+  public NinePatchDrawable getNinePatchDrawable(String textureName) {
+    return new NinePatchDrawable(new NinePatch(getTexture(textureName), 8, 8, 8, 8));
   }
 
   /**

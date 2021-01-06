@@ -9,7 +9,6 @@ import com.soze.grind.core.game.assets.AssetService;
 import com.soze.grind.core.game.storage.ResourceStorage;
 import com.soze.grind.core.game.ui.ProgressBar;
 import com.soze.grind.core.game.ui.ResourceStorageTable;
-import java.util.function.Supplier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

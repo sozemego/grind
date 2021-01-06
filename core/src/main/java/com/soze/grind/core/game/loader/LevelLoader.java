@@ -3,6 +3,7 @@ package com.soze.grind.core.game.loader;
 import com.artemis.World;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.soze.grind.core.game.Dungeon;
 import com.soze.grind.core.game.assets.AssetService;
 import com.soze.grind.core.game.ecs.component.factory.ComponentFactory;
 import com.soze.grind.core.game.util.JsonUtil;
@@ -28,6 +29,7 @@ public class LevelLoader {
   private final String currentLevelName;
 
   private final List<WorldTile> worldTiles = new ArrayList<>();
+  private final List<Dungeon> dungeons = new ArrayList<>();
 
   @Autowired
   public LevelLoader(
@@ -51,6 +53,11 @@ public class LevelLoader {
     return worldTiles;
   }
 
+
+  public List<Dungeon> getDungeons() {
+    return dungeons;
+  }
+
   /**
    * Loads the level data with given level name.
    *
@@ -63,6 +70,7 @@ public class LevelLoader {
 
     loadTiles(jsonNode);
     loadEntities(jsonNode);
+    loadDungeons(jsonNode);
 
     LOG.info("Level [{}] loaded.", levelName);
   }
@@ -93,6 +101,7 @@ public class LevelLoader {
    * @param jsonNode jsonNode
    */
   private void loadEntities(JsonNode jsonNode) {
+    LOG.info("Loading entities");
 
     ArrayNode entitiesNode = jsonNode.withArray("entities");
 
@@ -104,6 +113,21 @@ public class LevelLoader {
     }
 
     LOG.info("Loaded [{}] entities", entitiesNode.size());
+  }
+
+  /**
+   * Loads Dungeons.
+   *
+   * @param jsonNode data
+   */
+  private void loadDungeons(JsonNode jsonNode) {
+    LOG.info("Loading dungeons.");
+
+    dungeons.add(new Dungeon("Easy dungeon", "church.png"));
+    dungeons.add(new Dungeon("Medium dungeon", "house.png"));
+    dungeons.add(new Dungeon("Hard dungeon", "tower.png"));
+
+    LOG.info("Loaded [{}] dungeons", dungeons.size());
   }
 
   /**
