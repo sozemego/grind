@@ -3,6 +3,7 @@ package com.soze.grind.core.game.ecs.domain;
 import com.artemis.Entity;
 import com.soze.grind.core.game.ecs.component.HealthComponent;
 import com.soze.grind.core.game.ecs.component.NameComponent;
+import java.util.Objects;
 
 /**
  * A parent of all classes that encapsulate some <code>Entity</code>.
@@ -23,7 +24,7 @@ public abstract class AbstractEntity {
 	 */
 	public String getName() {
 		NameComponent nameComponent = entity.getComponent(NameComponent.class);
-		return nameComponent.getName();
+		return Objects.nonNull(nameComponent) ? nameComponent.getName() : "NO_NAME";
 	}
 
 	/**
@@ -31,7 +32,7 @@ public abstract class AbstractEntity {
 	 */
 	public int getHealth() {
 		HealthComponent healthComponent = entity.getComponent(HealthComponent.class);
-		return healthComponent.getHealth();
+		return Objects.nonNull(healthComponent) ? healthComponent.getHealth() : -1;
 	}
 
 	/**
@@ -39,7 +40,7 @@ public abstract class AbstractEntity {
 	 */
 	public int getMaxHealth() {
 		HealthComponent healthComponent = entity.getComponent(HealthComponent.class);
-		return healthComponent.getMaxHealth();
+		return Objects.nonNull(healthComponent) ? healthComponent.getMaxHealth() : -1;
 	}
 
 }
