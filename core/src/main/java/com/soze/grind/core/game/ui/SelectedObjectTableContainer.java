@@ -43,6 +43,7 @@ public class SelectedObjectTableContainer extends Table {
     top();
 
     setBackground(assetService.getNinePatchDrawable("grey_panel.png"));
+    setVisible(false);
   }
 
   @Subscribe
