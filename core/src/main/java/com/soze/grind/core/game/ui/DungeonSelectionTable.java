@@ -23,11 +23,22 @@ public class DungeonSelectionTable extends Table {
 
   private final List<Dungeon> dungeons;
 
+  private final NinePatchDrawable selectedBackground;
+  private final NinePatchDrawable notSelectedBackground;
+
   public DungeonSelectionTable(
       AssetService assetService, UIElementFactory uiElementFactory, List<Dungeon> dungeons) {
     this.assetService = assetService;
     this.uiElementFactory = uiElementFactory;
     this.dungeons = dungeons;
+
+    this.selectedBackground = assetService
+        .getNinePatchDrawable("red_button00_hollow.png")
+        .tint(new Color(1, 1, 1, 1f));
+
+    this.notSelectedBackground = assetService
+        .getNinePatchDrawable("red_button00_hollow.png")
+        .tint(new Color(1, 1, 1, 0.25f));
 
     setBackground(assetService.getNinePatchDrawable("grey_panel.png"));
 
@@ -54,12 +65,7 @@ public class DungeonSelectionTable extends Table {
 
     table.add(image);
 
-    NinePatchDrawable ninePatchDrawable =
-        assetService
-            .getNinePatchDrawable("red_button00_hollow.png")
-            .tint(new Color(1, 1, 1, 0.25f));
-
-    table.setBackground(ninePatchDrawable);
+    table.setBackground(notSelectedBackground);
 
     table.setTouchable(Touchable.enabled);
 
@@ -67,22 +73,16 @@ public class DungeonSelectionTable extends Table {
         new ClickListener() {
           @Override
           public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-            NinePatchDrawable background =
-                assetService
-                    .getNinePatchDrawable("red_button00_hollow.png")
-                    .tint(new Color(1, 1, 1, 1f));
-
-            table.setBackground(background);
+            if (pointer == -1) {
+              table.setBackground(selectedBackground);
+            }
           }
 
           @Override
           public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-            NinePatchDrawable background =
-                assetService
-                    .getNinePatchDrawable("red_button00_hollow.png")
-                    .tint(new Color(1, 1, 1, 0.25f));
-
-            table.setBackground(background);
+            if (pointer == -1) {
+              table.setBackground(notSelectedBackground);
+            }
           }
 
           @Override
