@@ -1,8 +1,11 @@
 package com.soze.grind.core.game;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.soze.grind.core.game.ui.DungeonSelectionTable;
 import com.soze.grind.core.game.ui.SelectedObjectTableContainer;
@@ -65,6 +68,15 @@ public class GameUIStage extends Stage {
     addActor(rootTable);
 
     rootTable.add(selectedObjectTableContainer).width(360f).minHeight(500f);
+
+    selectedObjectTableContainer.setTouchable(Touchable.enabled);
+
+    selectedObjectTableContainer.addListener(new ClickListener() {
+      @Override
+      public void clicked(InputEvent event, float x, float y) {
+
+      }
+    });
   }
 
   private void setupDungeonSelectionTable() {
@@ -77,6 +89,15 @@ public class GameUIStage extends Stage {
     addActor(rootTable);
 
     rootTable.add(dungeonSelectionTable).minHeight(150f);
+
+    dungeonSelectionTable.setTouchable(Touchable.enabled);
+
+    dungeonSelectionTable.addListener(new ClickListener() {
+      @Override
+      public void clicked(InputEvent event, float x, float y) {
+
+      }
+    });
 
   }
 
