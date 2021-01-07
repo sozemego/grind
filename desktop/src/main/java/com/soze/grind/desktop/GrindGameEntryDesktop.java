@@ -1,17 +1,19 @@
 package com.soze.grind.desktop;
 
-import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
-import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.soze.grind.core.GrindGameEntry;
 
 public class GrindGameEntryDesktop {
 	public static void main (String[] args) {
-		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 
-		config.width = 2400;
-		config.height = 1080;
+		config.setWindowedMode(1800, 700);
+		config.useOpenGL3(true, 3, 2);
 
-		new LwjglApplication(new GrindGameEntry(args), config);
+		config.setWindowPosition(-1900, 100);
+
+
+		new Lwjgl3Application(new GrindGameEntry(args), config);
 	}
 }

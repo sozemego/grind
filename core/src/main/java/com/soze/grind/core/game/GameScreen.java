@@ -3,7 +3,7 @@ package com.soze.grind.core.game;
 import com.artemis.World;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.GL30;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,9 +40,9 @@ public class GameScreen extends ScreenAdapter {
   @Override
   public void render(float delta) {
     Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
-    Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-    Gdx.gl.glEnable(GL20.GL_BLEND);
-    Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+    Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
+    Gdx.gl.glEnable(GL30.GL_BLEND);
+    Gdx.gl.glBlendFunc(GL30.GL_SRC_ALPHA, GL30.GL_ONE_MINUS_SRC_ALPHA);
 
     for (int i = 0; i < gameSpeedService.getGameSpeed() && !this.gameSpeedService.isPaused(); i++) {
 

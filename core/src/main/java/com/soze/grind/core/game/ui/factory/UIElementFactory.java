@@ -70,7 +70,7 @@ public class UIElementFactory {
   public ProgressBar createUIProgressBar() {
     return new ProgressBar(
         assetService.getTexture("glassPanel.png"),
-        assetService.getTexture("black_button00_hollow.png"),
+        assetService.getTexture("red_button00_hollow.png"),
         assetService.getTexture("red_button13.png")
 		);
   }
@@ -82,7 +82,7 @@ public class UIElementFactory {
   public ProgressBar createGameWorldProgressBar() {
     return new ProgressBar(
         assetService.getTexture("glassPanel.png"),
-        assetService.getTexture("black_button00_hollow.png"),
+        assetService.getTexture("red_button00_hollow.png"),
         assetService.getTexture("red_button13.png")
     );
   }
