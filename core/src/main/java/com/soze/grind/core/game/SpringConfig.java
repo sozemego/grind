@@ -1,13 +1,20 @@
 package com.soze.grind.core.game;
 
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.ui.Window.WindowStyle;
+import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.google.common.eventbus.EventBus;
 import com.soze.grind.core.game.assets.AssetService;
 import com.soze.grind.core.game.loader.LevelLoader;
+import com.soze.grind.core.game.service.SelectedDungeonContainer;
+import com.soze.grind.core.game.service.SelectedObjectContainer;
+import com.soze.grind.core.game.ui.DungeonManagementWindow;
 import com.soze.grind.core.game.ui.DungeonSelectionTable;
 import com.soze.grind.core.game.ui.factory.UIElementFactory;
 import com.soze.grind.core.game.world.TileLayer;
@@ -32,8 +39,29 @@ public class SpringConfig {
   }
 
   @Bean
-  public DungeonSelectionTable dungeonSelectionTable(AssetService assetService, UIElementFactory uiElementFactory, LevelLoader loader) {
-    return new DungeonSelectionTable(assetService, uiElementFactory, loader.getDungeons());
+  public DungeonSelectionTable dungeonSelectionTable(
+      SelectedDungeonContainer selectedDungeonContainer,
+      AssetService assetService,
+      UIElementFactory uiElementFactory,
+      LevelLoader loader
+  ) {
+    return new DungeonSelectionTable(
+        selectedDungeonContainer, assetService, uiElementFactory, loader.getDungeons());
+  }
+
+  @Bean
+  public DungeonManagementWindow dungeonManagementWindow(
+      AssetService assetService,
+      UIElementFactory uiElementFactory
+  ) {
+
+    BitmapFont titleFont = assetService.getFont("accp-24");
+    Color titleFontColor = Color.BLACK;
+    NinePatchDrawable background = assetService.getNinePatchDrawable("grey_panel.png");
+
+    return new DungeonManagementWindow(
+        "Dungeon", new WindowStyle(titleFont, titleFontColor, background), uiElementFactory
+    );
   }
 
   @Bean

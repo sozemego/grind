@@ -7,6 +7,8 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.soze.grind.core.game.service.SelectedObjectContainer;
+import com.soze.grind.core.game.ui.DungeonManagementWindow;
 import com.soze.grind.core.game.ui.DungeonSelectionTable;
 import com.soze.grind.core.game.ui.SelectedObjectTableContainer;
 import com.soze.grind.core.game.world.MyWorld;
@@ -26,18 +28,21 @@ public class GameUIStage extends Stage {
 
   private final SelectedObjectTableContainer selectedObjectTableContainer;
   private final DungeonSelectionTable dungeonSelectionTable;
+  private final DungeonManagementWindow dungeonManagementWindow;
 
   @Autowired
   public GameUIStage(
       MyWorld myWorld,
       SelectedObjectContainer selectedObjectContainer,
       SelectedObjectTableContainer selectedObjectTableContainer,
-      DungeonSelectionTable dungeonSelectionTable
+      DungeonSelectionTable dungeonSelectionTable,
+      DungeonManagementWindow dungeonManagementWindow
   ) {
     this.myWorld = myWorld;
     this.selectedObjectContainer = selectedObjectContainer;
     this.selectedObjectTableContainer = selectedObjectTableContainer;
     this.dungeonSelectionTable = dungeonSelectionTable;
+    this.dungeonManagementWindow = dungeonManagementWindow;
 
     OrthographicCamera camera = new OrthographicCamera();
     ScreenViewport viewport = new ScreenViewport(camera);
@@ -56,6 +61,7 @@ public class GameUIStage extends Stage {
 
     setupSelectedObjectTable();
     setupDungeonSelectionTable();
+    setupDungeonManagementWindow();
   }
 
   private void setupSelectedObjectTable() {
@@ -101,5 +107,15 @@ public class GameUIStage extends Stage {
 
   }
 
+  private void setupDungeonManagementWindow() {
+
+    Table rootTable = new Table();
+    rootTable.setFillParent(true);
+
+    addActor(rootTable);
+
+    rootTable.add(dungeonManagementWindow).width(256f).height(256f);
+
+  }
 
 }

@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.soze.grind.core.game.GameStage;
-import com.soze.grind.core.game.SelectedObjectContainer;
+import com.soze.grind.core.game.service.SelectedObjectContainer;
 import com.soze.grind.core.game.ecs.component.ActorComponent;
 import com.soze.grind.core.game.ecs.component.PositionComponent;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.soze.grind.core.game;
+package com.soze.grind.core.game.service;
 
 import com.google.common.eventbus.EventBus;
 import com.soze.grind.core.game.event.ObjectSelectedEvent;

@@ -3,21 +3,23 @@ package com.soze.grind.core.game.ui;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
+import com.google.common.eventbus.EventBus;
 import com.soze.grind.core.game.Dungeon;
 import com.soze.grind.core.game.assets.AssetService;
+import com.soze.grind.core.game.service.SelectedDungeonContainer;
 import com.soze.grind.core.game.ui.factory.UIElementFactory;
 import java.util.List;
 
 /** Represents the table with a selection for the dungeons that a Hero can go into. */
 public class DungeonSelectionTable extends Table {
 
+  private final SelectedDungeonContainer selectedDungeonContainer;
   private final AssetService assetService;
   private final UIElementFactory uiElementFactory;
 
@@ -27,7 +29,12 @@ public class DungeonSelectionTable extends Table {
   private final NinePatchDrawable notSelectedBackground;
 
   public DungeonSelectionTable(
-      AssetService assetService, UIElementFactory uiElementFactory, List<Dungeon> dungeons) {
+      SelectedDungeonContainer selectedDungeonContainer,
+      AssetService assetService,
+      UIElementFactory uiElementFactory,
+      List<Dungeon> dungeons
+  ) {
+    this.selectedDungeonContainer = selectedDungeonContainer;
     this.assetService = assetService;
     this.uiElementFactory = uiElementFactory;
     this.dungeons = dungeons;
@@ -86,8 +93,8 @@ public class DungeonSelectionTable extends Table {
           }
 
           @Override
-          public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-            super.touchUp(event, x, y, pointer, button);
+          public void clicked(InputEvent event, float x, float y) {
+            selectedDungeonContainer.setSelectedDungeon(dungeon);
           }
         });
 

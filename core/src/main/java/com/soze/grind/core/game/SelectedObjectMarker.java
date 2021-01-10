@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.soze.grind.core.game.ecs.component.ActorComponent;
+import com.soze.grind.core.game.service.SelectedObjectContainer;
 import java.util.Objects;
 
 /** Represents a marker that shows which object is selected. */

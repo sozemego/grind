@@ -1,12 +1,10 @@
 package com.soze.grind.core.game.ui;
 
 import com.artemis.Entity;
-import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.google.common.eventbus.Subscribe;
-import com.soze.grind.core.game.SelectedObjectContainer;
+import com.soze.grind.core.game.service.SelectedObjectContainer;
 import com.soze.grind.core.game.assets.AssetService;
 import com.soze.grind.core.game.ecs.component.BuildingComponent;
 import com.soze.grind.core.game.ecs.component.HeroComponent;
