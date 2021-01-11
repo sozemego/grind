@@ -2,7 +2,6 @@ package com.soze.grind.core.game.ecs.component.factory;
 
 import com.artemis.Component;
 import com.artemis.ComponentMapper;
-import com.artemis.Entity;
 import com.artemis.World;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.soze.grind.core.game.assets.AssetService;

@@ -1,11 +1,7 @@
 package com.soze.grind.core.game.ecs.system;
 
-import com.artemis.Aspect;
 import com.artemis.BaseEntitySystem;
 import com.artemis.ComponentMapper;
-import com.artemis.Entity;
-import com.artemis.EntitySubscription;
-import com.artemis.World;
 import com.artemis.annotations.All;
 import com.artemis.utils.IntBag;
 import com.badlogic.gdx.math.MathUtils;
@@ -17,26 +13,32 @@ import com.soze.grind.core.game.ecs.component.WarehouseComponent;
 import com.soze.grind.core.game.ecs.component.WorkerAiComponent;
 import com.soze.grind.core.game.ecs.component.WorkerAiComponent.WorkerEvent;
 import com.soze.grind.core.game.ecs.component.WorkerAiComponent.WorkerState;
+import com.soze.grind.core.game.ecs.domain.AbstractEntity;
+import com.soze.grind.core.game.ecs.domain.Resource;
+import com.soze.grind.core.game.ecs.domain.Warehouse;
+import com.soze.grind.core.game.ecs.domain.Worker;
+import com.soze.grind.core.game.ecs.world.GameWorld;
 import com.soze.grind.core.game.resource.ResourceEnum;
 import com.soze.grind.core.game.storage.ResourceStorage;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.support.GenericMessage;
-import org.springframework.statemachine.StateMachine;
 import org.springframework.stereotype.Service;
 
 @Service
 @All({WorkerAiComponent.class, PositionComponent.class, ResourceStorageComponent.class})
 public class WorkerAiSystem extends BaseEntitySystem {
 
+  private GameWorld gameWorld;
+
   private ComponentMapper<WorkerAiComponent> workerAiMapper;
   private ComponentMapper<PositionComponent> positionMapper;
   private ComponentMapper<ResourceStorageComponent> resourceStorageMapper;
 
-  private int workerId;
+  private Worker worker;
 
   @Override
   protected void processSystem() {
@@ -48,11 +50,9 @@ public class WorkerAiSystem extends BaseEntitySystem {
 
       int id = ids[i];
 
-      workerId = id;
+      worker = new Worker(getWorld().getEntity(id));
 
-      WorkerAiComponent workerAiComponent = workerAiMapper.get(id);
-
-      WorkerState workerState = workerAiComponent.getState();
+      WorkerState workerState = worker.getWorkerState();
 
       switch (workerState) {
         case IDLE:
@@ -80,7 +80,7 @@ public class WorkerAiSystem extends BaseEntitySystem {
   /** Handles the IDLE state. */
   private void handleIdle() {
 
-    ResourceStorage resourceStorage = resourceStorageMapper.get(workerId).getResourceStorage();
+    ResourceStorage resourceStorage = worker.getResourceStorage();
 
     if (resourceStorage.capacity(ResourceEnum.WOOD) == 0) {
       sendEvent(WorkerEvent.START_SEARCHING_WAREHOUSE);
@@ -92,48 +92,23 @@ public class WorkerAiSystem extends BaseEntitySystem {
   /** Handles searching for resources */
   private void handleSearchingForResource() {
 
-    EntitySubscription entitySubscription =
-        world.getAspectSubscriptionManager().get(Aspect.all(ResourceComponent.class));
-
-    IntBag entityIds = entitySubscription.getEntities();
-    int[] ids = entityIds.getData();
-
-    List<Integer> resources = new ArrayList<>();
-
-    ComponentMapper<ResourceStorageComponent> resourceStorageMapper =
-        world.getMapper(ResourceStorageComponent.class);
-
-    ComponentMapper<ResourceComponent> resourceComponentMapper =
-        world.getMapper(ResourceComponent.class);
-
-    for (int i = 0; i < entityIds.size(); i++) {
-      int id = ids[i];
-
-      ResourceStorageComponent resourceStorageComponent = resourceStorageMapper.get(id);
-      ResourceComponent resourceComponent = resourceComponentMapper.get(id);
-
-      ResourceStorage resourceStorage = resourceStorageComponent.getResourceStorage();
-
-      if (resourceStorage.count(resourceComponent.getResourceEnum()) > 0) {
-        resources.add(id);
-      }
-    }
+    List<Resource> resources = getGameWorld().getResources();
 
     resources.sort(
         (o1, o2) -> {
-          float distance1 = distance(world.getEntity(o1));
-          float distance2 = distance(world.getEntity(o2));
+          float distance1 = distance(o1);
+          float distance2 = distance(o2);
 
           return Float.compare(distance1, distance2);
         });
 
     if (!resources.isEmpty()) {
 
-      int targetEntityId = resources.get(0);
+      AbstractEntity target = resources.get(0);
 
       Map<String, Object> headers = new HashMap<>();
 
-      headers.put("target", targetEntityId);
+      headers.put("target", target);
 
       sendEvent(new GenericMessage<>(WorkerEvent.START_SEARCHING_PATH, headers));
     }
@@ -142,13 +117,11 @@ public class WorkerAiSystem extends BaseEntitySystem {
   /** Handles travelling to the target. */
   private void handleTravelling() {
 
-    Integer targetEntityId = getTarget();
+    AbstractEntity target = getTarget();
 
-    if (Objects.isNull(targetEntityId)) {
+    if (Objects.isNull(target)) {
       return;
     }
-
-    Entity target = world.getEntity(targetEntityId);
 
     float distance = distance(target);
 
@@ -164,23 +137,17 @@ public class WorkerAiSystem extends BaseEntitySystem {
 
     } else {
 
-      PositionComponent targetPositionComponent = target.getComponent(PositionComponent.class);
-      PositionComponent workerPositionComponent = positionMapper.get(workerId);
+      Vector2 targetPosition = target.getPosition();
+      Vector2 workerPosition = worker.getPosition();
 
-      float angle =
-          new Vector2(targetPositionComponent.getX(), targetPositionComponent.getY())
-              .sub(new Vector2(workerPositionComponent.getX(), workerPositionComponent.getY()))
-              .nor()
-              .angleRad();
+      float angle = targetPosition.sub(workerPosition).nor().angleRad();
 
       float cos = MathUtils.cos(angle);
       float sin = MathUtils.sin(angle);
 
       float speed = 2.5f;
 
-      workerPositionComponent.setPosition(
-          workerPositionComponent.getX() + cos * speed,
-          workerPositionComponent.getY() + sin * speed);
+      worker.setPosition(workerPosition.x + cos * speed, workerPosition.y + sin * speed);
     }
   }
 
@@ -192,42 +159,30 @@ public class WorkerAiSystem extends BaseEntitySystem {
   /** Finds the nearest warehouse to transfer goods to. */
   private void handleSearchingForWarehouse() {
 
-    EntitySubscription entitySubscription =
-        world.getAspectSubscriptionManager().get(Aspect.all(WarehouseComponent.class));
+    List<Warehouse> warehouses = getGameWorld().getWarehouses();
 
-    IntBag entityIds = entitySubscription.getEntities();
-    int[] ids = entityIds.getData();
-
-    List<Integer> buildings = new ArrayList<>();
-
-    for (int i = 0; i < entityIds.size(); i++) {
-      int id = ids[i];
-
-      buildings.add(id);
-    }
-
-    buildings.sort(
+    warehouses.sort(
         (o1, o2) -> {
-          float distance1 = distance(world.getEntity(o1));
-          float distance2 = distance(world.getEntity(o2));
+          float distance1 = distance(o1);
+          float distance2 = distance(o2);
 
           return Float.compare(distance1, distance2);
         });
 
-    if (!buildings.isEmpty()) {
+    if (!warehouses.isEmpty()) {
 
-      int targetEntityId = buildings.get(0);
+      Warehouse warehouse = warehouses.get(0);
 
       Map<String, Object> headers = new HashMap<>();
 
-      headers.put("target", targetEntityId);
+      headers.put("target", warehouse);
 
       sendEvent(new GenericMessage<>(WorkerEvent.START_SEARCHING_PATH, headers));
     }
   }
 
   private void handleWorking() {
-    Map<Object, Object> variables = getStateMachine().getExtendedState().getVariables();
+    Map<Object, Object> variables = worker.getStateMachine().getExtendedState().getVariables();
 
     float workingTime = (float) variables.get("workingTime");
     float maxWorkingTime = (float) variables.get("maxWorkingTime");
@@ -236,17 +191,14 @@ public class WorkerAiSystem extends BaseEntitySystem {
 
     if (workingTime >= maxWorkingTime) {
       // FINISHED WORKING
-      Integer targetEntityId = getTarget();
-
-      Entity targetEntity = world.getEntity(targetEntityId);
+      AbstractEntity targetEntity = getTarget();
 
       ResourceComponent resourceComponent = targetEntity.getComponent(ResourceComponent.class);
-      ResourceStorage targetStorage =
-          targetEntity.getComponent(ResourceStorageComponent.class).getResourceStorage();
+      ResourceStorage targetStorage = targetEntity.getResourceStorage();
 
       int amountRemoved = targetStorage.removeResource(resourceComponent.getResourceEnum(), 1);
 
-      ResourceStorage workerStorage = resourceStorageMapper.get(workerId).getResourceStorage();
+      ResourceStorage workerStorage = worker.getResourceStorage();
 
       workerStorage.addResource(resourceComponent.getResourceEnum(), amountRemoved);
 
@@ -258,23 +210,12 @@ public class WorkerAiSystem extends BaseEntitySystem {
   }
 
   /**
-   * Gets the current state machine of the worker.
-   *
-   * @return StateMachine
-   */
-  private StateMachine<WorkerState, WorkerEvent> getStateMachine() {
-    WorkerAiComponent workerAiComponent = workerAiMapper.get(workerId);
-
-    return workerAiComponent.getStateMachine();
-  }
-
-  /**
    * Sends a WorkerEvent to the state machine.
    *
    * @param workerEvent event to send
    */
   private void sendEvent(WorkerEvent workerEvent) {
-    getStateMachine().sendEvent(workerEvent);
+    worker.getStateMachine().sendEvent(workerEvent);
   }
 
   /**
@@ -283,49 +224,48 @@ public class WorkerAiSystem extends BaseEntitySystem {
    * @param workerEvent event to send
    */
   private void sendEvent(GenericMessage<WorkerEvent> workerEvent) {
-    getStateMachine().sendEvent(workerEvent);
+    worker.getStateMachine().sendEvent(workerEvent);
   }
 
   /** Returns the worker distance to the target. */
-  private float distance(Entity targetEntity) {
+  private float distance(AbstractEntity targetEntity) {
 
-    PositionComponent positionComponent = targetEntity.getComponent(PositionComponent.class);
-    PositionComponent workerPositionComponent = positionMapper.get(workerId);
+    Vector2 targetPosition = targetEntity.getPosition();
+    Vector2 workerPosition = worker.getPosition();
 
-    return new Vector2(positionComponent.getX(), positionComponent.getY())
-        .dst(new Vector2(workerPositionComponent.getX(), workerPositionComponent.getY()));
+    return targetPosition.dst(workerPosition);
   }
 
   /** Gets the target from extended state. */
-  private Integer getTarget() {
-    return getStateMachine().getExtendedState().get("target", Integer.class);
+  private AbstractEntity getTarget() {
+    return worker.getStateMachine().getExtendedState().get("target", AbstractEntity.class);
   }
 
   /** Attempts to transfer all resources to given target. */
-  private void transferAllResources(Entity target) {
+  private void transferAllResources(AbstractEntity target) {
 
-    ResourceStorageComponent resourceStorageComponent =
-        target.getComponent(ResourceStorageComponent.class);
+    ResourceStorage targetStorage = target.getResourceStorage();
 
-    if (Objects.isNull(resourceStorageComponent)) {
+    if (Objects.isNull(targetStorage)) {
       return;
     }
 
-    ResourceStorage targetStorage = resourceStorageComponent.getResourceStorage();
+    ResourceStorage workerStorage = worker.getResourceStorage();
 
-    if (Objects.nonNull(targetStorage)) {
+    Map<ResourceEnum, Integer> workerResources = workerStorage.getResources();
 
-      ResourceStorage workerStorage = resourceStorageMapper.get(workerId).getResourceStorage();
+    for (ResourceEnum resourceEnum : workerResources.keySet()) {
+      int count = workerResources.get(resourceEnum);
 
-      Map<ResourceEnum, Integer> workerResources = workerStorage.getResources();
-
-      for (ResourceEnum resourceEnum : workerResources.keySet()) {
-        int count = workerResources.get(resourceEnum);
-
-        int amountAdded = targetStorage.addResource(resourceEnum, count);
-        workerStorage.removeResource(resourceEnum, amountAdded);
-      }
+      int amountAdded = targetStorage.addResource(resourceEnum, count);
+      workerStorage.removeResource(resourceEnum, amountAdded);
     }
   }
 
+  private GameWorld getGameWorld() {
+    if (Objects.isNull(gameWorld)) {
+      gameWorld = new GameWorld(getWorld());
+    }
+    return gameWorld;
+  }
 }
