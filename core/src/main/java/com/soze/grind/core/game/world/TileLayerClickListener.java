@@ -10,21 +10,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class WorldClickListener extends ClickListener {
+public class TileLayerClickListener extends ClickListener {
 
-  private static final Logger LOG = LogManager.getLogger(WorldClickListener.class);
+  private static final Logger LOG = LogManager.getLogger(TileLayerClickListener.class);
 
-  private final MyWorld myWorld;
+  private final TileLayer tileLayer;
   private final SelectedObjectContainer selectedObjectContainer;
   private final SelectedDungeonContainer selectedDungeonContainer;
 
   @Autowired
-  public WorldClickListener(MyWorld myWorld,
+  public TileLayerClickListener(
+      TileLayer tileLayer,
       SelectedObjectContainer selectedObjectContainer,
       SelectedDungeonContainer selectedDungeonContainer
   ) {
-    this.myWorld = myWorld;
-    this.myWorld.addListener(this);
+    this.tileLayer = tileLayer;
+    this.tileLayer.addListener(this);
 
     this.selectedDungeonContainer = selectedDungeonContainer;
     this.selectedObjectContainer = selectedObjectContainer;

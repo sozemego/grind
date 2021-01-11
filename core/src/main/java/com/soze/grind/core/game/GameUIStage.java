@@ -7,11 +7,9 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.soze.grind.core.game.service.SelectedObjectContainer;
 import com.soze.grind.core.game.ui.DungeonManagementWindow;
 import com.soze.grind.core.game.ui.DungeonSelectionTable;
 import com.soze.grind.core.game.ui.SelectedObjectTableContainer;
-import com.soze.grind.core.game.world.MyWorld;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,23 +21,16 @@ public class GameUIStage extends Stage {
 
   private static final Logger LOG = LogManager.getLogger(GameUIStage.class);
 
-  private final MyWorld myWorld;
-  private final SelectedObjectContainer selectedObjectContainer;
-
   private final SelectedObjectTableContainer selectedObjectTableContainer;
   private final DungeonSelectionTable dungeonSelectionTable;
   private final DungeonManagementWindow dungeonManagementWindow;
 
   @Autowired
   public GameUIStage(
-      MyWorld myWorld,
-      SelectedObjectContainer selectedObjectContainer,
       SelectedObjectTableContainer selectedObjectTableContainer,
       DungeonSelectionTable dungeonSelectionTable,
       DungeonManagementWindow dungeonManagementWindow
   ) {
-    this.myWorld = myWorld;
-    this.selectedObjectContainer = selectedObjectContainer;
     this.selectedObjectTableContainer = selectedObjectTableContainer;
     this.dungeonSelectionTable = dungeonSelectionTable;
     this.dungeonManagementWindow = dungeonManagementWindow;
