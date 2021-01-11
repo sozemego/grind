@@ -1,6 +1,5 @@
 package com.soze.grind.core.game;
 
-import com.artemis.World;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
