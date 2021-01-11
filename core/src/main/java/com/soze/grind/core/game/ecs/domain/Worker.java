@@ -22,4 +22,8 @@ public class Worker extends AbstractEntity {
 	public StateMachine<WorkerState, WorkerEvent> getStateMachine() {
 		return getComponent(WorkerAiComponent.class).getStateMachine();
 	}
+
+	public float getWorkingProgress() {
+		return getComponent(WorkerAiComponent.class).getWorkingProgress();
+	}
 }

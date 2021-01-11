@@ -1,8 +1,5 @@
 package com.soze.grind.core.game.ui;
 
-import com.artemis.Entity;
-import com.artemis.EntitySubscription;
-import com.artemis.utils.IntBag;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -13,12 +10,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.google.common.eventbus.Subscribe;
 import com.soze.grind.core.game.Dungeon;
-import com.soze.grind.core.game.ecs.Aspects;
 import com.soze.grind.core.game.ecs.domain.Hero;
 import com.soze.grind.core.game.ecs.world.GameWorld;
 import com.soze.grind.core.game.event.DungeonSelectedEvent;
 import com.soze.grind.core.game.ui.factory.UIElementFactory;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 

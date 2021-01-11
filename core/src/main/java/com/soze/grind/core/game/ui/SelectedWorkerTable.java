@@ -8,6 +8,8 @@ import com.soze.grind.core.game.ecs.component.NameComponent;
 import com.soze.grind.core.game.ecs.component.ResourceStorageComponent;
 import com.soze.grind.core.game.ecs.component.WorkerAiComponent;
 import com.soze.grind.core.game.ecs.component.WorkerAiComponent.WorkerState;
+import com.soze.grind.core.game.ecs.domain.Worker;
+import com.soze.grind.core.game.storage.ResourceStorage;
 import com.soze.grind.core.game.ui.factory.UIElementFactory;
 
 /** Contains UI for the selected Worker. */
@@ -15,7 +17,7 @@ public class SelectedWorkerTable extends Table {
 
   private final UIElementFactory uiElementFactory;
 
-  private final Entity entity;
+  private final Worker worker;
 
   private final Label selectedObjectNameLabel;
 
@@ -23,23 +25,21 @@ public class SelectedWorkerTable extends Table {
 
   private final Label workerStateLabel;
 
-  public SelectedWorkerTable(UIElementFactory uiElementFactory, Entity entity) {
+  public SelectedWorkerTable(UIElementFactory uiElementFactory, Worker worker) {
     this.uiElementFactory = uiElementFactory;
-    this.entity = entity;
+    this.worker = worker;
 
     selectedObjectNameLabel = uiElementFactory.createHeaderLabel();
 
-    NameComponent nameComponent = entity.getComponent(NameComponent.class);
-
-    selectedObjectNameLabel.setText(nameComponent.getName());
+    selectedObjectNameLabel.setText(worker.getName());
 
     add(selectedObjectNameLabel).row();
 
     add(uiElementFactory.createDivider()).row();
 
-    ResourceStorageComponent resourceStorageComponent = entity.getComponent(ResourceStorageComponent.class);
+    ResourceStorage resourceStorage = worker.getResourceStorage();
 
-    add(uiElementFactory.createResourceStorageTable(resourceStorageComponent.getResourceStorage())).row();
+    add(uiElementFactory.createResourceStorageTable(resourceStorage)).row();
 
     workerStateLabel = uiElementFactory.createTextLabel();
 
@@ -57,13 +57,12 @@ public class SelectedWorkerTable extends Table {
   public void act(float delta) {
     super.act(delta);
 
-    WorkerAiComponent workerAiComponent = entity.getComponent(WorkerAiComponent.class);
-    WorkerState workerState = workerAiComponent.getState();
+    WorkerState workerState = worker.getWorkerState();
 
     workerStateLabel.setText(workerState.name());
 
     progressBar.setVisible(workerState == WorkerState.WORKING);
 
-    progressBar.setProgress(workerAiComponent.getWorkingProgress());
+    progressBar.setProgress(worker.getWorkingProgress());
   }
 }

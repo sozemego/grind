@@ -4,6 +4,9 @@ import com.artemis.Entity;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.google.common.eventbus.Subscribe;
+import com.soze.grind.core.game.ecs.domain.Building;
+import com.soze.grind.core.game.ecs.domain.Resource;
+import com.soze.grind.core.game.ecs.domain.Worker;
 import com.soze.grind.core.game.service.SelectedObjectContainer;
 import com.soze.grind.core.game.assets.AssetService;
 import com.soze.grind.core.game.ecs.component.BuildingComponent;
@@ -93,15 +96,15 @@ public class SelectedObjectTableContainer extends Table {
       Entity entity = (Entity) selectedObject;
 
       if (Objects.nonNull(entity.getComponent(BuildingComponent.class))) {
-        currentSelectedUI = new SelectedBuildingTable(uiElementFactory, entity);
+        currentSelectedUI = new SelectedBuildingTable(uiElementFactory, new Building(entity));
       }
 
       if (Objects.nonNull(entity.getComponent(WorkerComponent.class))) {
-        currentSelectedUI = new SelectedWorkerTable(uiElementFactory, entity);
+        currentSelectedUI = new SelectedWorkerTable(uiElementFactory, new Worker(entity));
       }
 
       if (Objects.nonNull(entity.getComponent(ResourceComponent.class))) {
-        currentSelectedUI = new SelectedResourceTable(uiElementFactory, entity);
+        currentSelectedUI = new SelectedResourceTable(uiElementFactory, new Resource(entity));
       }
 
       if (Objects.nonNull(entity.getComponent(HeroComponent.class))) {

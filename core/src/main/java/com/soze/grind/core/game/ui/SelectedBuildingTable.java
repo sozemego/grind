@@ -1,38 +1,36 @@
 package com.soze.grind.core.game.ui;
 
-import com.artemis.Entity;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.soze.grind.core.game.ecs.component.NameComponent;
-import com.soze.grind.core.game.ecs.component.ResourceStorageComponent;
+import com.soze.grind.core.game.ecs.domain.Building;
+import com.soze.grind.core.game.storage.ResourceStorage;
 import com.soze.grind.core.game.ui.factory.UIElementFactory;
+import java.util.Objects;
 
 /** Contains the UI for selected building. */
 public class SelectedBuildingTable extends Table {
 
   private final UIElementFactory uiElementFactory;
 
-  private final Entity entity;
+  private final Building building;
 
   private final Label selectedObjectNameLabel;
 
-  public SelectedBuildingTable(UIElementFactory uiElementFactory, Entity entity) {
+  public SelectedBuildingTable(UIElementFactory uiElementFactory, Building building) {
     this.uiElementFactory = uiElementFactory;
-    this.entity = entity;
-
-    NameComponent nameComponent = entity.getComponent(NameComponent.class);
+    this.building = building;
 
     selectedObjectNameLabel = uiElementFactory.createHeaderLabel();
-    selectedObjectNameLabel.setText(nameComponent.getName());
+    selectedObjectNameLabel.setText(building.getName());
 
     add(selectedObjectNameLabel).row();
 
     add(uiElementFactory.createDivider()).row();
 
-    ResourceStorageComponent resourceStorageComponent = entity.getComponent(ResourceStorageComponent.class);
+    ResourceStorage resourceStorage = building.getResourceStorage();
 
-    if (resourceStorageComponent != null) {
-      add(uiElementFactory.createResourceStorageTable(resourceStorageComponent.getResourceStorage())).row();
+    if (Objects.nonNull(resourceStorage)) {
+      add(uiElementFactory.createResourceStorageTable(resourceStorage)).row();
     }
   }
 }
