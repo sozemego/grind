@@ -2,7 +2,6 @@ package com.soze.grind.core.game.ui;
 
 import com.artemis.Entity;
 import com.artemis.EntitySubscription;
-import com.artemis.World;
 import com.artemis.utils.IntBag;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -16,6 +15,7 @@ import com.google.common.eventbus.Subscribe;
 import com.soze.grind.core.game.Dungeon;
 import com.soze.grind.core.game.ecs.Aspects;
 import com.soze.grind.core.game.ecs.domain.Hero;
+import com.soze.grind.core.game.ecs.world.GameWorld;
 import com.soze.grind.core.game.event.DungeonSelectedEvent;
 import com.soze.grind.core.game.ui.factory.UIElementFactory;
 import java.util.ArrayList;
@@ -26,18 +26,18 @@ import java.util.Objects;
 public class DungeonManagementWindow extends Window {
 
   private final UIElementFactory uiElementFactory;
-  private final World world;
+  private final GameWorld gameWorld;
 
   private final Table rootTable = new Table();
 
   private Dungeon dungeon;
 
   public DungeonManagementWindow(
-      String title, WindowStyle style, UIElementFactory uiElementFactory, World world) {
+      String title, WindowStyle style, UIElementFactory uiElementFactory, GameWorld gameWorld) {
     super(title, style);
 
     this.uiElementFactory = uiElementFactory;
-    this.world = world;
+    this.gameWorld = gameWorld;
 
     setModal(false);
     setMovable(true);
@@ -135,7 +135,7 @@ public class DungeonManagementWindow extends Window {
 
     listOfHeroes.add(uiElementFactory.createDivider()).row();
 
-    List<Hero> heroes = getHeroes();
+    List<Hero> heroes = gameWorld.getHeroes();
 
     for (Hero hero : heroes) {
       Label heroName = uiElementFactory.createTextLabel();
@@ -145,25 +145,6 @@ public class DungeonManagementWindow extends Window {
     }
 
     rootTable.add(listOfHeroes);
-  }
-
-  private List<Hero> getHeroes() {
-    EntitySubscription entitySubscription = world.getAspectSubscriptionManager().get(Aspects.HERO);
-
-    IntBag entityIds = entitySubscription.getEntities();
-    int[] ids = entityIds.getData();
-
-    List<Hero> heroes = new ArrayList<>();
-
-    for (int i = 0; i < entityIds.size(); i++) {
-      int id = ids[i];
-
-      Entity hero = world.getEntity(id);
-
-      heroes.add(new Hero(hero));
-    }
-
-    return heroes;
   }
 
 }

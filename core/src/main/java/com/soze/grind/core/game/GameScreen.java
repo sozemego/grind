@@ -1,16 +1,16 @@
 package com.soze.grind.core.game;
 
-import com.artemis.World;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL30;
+import com.soze.grind.core.game.ecs.world.GameWorld;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class GameScreen extends ScreenAdapter {
 
-  private final World world;
+  private final GameWorld gameWorld;
   private final GameStage gameStage;
   private final GameUIStage gameUIStage;
   private final DebugStage debugStage;
@@ -19,13 +19,13 @@ public class GameScreen extends ScreenAdapter {
 
   @Autowired
   public GameScreen(
-      World world,
+      GameWorld gameWorld,
       GameStage gameStage,
       DebugStage debugStage,
       GameUIStage gameUIStage,
       GameSpeedService gameSpeedService
   ) {
-    this.world = world;
+    this.gameWorld = gameWorld;
     this.gameStage = gameStage;
     this.debugStage = debugStage;
     this.gameUIStage = gameUIStage;
@@ -46,8 +46,8 @@ public class GameScreen extends ScreenAdapter {
 
     for (int i = 0; i < gameSpeedService.getGameSpeed() && !this.gameSpeedService.isPaused(); i++) {
 
-      this.world.setDelta(delta);
-      this.world.process();
+      this.gameWorld.setDelta(delta);
+      this.gameWorld.process();
     }
 
     this.gameStage.act(delta);

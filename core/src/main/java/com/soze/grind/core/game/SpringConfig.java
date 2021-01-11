@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.google.common.eventbus.EventBus;
 import com.soze.grind.core.game.assets.AssetService;
+import com.soze.grind.core.game.ecs.world.GameWorld;
 import com.soze.grind.core.game.loader.LevelLoader;
 import com.soze.grind.core.game.service.SelectedDungeonContainer;
 import com.soze.grind.core.game.service.SelectedObjectContainer;
@@ -54,7 +55,7 @@ public class SpringConfig {
   public DungeonManagementWindow dungeonManagementWindow(
       AssetService assetService,
       UIElementFactory uiElementFactory,
-      World world
+      GameWorld gameWorld
   ) {
 
     BitmapFont titleFont = assetService.getFont("accp-24");
@@ -62,7 +63,7 @@ public class SpringConfig {
     NinePatchDrawable background = assetService.getNinePatchDrawable("grey_panel.png");
 
     return new DungeonManagementWindow(
-        "Dungeon", new WindowStyle(titleFont, titleFontColor, background), uiElementFactory, world
+        "Dungeon", new WindowStyle(titleFont, titleFontColor, background), uiElementFactory, gameWorld
     );
   }
 
