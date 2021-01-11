@@ -1,7 +1,6 @@
 package com.soze.grind.core.game.ecs.world;
 
 import com.artemis.Aspect;
-import com.artemis.Entity;
 import com.artemis.EntitySubscription;
 import com.artemis.World;
 import com.artemis.utils.IntBag;
@@ -41,9 +40,7 @@ public class GameWorld {
 		List<Hero> heroes = new ArrayList<>();
 
     for (Integer entityId : entityIdsForAspect) {
-
     	heroes.add(new Hero(world.getEntity(entityId)));
-
     }
 
     return heroes;
