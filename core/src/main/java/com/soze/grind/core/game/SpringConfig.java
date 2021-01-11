@@ -1,5 +1,6 @@
 package com.soze.grind.core.game;
 
+import com.artemis.World;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -52,7 +53,8 @@ public class SpringConfig {
   @Bean
   public DungeonManagementWindow dungeonManagementWindow(
       AssetService assetService,
-      UIElementFactory uiElementFactory
+      UIElementFactory uiElementFactory,
+      World world
   ) {
 
     BitmapFont titleFont = assetService.getFont("accp-24");
@@ -60,7 +62,7 @@ public class SpringConfig {
     NinePatchDrawable background = assetService.getNinePatchDrawable("grey_panel.png");
 
     return new DungeonManagementWindow(
-        "Dungeon", new WindowStyle(titleFont, titleFontColor, background), uiElementFactory
+        "Dungeon", new WindowStyle(titleFont, titleFontColor, background), uiElementFactory, world
     );
   }
 

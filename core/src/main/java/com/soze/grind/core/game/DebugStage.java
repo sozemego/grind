@@ -1,7 +1,6 @@
 package com.soze.grind.core.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -10,14 +9,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.soze.grind.core.game.ui.factory.UIElementFactory;
-import com.soze.grind.core.game.world.MyWorld;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class DebugStage extends Stage {
-
-  private final MyWorld myWorld;
 
   private final Label debugLabel;
 
@@ -28,12 +24,10 @@ public class DebugStage extends Stage {
   @Autowired
   public DebugStage(
       Viewport gameStageViewport,
-      MyWorld myWorld,
       UIElementFactory uiElementFactory,
       GameSpeedService gameSpeedService
   ) {
     this.gameStageViewport = gameStageViewport;
-    this.myWorld = myWorld;
     this.gameSpeedService = gameSpeedService;
 
     OrthographicCamera camera = new OrthographicCamera();
@@ -76,12 +70,4 @@ public class DebugStage extends Stage {
     return sb.toString();
   }
 
-  @Override
-  public boolean keyUp(int keyCode) {
-    if (keyCode == Keys.L) {
-      myWorld.animateEnterWorld(gameStageViewport.getCamera());
-    }
-
-    return super.keyUp(keyCode);
-  }
 }

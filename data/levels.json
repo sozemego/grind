@@ -151,7 +151,38 @@
         },
         "name": "Magus Bagus",
         "hero": true
+      },
+      {
+        "position": {
+          "x": 61,
+          "y": 60
+        },
+        "actor": {
+          "texture": "medievalUnit_03.png"
+        },
+        "health": {
+          "health": 15,
+          "maxHealth": 17
+        },
+        "name": "Begus Megus",
+        "hero": true
+      },
+      {
+        "position": {
+          "x": 62,
+          "y": 60
+        },
+        "actor": {
+          "texture": "medievalUnit_03.png"
+        },
+        "health": {
+          "health": 15,
+          "maxHealth": 25
+        },
+        "name": "Armadillo Ang",
+        "hero": true
       }
+
     ]
   }
 }
